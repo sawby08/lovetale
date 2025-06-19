@@ -8,11 +8,13 @@ function love.conf(t)
             right = {'right', 'd'},
             primary = {'z', 'return'},
             secondary = {'x', 'lshift', 'rshift'},
-            fullscreen = {'f4'}
+            fullscreen = {'f4'},
+            pause = {'escape'}
         },
-        fps = 30,
+        fps = 60,
         fullscreen = false,
         gameScale = 1,
+        useBorders = true,
         spareColor = {1, 187 / 255, 212 / 255}, -- {1, 1, 0} is yellow and {1, 187 / 255, 212 / 255} is pink
         
         bgmVolume = 0.5,
