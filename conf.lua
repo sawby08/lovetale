@@ -28,6 +28,6 @@ function love.conf(t)
     t.window.resizable = false
     t.window.fullscreen = conf.fullscreen
 
-    t.window.title = "UNDERTALE"
+    t.window.title = "LOVETALE"
     t.window.icon = "icon.png"
 end
