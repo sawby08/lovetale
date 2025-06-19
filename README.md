@@ -11,5 +11,5 @@
 
 [92q6](https://github.com/92q6) - A friend of mine who I stole some code from.<br>
 [Davidobot's post on the LOVE2D forums](https://love2d.org/forums/viewtopic.php?p=199030&sid=5e50e42e22e4538ca0f3f7b0717aa2f2#p199030) - FPS Limiter. </br>
-[Toby Fox](https://x.com/tobyfox) - Developer of UNDERTALE, also the composer of Rude Buster. </br>
+[Toby Fox](https://x.com/tobyfox) - Developer of UNDERTALE, also the composer of Stronger Monsters. </br>
 [Temmie Chang](https://x.com/tuyoki) - Developer of UNDERTALE. </br>
