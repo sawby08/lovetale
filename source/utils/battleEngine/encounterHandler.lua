@@ -41,7 +41,7 @@ function encounterHandler.loadEncounter(encounterData)
     player.hasKR = encounterHandler.playerHasKR or false
 
     player.stats.maxHp = 16 + (player.stats.love * 4)
-    player.stats.hp = 1
+    player.stats.hp = player.stats.maxHp
     player.kr = 0
 
     player.weapon = 3

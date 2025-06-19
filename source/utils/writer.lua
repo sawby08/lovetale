@@ -63,6 +63,8 @@ local colors = {
     orange = {1, .5, .25},
     black = {0, 0, 0},
     grey = {0.5, 0.5, 0.5},
+    love_pink = {1, 107/255, 185/255},
+    love_blue = {107/255, 201/255, 1},
     rainbow = true
 }
 
