@@ -6,8 +6,9 @@ function love.conf(t)
             down = {'down', 's'},
             left = {'left', 'a'},
             right = {'right', 'd'},
-            primary = {'z', 'return'},
-            secondary = {'x', 'lshift', 'rshift'},
+            confirm = {'z', 'return'},
+            cancel = {'x', 'lshift', 'rshift'},
+            menu = {'c', 'lctrl', 'rctrl'},
             fullscreen = {'f4'},
             pause = {'escape'}
         },
@@ -15,7 +16,7 @@ function love.conf(t)
         fullscreen = false,
         gameScale = 1,
         useBorders = true,
-        spareColor = {1, 187 / 255, 212 / 255}, -- {1, 1, 0} is yellow and {1, 187 / 255, 212 / 255} is pink
+        spareColor = {1, 1, 0}, -- {1, 1, 0} is yellow and {1, 187 / 255, 212 / 255} is pink
         
         bgmVolume = 0.5,
         sfxVolume = 1,

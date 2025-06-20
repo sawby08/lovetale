@@ -68,15 +68,17 @@ function encounterHandler.doAct()
 end
 
 function encounterHandler.update(dt)
-    for _, enemy in ipairs(encounterHandler.enemies) do
-        if enemy.name == 'Enemy 2' then
-            local timer = love.timer.getTime()
-            enemy.yOffset = (math.sin(timer * 2) * 14) - 7
+    if encounterHandler.bgm then encounter.bgm:play() end
+    if battle.state == "flee" then
+        if encounterHandler.bgm then
+            encounterHandler.bgm:setLooping(false)
+            encounterHandler.bgm:stop()
         end
+        encounterHandler.bgm = nil
     end
 
     if battle.state == 'perform act' then
-        if writer.isDone and input.check('primary', 'pressed') then
+        if writer.isDone and input.check('confirm', 'pressed') then
             if battle.subchoice > 0 then
                 if actTextI < #encounterHandler.enemies[player.chosenEnemy].acts[battle.subchoice].text then
                     actTextI = actTextI + 1
@@ -91,7 +93,7 @@ function encounterHandler.update(dt)
     end
 
     if battle.state == 'attack' and battle.turn == 'enemies' then
-        if input.check('secondary', 'pressed') then
+        if input.check('cancel', 'pressed') then
             input.refresh()
             actTextI = 1
             battleEngine.changeBattleState('buttons', 'player')

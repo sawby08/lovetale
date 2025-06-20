@@ -44,6 +44,16 @@ function battleEngine.changeBattleState(state, turn)
             end
         elseif state == 'perform act' then
             encounter.doAct()
+        elseif state == "flee" then
+            battle.choice = -1
+            local fleeingLines = {
+                "  * I'm outta here.",
+                "  * I've got better to do.",
+                "  * Escaped...",
+                "  * Don't slow me down."
+            }
+            writer:setParams(fleeingLines[love.math.random(1, #fleeingLines)], 68, 306, fonts.determination, 0.02, writer.voices.menuText)
+            sfx.flee:play()
         end
     elseif turn == 'enemies' then
         if state == 'attack' then
@@ -71,7 +81,8 @@ function battleEngine.load(encounterName)
     sfx = {
         menumove = love.audio.newSource('assets/sound/menuMove.ogg', 'static'),
         menuselect = love.audio.newSource('assets/sound/menuSelect.ogg', 'static'),
-        playerheal = love.audio.newSource('assets/sound/playerHeal.ogg', 'static')
+        playerheal = love.audio.newSource('assets/sound/playerHeal.ogg', 'static'),
+        flee = love.audio.newSource("assets/sound/runaway.wav", "static")
     }
     fonts = {
         mars = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
@@ -116,7 +127,6 @@ end
 
 function battleEngine.update(dt)
     encounter.update(dt)
-    encounter.bgm:play()
 
     ui.update(dt)
     player.update(dt)

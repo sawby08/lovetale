@@ -157,7 +157,7 @@ function writer:update(dt)
         writer.isDone = true
     end
 
-    if input.check('secondary', 'pressed') then
+    if input.check('cancel', 'pressed') then
         index = #parsedText
         writer.isDone = true
     end

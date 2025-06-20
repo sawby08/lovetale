@@ -58,7 +58,6 @@ function love.load()
     updateScale()
 
     currentScene.load('Test enemies')
-    love.audio.setVolume(conf.mainVolume)
 end
 
 function love.resize(w, h)
@@ -67,9 +66,12 @@ end
 
 function love.update(dt)
     input.update(dt)
+    love.audio.setVolume(conf.mainVolume)
 
     if not isPaused then
         currentScene.update(dt)
+    else
+        love.audio.setVolume(conf.mainVolume/4)
     end
     if input.check('fullscreen', 'pressed') then
         conf.fullscreen = not conf.fullscreen
@@ -110,11 +112,3 @@ function love.draw()
         love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
     end
 end
-
---[[
-  "SCR_TEXT_111": "   * I'm outta here.",
-  "SCR_TEXT_112": "   * I've got better to do.",
-  "SCR_TEXT_113": "   * Escaped...",
-  "SCR_TEXT_114": "   * Don't slow me down.",
-  "SCR_TEXT_121": "   * Ran away with \\[1] EXP&     and \\[2] GOLD.",
-]]

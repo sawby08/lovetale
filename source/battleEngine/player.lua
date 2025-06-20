@@ -9,6 +9,10 @@ player.heart = {
     x = 0,
     y = 0
 }
+local fleeingFrames = {
+    love.graphics.newImage("assets/images/spr_heartgtfo_0.png"),
+    love.graphics.newImage("assets/images/spr_heartgtfo_1.png")
+}
 
 -- Load global player stuff
 player.stats = {}
@@ -97,13 +101,22 @@ end
         
 
 function player.load()
-    player.mode = 2
+    player.mode = 1
 end
 
 function player.update(dt)
     if battle.turn == 'player' then
+        if battle.state == "flee" then
+            player.heart.x = player.heart.x - 2 * dt*30
+            if player.heart.x < -16 then
+                love.load()
+            end
+        end
         if battle.state == 'mercy' then
-            if input.check('secondary', 'pressed') then
+            if input.check('confirm', 'pressed') and battle.subchoice == 1 then
+                battleEngine.changeBattleState('flee', 'player')
+            end
+            if input.check('cancel', 'pressed') then
                 input.refresh()
                 battleEngine.changeBattleState('buttons', 'player')
             end
@@ -123,10 +136,9 @@ function player.update(dt)
                 battle.subchoice = 0
                 updatePosition()
             end
-        elseif battle.state == 'use item' and writer.isDone and input.check('primary', 'pressed') then
-                battleEngine.changeBattleState('attack', 'enemies')
+        elseif battle.state == 'use item' and writer.isDone and input.check('confirm', 'pressed') then
+            battleEngine.changeBattleState('attack', 'enemies')
         elseif battle.state == 'item' then
-            -- Note: #player.inventory is subtracted by one because battle.subchoice iterates from 0. This doesn't present a problem for act since check isn't included but since all items are included I have to do it like this
             if input.check('up', 'pressed') then
                 performMove('item', -2)
             end
@@ -139,10 +151,10 @@ function player.update(dt)
             if input.check('right', 'pressed') then
                 performMove('item', 1)
             end
-            if input.check('primary', 'pressed') then
+            if input.check('confirm', 'pressed') then
                 battleEngine.changeBattleState('use item', 'player')
             end
-            if input.check('secondary', 'pressed') then
+            if input.check('cancel', 'pressed') then
                 input.refresh()
                 battleEngine.changeBattleState('buttons', 'player')
             end
@@ -159,20 +171,20 @@ function player.update(dt)
             if input.check('right', 'pressed') then
                 performMove('act', 1)
             end
-            if input.check('secondary', 'pressed') then
+            if input.check('cancel', 'pressed') then
                 input.refresh()
                 battle.subchoice = player.chosenEnemy - 1
                 battleEngine.changeBattleState('choose enemy', 'player')
             end
-            if input.check('primary', 'pressed') then
+            if input.check('confirm', 'pressed') then
                 battleEngine.changeBattleState('perform act', 'player')
             end
         elseif battle.state == 'choose enemy' then
-            if input.check('secondary', 'pressed') then
+            if input.check('cancel', 'pressed') then
                 input.refresh()
                 battleEngine.changeBattleState('buttons', 'player')
             end
-            if input.check('primary', 'pressed') then
+            if input.check('confirm', 'pressed') then
                 if battle.choice == 0 then
                     player.lastButton = battle.choice
                     battle.choice = -1
@@ -202,7 +214,7 @@ function player.update(dt)
                 sfx.menumove:stop()
                 sfx.menumove:play()
                 updatePosition()
-            elseif input.check('primary', 'pressed') then
+            elseif input.check('confirm', 'pressed') then
                 if ui.buttons[battle.choice].canSelect then
                     writer.stop()
                     battle.subchoice = 0
@@ -216,7 +228,7 @@ function player.update(dt)
         if battle.state == 'attack' then
             xvel, yvel = 0, 0
             local speed = 4
-            if input.check('secondary', 'held') then
+            if input.check('cancel', 'held') then
                 speed = 2
             else
                 speed = 4
@@ -289,7 +301,11 @@ function player.draw()
     elseif player.mode == 2 then
         love.graphics.setColor(0, 0, 1)
     end
-    love.graphics.draw(player.heart.image, player.heart.x, player.heart.y)
+    if battle.state == "flee" then
+        love.graphics.draw(fleeingFrames[math.floor((love.timer.getTime()*10)%2) + 1], player.heart.x, player.heart.y)
+    else
+        love.graphics.draw(player.heart.image, player.heart.x, player.heart.y)
+    end
 
     love.graphics.pop()
 end
