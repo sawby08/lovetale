@@ -1,4 +1,3 @@
--- https://tomat.dev/undertale
 local currentScene = nil
 local isPaused = false
 local scenes = {
@@ -19,53 +18,25 @@ local border = love.graphics.newImage(borders.sepia)
 
 fps = require 'source.utils.fps'
 input = require 'source.utils.input'
-
-local virtualWidth = 640
-local virtualHeight = 480
-
-local canvas
-local scaleX, scaleY
-local offsetX, offsetY
+Camera = require 'source.utils.camera'
 
 function love.keypressed(key)
     input.keypressed(key)
-end
-
-local function updateScale()
-    local windowWidth, windowHeight = love.graphics.getDimensions()
-    
-    scaleX = windowWidth / virtualWidth
-    scaleY = windowHeight / virtualHeight
-    
-    local scale
-    if conf.fullscreen and conf.useBorders then
-        scale = math.min(windowWidth / virtualWidth, windowHeight / virtualHeight) * 1 * (0.89 * 1) 
-    else
-        scale = math.min(windowWidth / virtualWidth, windowHeight / virtualHeight) * 1
-    end
-        
-    scaleX = scale
-    scaleY = scale
-
-    offsetX = (windowWidth - virtualWidth * scaleX) / 2
-    offsetY = (windowHeight - virtualHeight * scaleY) / 2
 end
 
 currentScene = scenes.battleEngine
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     canvas = love.graphics.newCanvas(virtualWidth, virtualHeight)
-    updateScale()
 
     currentScene.load('Test enemies')
-end
 
-function love.resize(w, h)
-    updateScale()
+    camera = Camera.new(640, 480)
 end
 
 function love.update(dt)
     input.update(dt)
+    camera:update(dt)
     love.audio.setVolume(conf.mainVolume)
 
     if not isPaused then
@@ -86,10 +57,13 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.setCanvas(canvas)
-    love.graphics.clear()
+    camera:attachLetterBox()
+    camera:apply()
 
     currentScene.draw()
+
+    camera:reset()
+    camera:detachLetterBox()
 
     if isPaused then
         love.graphics.setColor(0, 0, 0, .5)
@@ -101,14 +75,8 @@ function love.draw()
 
         love.graphics.setColor(1, 1, 1)
     end
-
-    love.graphics.setCanvas()
-
-    love.graphics.clear()
-    love.graphics.draw(canvas, offsetX, offsetY, 0, scaleX, scaleY)
-
-    local windowWidth, windowHeight = love.graphics.getDimensions()
     if conf.fullscreen and conf.useBorders then
+        windowWidth, windowHeight = love.window.getMode()
         love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
     end
 end
