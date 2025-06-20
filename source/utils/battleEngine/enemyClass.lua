@@ -7,6 +7,7 @@ function Enemy:new(config)
     self.name = config.name or "Unknown"
     self.description = config.description or ""
     self.acts = config.acts or {}
+    self.status = config.status or "alive"
 
     self.canSpare = config.canSpare or false
     self.showHPBar = config.showHPBar or false
@@ -17,12 +18,28 @@ function Enemy:new(config)
     self.attack = config.attack or 0
     self.defense = config.defense or 0
 
-    self.image = love.graphics.newImage(config.imagePath)
-    self.imageScale = config.imageScale
-    self.x = config.x or 0
-    self.y = config.y or 0
-    self.xOffset = 0
-    self.yOffset = 0
+    self.segments = {}
+
+    local segmentConfigs = config.segments
+    if not segmentConfigs[1] then
+        segmentConfigs = { segmentConfigs }
+    end
+
+    for _, segmentConfig in ipairs(segmentConfigs) do
+        local segment = {
+            image = love.graphics.newImage(segmentConfig.imagePath),
+            color = segmentConfig.color or {1, 1, 1},
+            imageScale = segmentConfig.imageScale or 1,
+            x = segmentConfig.x or 0,
+            y = segmentConfig.y or 0,
+            xOffset = segmentConfig.xOffset or 0,
+            yOffset = segmentConfig.yOffset or 0,
+            animation = segmentConfig.animation or function() end
+        }
+
+        table.insert(self.segments, segment)
+    end
+
 
     for _, act in ipairs(self.acts) do
         act.enemy = self
@@ -32,20 +49,22 @@ function Enemy:new(config)
 end
 
 function Enemy:draw()
-    love.graphics.draw(
-        self.image,
-        self.x + self.xOffset,
-        self.y + self.yOffset,
-        0, self.imageScale
-    )
+    for _, segment in ipairs(self.segments) do
+        segment.animation(self, segment)
+        love.graphics.setColor(segment.color)
+        love.graphics.draw(
+            segment.image,
+            segment.x + (segment.xOffset or 0),
+            segment.y + (segment.yOffset or 0),
+            0,
+            segment.imageScale or 1,
+            segment.imageScale or 1
+        )
+    end
 end
 
 function Enemy:update(dt)
-    for _, attack in ipairs(self.attacks) do
-        if type(attack.update) == "function" then
-            attack:update(dt)
-        end
-    end
+    
 end
 
 return Enemy

@@ -20,6 +20,7 @@ data.enemyData = {
     {
         name = "Enemy 1",
         description = "[clear]* The first half of the test[break]  site.",
+        status = "alive",
         acts = {
             {
                 name = 'Talk',
@@ -51,20 +52,29 @@ data.enemyData = {
         canSpare = false,
         showHPBar = true,
         canDodge = false,
+
         hp = 100,
         maxHp = 100,
         attack = 2,
         defense = 5,
-        imagePath = data.encounterPath .. "images/test1.png",
-        imageScale = 1,
-        x = 145,
-        y = 34,
-        yOffset = 0,
-        xOffset = 0
+
+        segments = {
+            imagePath = data.encounterPath .. "images/test1.png",
+            color = {1, 1, 1},
+            imageScale = 1,
+            x = 145,
+            y = 34,
+            yOffset = 0,
+            xOffset = 0,
+            animation = function(self)
+                -- nothing
+            end
+        }
     },
     {
         name = "Enemy 2",
         description = "[clear]* The other half of the test[break]  site.",
+        status = "alive",
         acts = {
             {
                 name = 'Smile',
@@ -80,16 +90,27 @@ data.enemyData = {
         canSpare = false,
         showHPBar = true,
         canDodge = false,
+
         hp = 50,
         maxHp = 50,
         attack = 2,
         defense = 2,
-        imagePath = data.encounterPath .. "images/test2.png",
-        imageScale = 1,
-        x = 345,
-        y = 140,
-        yOffset = 0,
-        xOffset = 0
+
+        segments = {
+            {
+            imagePath = data.encounterPath .. "images/test2.png",
+            color = {1, 1, 1},
+            imageScale = 1,
+            x = 345,
+            y = 140,
+            yOffset = 0,
+            xOffset = 0,
+            animation = function(enemy, segment)
+                local timer = love.timer.getTime()
+                segment.yOffset = (math.sin(timer * 2) * 14) - 7
+            end
+            }
+        }
     }
 }
 

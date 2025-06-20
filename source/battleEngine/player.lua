@@ -189,13 +189,15 @@ function player.update(dt)
                     player.lastButton = battle.choice
                     battle.choice = -1
                     battleEngine.changeBattleState('attack', 'enemies')
-                elseif battle.choice == 1 then
+                    sfx.menuselect:stop()
+                    sfx.menuselect:play()
+                elseif battle.choice == 1 and encounter.enemies[battle.subchoice+1].status == "alive" then
                     player.chosenEnemy = battle.subchoice + 1
                     battleEngine.changeBattleState('act', 'player')
                     battle.subchoice = 0
+                    sfx.menuselect:stop()
+                    sfx.menuselect:play()
                 end
-                sfx.menuselect:stop()
-                sfx.menuselect:play()
             end
             if input.check('up', 'pressed') then
                 performMove('choose enemy', -1)
