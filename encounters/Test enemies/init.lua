@@ -94,8 +94,7 @@ data.enemyData = {
 }
 
 data.playerLove = 8
-data.playerName = ": - ]"
-if love.math.random(1, 10) == 1 then data.playerName = ": - 3" end
+data.playerName = "Sawby"
 data.playerInventory = {11, 1, 1, 23, 17, 19, 19, 52}
 data.playerHasKR = false
 data.playerWeapon = 3   -- Use ID from the item manager

@@ -110,3 +110,11 @@ function love.draw()
         love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
     end
 end
+
+--[[
+  "SCR_TEXT_111": "   * I'm outta here.",
+  "SCR_TEXT_112": "   * I've got better to do.",
+  "SCR_TEXT_113": "   * Escaped...",
+  "SCR_TEXT_114": "   * Don't slow me down.",
+  "SCR_TEXT_121": "   * Ran away with \\[1] EXP&     and \\[2] GOLD.",
+]]
