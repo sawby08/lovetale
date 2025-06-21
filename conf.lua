@@ -9,7 +9,7 @@ function love.conf(t)
             confirm = {'z', 'return'},
             cancel = {'x', 'lshift', 'rshift'},
             menu = {'c', 'lctrl', 'rctrl'},
-            fullscreen = {'f4'},
+            fullscreen = {'f4', 'f'},
             pause = {'escape'}
         },
         fps = 60,
