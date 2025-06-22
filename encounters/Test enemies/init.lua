@@ -61,11 +61,15 @@ data.enemyData = {
         segments = {
             imagePath = data.encounterPath .. "images/test1.png",
             color = {1, 1, 1},
-            imageScale = 1,
             x = 145,
             y = 34,
+            rotation = 0,
+            xScale = 1,
+            yScale = 1,
             yOffset = 0,
             xOffset = 0,
+            xOrigin = 0,
+            yOrigin = 0,
             animation = function(self)
                 -- nothing
             end
@@ -100,12 +104,17 @@ data.enemyData = {
             {
             imagePath = data.encounterPath .. "images/test2.png",
             color = {1, 1, 1},
-            imageScale = 1,
             x = 345,
             y = 140,
+            rotation = 0,
+            xScale = 1,
+            yScale = 1,
             yOffset = 0,
             xOffset = 0,
+            xOrigin = 0,
+            yOrigin = 0,
             animation = function(enemy, segment)
+                local dt = love.timer.getDelta()
                 local timer = love.timer.getTime()
                 segment.yOffset = (math.sin(timer * 2) * 14) - 7
             end

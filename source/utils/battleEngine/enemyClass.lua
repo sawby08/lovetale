@@ -29,11 +29,13 @@ function Enemy:new(config)
         local segment = {
             image = love.graphics.newImage(segmentConfig.imagePath),
             color = segmentConfig.color or {1, 1, 1},
-            imageScale = segmentConfig.imageScale or 1,
             x = segmentConfig.x or 0,
             y = segmentConfig.y or 0,
+            rotation = segmentConfig.rotation or 0,
             xOffset = segmentConfig.xOffset or 0,
             yOffset = segmentConfig.yOffset or 0,
+            xOrigin = segmentConfig.xOrigin or 0,
+            yOrigin = segmentConfig.yOrigin or 0,
             animation = segmentConfig.animation or function() end
         }
 
@@ -56,15 +58,19 @@ function Enemy:draw()
             segment.image,
             segment.x + (segment.xOffset or 0),
             segment.y + (segment.yOffset or 0),
-            0,
-            segment.imageScale or 1,
-            segment.imageScale or 1
+            segment.direction or 0,
+            segment.xScale or 1,
+            segment.yScale or 1,
+            segment.xOrigin or 0,
+            segment.yOrigin or 0
         )
     end
 end
 
 function Enemy:update(dt)
-    
+    for _, segment in ipairs(self.segments) do
+        segment.animation(self, segment)
+    end
 end
 
 return Enemy

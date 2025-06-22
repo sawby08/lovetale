@@ -12,7 +12,7 @@ function love.conf(t)
             fullscreen = {'f4', 'f'},
             pause = {'escape'}
         },
-        fps = 60,
+        fps = 30,
         fullscreen = false,
         gameScale = 1,
         useBorders = true,
