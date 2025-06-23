@@ -20,7 +20,7 @@ player.stats = {}
 -- This only exists because I don't know a better way to make the heart not delayed between menu states
 local function updatePosition(dt)
     if battle.turn == 'player' then
-        if battle.state == 'fight' or battle.state == 'perform act' or battle.state == 'use item' then
+        if battle.state == 'fight' or battle.state == 'perform act' or battle.state == 'use item' or battle.state == "end" then
             player.heart.x = -16
             player.heart.y = -16
         elseif battle.state == 'buttons' then
@@ -112,9 +112,25 @@ function player.update(dt)
                 love.load()
             end
         end
+        if battle.state == "end" then
+            if writer.isDone and input.check('confirm', 'pressed') then
+                input.refresh()
+                love.load()
+            end
+        end
         if battle.state == 'mercy' then
-            if input.check('confirm', 'pressed') and battle.subchoice == 1 then
-                battleEngine.changeBattleState('flee', 'player')
+            if input.check('confirm', 'pressed') then
+                if battle.subchoice == 0 then
+                    for _, enemy in ipairs(encounter.enemies) do
+                        if enemy.canSpare then
+                            enemy.status = "spared"
+                            enemy.canSpare = false
+                            sfx.dust:play()
+                        end
+                    end
+                elseif battle.subchoice == 1 then
+                    battleEngine.changeBattleState('flee', 'player')
+                end
             end
             if input.check('cancel', 'pressed') then
                 input.refresh()
@@ -185,7 +201,7 @@ function player.update(dt)
                 battleEngine.changeBattleState('buttons', 'player')
             end
             if input.check('confirm', 'pressed') then
-                if battle.choice == 0 then
+                if battle.choice == 0 and encounter.enemies[battle.subchoice+1].status == "alive" then
                     player.lastButton = battle.choice
                     battle.choice = -1
                     battleEngine.changeBattleState('attack', 'enemies')

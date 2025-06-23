@@ -69,7 +69,7 @@ end
 
 function encounterHandler.update(dt)
     if encounterHandler.bgm then encounter.bgm:play() end
-    if battle.state == "flee" then
+    if battle.state == "flee" or battle.state == "end" then
         if encounterHandler.bgm then
             encounterHandler.bgm:setLooping(false)
             encounterHandler.bgm:stop()
@@ -93,7 +93,7 @@ function encounterHandler.update(dt)
     end
 
     if battle.state == 'attack' and battle.turn == 'enemies' then
-        if input.check('cancel', 'pressed') then
+        if input.check('menu', 'pressed') then
             input.refresh()
             actTextI = 1
             battleEngine.changeBattleState('buttons', 'player')

@@ -66,7 +66,7 @@ function Camera:detachLetterBox()
     if love.window.getFullscreen() then
         local screenW, screenH = love.graphics.getDimensions()
         local canvasW, canvasH = yourCanvasName:getDimensions()
-        local scale = math.min(screenW / canvasW, screenH / canvasH) * 1 * (0.89 * (conf.useBorders and 1 or 0)) 
+        local scale = math.min(screenW / canvasW, screenH / canvasH) * 1 * (0.89 * (conf.useBorders and 1 or 0))
         local offsetX = math.floor((screenW - canvasW * scale) / 2)
         local offsetY = math.floor((screenH - canvasH * scale) / 2)
 

@@ -54,6 +54,9 @@ function battleEngine.changeBattleState(state, turn)
             }
             writer:setParams(fleeingLines[love.math.random(1, #fleeingLines)], 68, 306, fonts.determination, 0.02, writer.voices.menuText)
             sfx.flee:play()
+        elseif state == "end" then
+            battle.choice = -1
+            writer:setParams("* YOU WON!     [break]* What you've won has not been[break]  decided yet.", 52, 274, fonts.determination, 0.02, writer.voices.menuText)
         end
     elseif turn == 'enemies' then
         if state == 'attack' then
@@ -82,7 +85,8 @@ function battleEngine.load(encounterName)
         menumove = love.audio.newSource('assets/sound/menuMove.ogg', 'static'),
         menuselect = love.audio.newSource('assets/sound/menuSelect.ogg', 'static'),
         playerheal = love.audio.newSource('assets/sound/playerHeal.ogg', 'static'),
-        flee = love.audio.newSource("assets/sound/runaway.wav", "static")
+        flee = love.audio.newSource("assets/sound/runaway.wav", "static"),
+        dust = love.audio.newSource("assets/sound/enemydust.wav", "static")
     }
     fonts = {
         mars = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
@@ -131,6 +135,19 @@ function battleEngine.update(dt)
     ui.update(dt)
     player.update(dt)
     writer:update(dt)
+
+    -- Stop fight when all enemies are either spared or killed
+    if battle.state ~= "end" then
+        local noneAreAlive = true
+        for _, enemy in ipairs(encounter.enemies) do
+            if enemy.status == "alive" then
+                noneAreAlive = false
+            end
+        end
+        if noneAreAlive then
+            battleEngine.changeBattleState('end', 'player')
+        end
+    end
 end
 
 function battleEngine.draw()

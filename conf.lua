@@ -12,9 +12,8 @@ function love.conf(t)
             fullscreen = {'f4', 'f'},
             pause = {'escape'}
         },
-        fps = 30,
+        fps = 60,
         fullscreen = false,
-        gameScale = 1,
         useBorders = true,
         spareColor = {1, 1, 0}, -- {1, 1, 0} is yellow and {1, 187 / 255, 212 / 255} is pink
         
@@ -24,11 +23,11 @@ function love.conf(t)
         mainVolume = 0.5
     }
 
-    t.window.width = 640 * conf.gameScale
-    t.window.height = 480 * conf.gameScale
+    t.window.width = 640
+    t.window.height = 480
     t.window.vsync = true
     t.window.fullscreentype = "desktop"
-    t.window.resizable = false
+    t.window.resizable = true
     t.window.fullscreen = conf.fullscreen
 
     t.window.title = "LOVETALE"

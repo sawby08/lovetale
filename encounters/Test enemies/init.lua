@@ -1,7 +1,6 @@
 local data = {}
 
-
-data.encounterPath = "encounters/Test enemies/"
+data.encounterPath = "encounters/Test enemies/" -- Makes it less annoying to call for files within the encounter directory
 
 data.text = {
     "[clear]* The test enemies draw near.",
@@ -49,7 +48,7 @@ data.enemyData = {
                 }
             },
         },
-        canSpare = false,
+        canSpare = true,
         showHPBar = true,
         canDodge = false,
 
@@ -123,12 +122,11 @@ data.enemyData = {
     }
 }
 
-data.playerLove = 8
+data.playerLove = 1
 data.playerName = "Sawby"
 data.playerInventory = {11, 1, 1, 23, 17, 19, 19, 52}
 data.playerHasKR = false
 data.playerWeapon = 3   -- Use ID from the item manager
 data.playerArmor = 4    -- Use ID from the item manager
-
 
 return data

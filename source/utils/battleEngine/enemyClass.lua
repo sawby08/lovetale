@@ -52,8 +52,12 @@ end
 
 function Enemy:draw()
     for _, segment in ipairs(self.segments) do
-        segment.animation(self, segment)
-        love.graphics.setColor(segment.color)
+        if self.status == "alive" then
+            love.graphics.setColor(segment.color, 1)
+            segment.animation(self, segment)
+        else
+            love.graphics.setColor(1, 1, 1, 0.5)
+        end
         love.graphics.draw(
             segment.image,
             segment.x + (segment.xOffset or 0),
@@ -68,9 +72,7 @@ function Enemy:draw()
 end
 
 function Enemy:update(dt)
-    for _, segment in ipairs(self.segments) do
-        segment.animation(self, segment)
-    end
+    -- nothing
 end
 
 return Enemy

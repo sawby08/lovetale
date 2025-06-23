@@ -138,14 +138,18 @@ function ui.draw()
         local i = 1
         for _, enemy in ipairs(encounter.enemies) do
             local string = '  * ' .. enemy.name
-            love.graphics.setColor(1, 1, 1)
-            if enemy.canSpare then
-                love.graphics.setColor(conf.spareColor)
+            if enemy.status == "alive" then
+                love.graphics.setColor(1, 1, 1)
+                if enemy.canSpare then
+                    love.graphics.setColor(conf.spareColor)
+                end
+            else
+                love.graphics.setColor(1, 1, 1, .5)
             end
             love.graphics.print('  * ' .. enemy.name, 68, 242 + (i * 32))
 
             -- Draw enemy HP bar
-            if enemy.showHPBar and battle.choice == 0 then -- Checks if enemy can show HP bar and if the player is on selection 0 (fight)
+            if enemy.showHPBar and battle.choice == 0 and enemy.status == "alive" then -- Checks if enemy can show HP bar and if the player is on selection 0 (fight)
                 love.graphics.setColor(.8, 0, 0)
                 love.graphics.rectangle('fill', 110 + #string*16, 248 + (i * 32), 101, 17)
 
