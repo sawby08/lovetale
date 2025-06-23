@@ -19,7 +19,8 @@ function Enemy:new(config)
     self.defense = config.defense or 0
 
     self.segments = {}
-
+    self.x = config.x
+    self.y = config.y
     local segmentConfigs = config.segments
     if not segmentConfigs[1] then
         segmentConfigs = { segmentConfigs }
@@ -32,8 +33,6 @@ function Enemy:new(config)
             x = segmentConfig.x or 0,
             y = segmentConfig.y or 0,
             rotation = segmentConfig.rotation or 0,
-            xOffset = segmentConfig.xOffset or 0,
-            yOffset = segmentConfig.yOffset or 0,
             xOrigin = segmentConfig.xOrigin or 0,
             yOrigin = segmentConfig.yOrigin or 0,
             animation = segmentConfig.animation or function() end
@@ -51,6 +50,7 @@ function Enemy:new(config)
 end
 
 function Enemy:draw()
+    love.graphics.push("all")
     for _, segment in ipairs(self.segments) do
         if self.status == "alive" then
             love.graphics.setColor(segment.color, 1)
@@ -60,8 +60,8 @@ function Enemy:draw()
         end
         love.graphics.draw(
             segment.image,
-            segment.x + (segment.xOffset or 0),
-            segment.y + (segment.yOffset or 0),
+            segment.x + self.x,
+            segment.y + self.y,
             segment.direction or 0,
             segment.xScale or 1,
             segment.yScale or 1,
@@ -69,6 +69,7 @@ function Enemy:draw()
             segment.yOrigin or 0
         )
     end
+    love.graphics.pop()
 end
 
 function Enemy:update(dt)
