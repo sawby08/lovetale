@@ -1,10 +1,10 @@
 ## LÖVETALE Engine
-<p>My third attempt at writing an Undertale battle engine in LÖVE! I'm mostly writing this for personal use, but anyone can use this if they make their way through my garbage code.</p>
+<p>My third attempt at writing an Undertale battle engine in LÖVE with a goal of providing an easy framework for anyone to make their own accurate fanmade battles.</p>
 
 !["A screenshot of the LÖVETALE engine."](./github/screenie.png "A screenshot of the LÖVETALE engine.")
 
-### Progress
-<p>This engine is still unfinished. Acting and items are functional but fighting and mercy are still unfinished.
+### Progress Roadmap
+<p>As of right now, ACT, ITEM, and (almost) MERCY are finished, and FIGHT hasn't been started yet. My goal right now is to finish fighting and to implement a bullet system for the monsters, but later on I'd like to write something like a wiki to better explain how this works, and to optimize the code so it works with love.js.</p>
 
 ### Credits
 <p>I'm the only person working on this engine, but I used stuff from these cool people!</p>
