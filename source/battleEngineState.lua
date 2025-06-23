@@ -34,9 +34,9 @@ function battleEngine.changeBattleState(state, turn)
                 sfx.playerheal:play()
                 verb = 'ate'
                 if player.stats.hp >= player.stats.maxHp then
-                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     [break]* Your HP maxed out!', 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     \n* Your HP maxed out!', 52, 274, fonts.determination, 0.02, writer.voices.menuText)
                 else
-                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     [break]* You recovered ' .. itemManager.getPropertyFromID(selectedItem, 'stat') .. ' HP.', 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     \n* You recovered ' .. itemManager.getPropertyFromID(selectedItem, 'stat') .. ' HP.', 52, 274, fonts.determination, 0.02, writer.voices.menuText)
                 end
             else
                 sfx.menuselect:play()
@@ -57,7 +57,7 @@ function battleEngine.changeBattleState(state, turn)
             sfx.flee:play()
         elseif state == "end" then
             battle.choice = -1
-            writer:setParams("* YOU WON!     [break]* What you've won has not been[break]  decided yet.", 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+            writer:setParams("* YOU WON!     \n* What you've won has not been\n  decided yet.", 52, 274, fonts.determination, 0.02, writer.voices.menuText)
         end
     elseif turn == 'enemies' then
         if state == 'attack' then

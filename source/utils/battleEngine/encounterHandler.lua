@@ -63,7 +63,7 @@ function encounterHandler.doAct()
         performAct(enemy.acts[battle.subchoice])
         performActText(battle.subchoice, actTextI)
     else
-        writer:setParams("* " .. string.upper(enemy.name) .. " - ATT " .. enemy.attack .. " DEF " .. enemy.defense .. "[break]" .. enemy.description, 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+        writer:setParams("* " .. string.upper(enemy.name) .. " - ATT " .. enemy.attack .. " DEF " .. enemy.defense .. "\n" .. enemy.description, 52, 274, fonts.determination, 0.02, writer.voices.menuText)
     end
 end
 

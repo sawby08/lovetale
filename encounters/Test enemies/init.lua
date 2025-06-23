@@ -18,7 +18,7 @@ data.backgroundColor = {0, 0, 0}
 data.enemyData = {
     {
         name = "Enemy 1",
-        description = "[clear]* The first half of the test[break]  site.",
+        description = "[clear]* The first half of the test\n  site.",
         status = "alive",
         acts = {
             {
@@ -27,7 +27,7 @@ data.enemyData = {
                     -- Nothing
                 end,
                 text = {
-                    "* You try to talk to it but it[break]  didn't respond."
+                    "* You try to talk to it but it\n  didn't respond."
                 }
             },
             {
@@ -37,14 +37,14 @@ data.enemyData = {
                         self.enemy.defense = self.enemy.defense + 2
                     else -- Act exhaust
                         self.enemy.acts[2].text = {
-                            "* You try putting your fists up[break]  again.",
-                            "* Enemy 1 doesn't seem to be[break]  interested anymore."
+                            "* You try putting your fists up\n  again.",
+                            "* Enemy 1 doesn't seem to be\n  interested anymore."
                         }
                     end
                 end,
                 text = {
-                    '[clear]* You put your fists up[break]  defensively.',
-                    "[clear]* Enemy 1 joins in.     [break]* Enemy 1's DEF increased by 2!"
+                    '[clear]* You put your fists up\n  defensively.',
+                    "[clear]* Enemy 1 joins in.     \n* Enemy 1's DEF increased by 2!"
                 }
             },
         },
@@ -76,7 +76,7 @@ data.enemyData = {
     },
     {
         name = "Enemy 2",
-        description = "[clear]* The other half of the test[break]  site.",
+        description = "[clear]* The other half of the test\n  site.",
         status = "alive",
         acts = {
             {
@@ -86,7 +86,7 @@ data.enemyData = {
                 end,
                 text = {
                     "* You give Enemy 2 a cute smile.",
-                    "* It didn't know what gesture[break]  you made, but appreciated it[break]  regardless."
+                    "* It didn't know what gesture\n  you made, but appreciated it\n  regardless."
                 }
             }
         },
