@@ -12,7 +12,7 @@ function love.conf(t)
             fullscreen = {'f4', 'f'},
             pause = {'escape'}
         },
-        fps = 60,
+        fps = 30,
         fullscreen = false,
         useBorders = true,
         spareColor = {1, 1, 0}, -- {1, 1, 0} is yellow and {1, 187 / 255, 212 / 255} is pink

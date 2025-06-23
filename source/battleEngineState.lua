@@ -6,6 +6,7 @@ local refs = {
     items = love.graphics.newImage("refs/items.png"),
     choose = love.graphics.newImage("refs/choose.png")
 }
+local fadeOpacity = 1
 
 function battleEngine.changeBattleState(state, turn)
     if turn == 'player' then
@@ -71,6 +72,8 @@ function battleEngine.changeBattleState(state, turn)
 end
 
 function battleEngine.load(encounterName)
+    fadeOpacity = 1
+
     -- Set up basic battle variables
     battle = {
         turn = 'player',
@@ -130,6 +133,9 @@ function battleEngine.load(encounterName)
 end
 
 function battleEngine.update(dt)
+    if fadeOpacity > 0 then
+        fadeOpacity = fadeOpacity - 0.125 * dt*30
+    end
     encounter.update(dt)
 
     ui.update(dt)
@@ -166,6 +172,11 @@ function battleEngine.draw()
     love.graphics.draw(refs.choose, 0, 0)
 
     love.graphics.pop()
+
+    if fadeOpacity > 0 then
+        love.graphics.setColor(0, 0, 0, fadeOpacity)
+        love.graphics.rectangle('fill', 0, 0, 640, 480)
+    end
 end
 
 return battleEngine
