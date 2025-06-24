@@ -27,7 +27,6 @@ function love.conf(t)
     t.window.height = 480
     t.window.vsync = true
     t.window.fullscreentype = "desktop"
-    t.window.resizable = true
     t.window.fullscreen = conf.fullscreen
 
     t.window.title = "LOVETALE"
