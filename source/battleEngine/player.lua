@@ -266,7 +266,7 @@ function player.update(dt)
                 end
             elseif player.mode == 2 then -- Blue soul movement
                 -- Left and right movement and gravitational pull
-                blueGrav = blueGrav + 0.75 * dt*30
+                if jumpstage ~= 1 then blueGrav = blueGrav + 0.75 * dt*30 end
                 yvel = yvel + blueGrav
                 if input.check('left', 'held') then
                     xvel = xvel - speed
