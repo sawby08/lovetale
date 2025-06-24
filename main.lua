@@ -19,9 +19,22 @@ local border = love.graphics.newImage(borders.sepia)
 fps = require 'source.utils.fps'
 input = require 'source.utils.input'
 Camera = require 'source.utils.camera'
+local inifile = require 'source.utils.inifile'
 
 function love.keypressed(key)
     input.keypressed(key)
+end
+
+function love.keyreleased(key)
+    input.keyreleased(key)
+end
+
+local function split(str, sep)
+    local result = {}
+    for token in string.gmatch(str, "([^"..sep.."]+)") do
+        table.insert(result, token)
+    end
+    return result
 end
 
 currentScene = scenes.battleEngine
@@ -29,8 +42,30 @@ function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     canvas = love.graphics.newCanvas(virtualWidth, virtualHeight)
 
+    -- Set up settings from .ini file
+    local config            = inifile.parse("config.ini")
+    conf.fps                = config.graphics.fps
+    conf.fullscreen         = config.graphics.fullscreen
+    conf.useBorders         = config.graphics.useBorders
+    conf.spareColor         = split(config.player.spareColor, ",")
+    conf.keys.up            = split(config.player.up, ",")
+    conf.keys.down          = split(config.player.down, ",")
+    conf.keys.left          = split(config.player.left, ",")
+    conf.keys.right         = split(config.player.right, ",")
+    conf.keys.confirm       = split(config.player.confirm, ",")
+    conf.keys.cancel        = split(config.player.cancel, ",")
+    conf.keys.menu          = split(config.player.menu, ",")
+    conf.keys.fullscreen    = split(config.player.fullscreen, ",")
+    conf.keys.pause         = split(config.player.pause, ",")
+    conf.bgmVolume          = config.audio.bgm
+    conf.sfxVolume          = config.audio.sfx
+    conf.textVolume         = config.audio.txt
+    conf.mainVolume         = config.audio.main
+    for i = 1, #conf.spareColor do
+        conf.spareColor[i] = tonumber(conf.spareColor[i])
+    end
+    
     currentScene.load('Test enemies')
-
     camera = Camera.new(640, 480)
 end
 

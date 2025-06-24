@@ -5,7 +5,6 @@ local held = {}
 function input.refresh()
     for action in pairs(conf.keys) do
         pressed[action] = false
-        held[action] = false
     end
 end
 
@@ -14,6 +13,16 @@ function input.keypressed(key)
         for _, k in ipairs(keys) do
             if key == k then
                 pressed[action] = true
+            end
+        end
+    end
+end
+
+function input.keyreleased(key)
+    for action, keys in pairs(conf.keys) do
+        for _, k in ipairs(keys) do
+            if key == k then
+                held[action] = false
             end
         end
     end
