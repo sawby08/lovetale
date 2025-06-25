@@ -50,7 +50,7 @@ data.enemyData = {
         },
         canSpare = true,
         showHPBar = true,
-        canDodge = false,
+        canDodge = true,
 
         hp = 80,
         maxHp = 80,

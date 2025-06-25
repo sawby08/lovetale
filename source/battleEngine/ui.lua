@@ -1,5 +1,6 @@
 local ui = {}
 ui.buttons = {}
+local battleEngine = require 'source.battleEngineState'
 
 function ui.newButton(name, x, y, id, goTo)
     local image = love.graphics.newImage('assets/images/ui/bt/' .. name .. '.png')
@@ -45,6 +46,7 @@ local sliceFrame, sliceTimer = 1, 0
 local damage = 0
 local targetTimer = 0
 local damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
+local fightUiAlpha, targetScale = 1, 0
 
 function ui.setUpTarget()
     if love.math.random(1, 2) == 1 then
@@ -56,6 +58,11 @@ function ui.setUpTarget()
     end
     targetFrame = love.math.random(1, 2)
     damageTextY = encounter.enemies[player.chosenEnemy].y + 125
+    sliceFrame, sliceTimer = 1, 0
+    damage = 0
+    targetTimer = 0
+    damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
+    fightUiAlpha, targetScale = 1, 0
 end
 
 function ui.load()
@@ -93,10 +100,16 @@ function ui.update(dt)
                 damageShow = true
             end
         end
-        if input.check('confirm', 'pressed') and targetMode ~= "miss" then
-            targetMode = "attack"
-            damageType = "success"
-            sfx.slice:play()
+        if input.check('confirm', 'pressed') and targetMode ~= "miss" and targetMode ~= "attack" then
+            if encounter.enemies[player.chosenEnemy].canDodge then
+                targetMode = "attack"
+                sfx.slice:play()
+                damageType = "miss"
+            else
+                targetMode = "attack"
+                damageType = "success"
+                sfx.slice:play()
+            end
         end
         if targetMode == "attack" then
             -- Animate targetchoice
@@ -118,22 +131,52 @@ function ui.update(dt)
 
             -- Trigger enemy damage
             if sliceFrame == 11 then
-                sliceFrame = 12
-                sfx.hit:play()
-                encounter.enemies[player.chosenEnemy].hp = encounter.enemies[player.chosenEnemy].hp - damage
-                damageShow = true
-                damageTextYvel = 12
-                damageTextY = encounter.enemies[player.chosenEnemy].y + 45
+                if encounter.enemies[player.chosenEnemy].canDodge then
+                    sliceFrame = 12
+                    damageShow = true
+                    damageTextYvel = 12
+                    damageTextY = encounter.enemies[player.chosenEnemy].y + 45 * dt*30
+                else
+                    sliceFrame = 12
+                    sfx.hit:play()
+                    encounter.enemies[player.chosenEnemy].hp = encounter.enemies[player.chosenEnemy].hp - damage
+                    damageShow = true
+                    damageTextYvel = 12
+                    damageTextY = encounter.enemies[player.chosenEnemy].y + 45 * dt*30
+
+                    if encounter.enemies[player.chosenEnemy].hp < 0 then
+                        encounter.enemies[player.chosenEnemy].hp = 0
+                    end
+                end
             end
 
-            if damageShow and damageType ~= "miss" then
-                damageTextYvel = damageTextYvel - 1 *dt*30
-                damageTextY = damageTextY - damageTextYvel
+            if sliceFrame == 28 then
+                sliceFrame = 29
+                battleEngine.changeBattleState("dialogue", "enemies")
+
+                if encounter.enemies[player.chosenEnemy].hp == 0 then
+                    encounter.enemies[player.chosenEnemy].status = "killed"
+                end
+            end
+
+            if damageShow then
+                if damageType == "miss" and encounter.enemies[player.chosenEnemy].canDodge then
+                    damageTextYvel = damageTextYvel - 1 *dt*30
+                    damageTextY = damageTextY - damageTextYvel *dt*30
+                end
+                if damageType ~= "miss" then
+                    damageTextYvel = damageTextYvel - 1 *dt*30
+                    damageTextY = damageTextY - damageTextYvel *dt*30
+                end
             end
             if damageTextY > encounter.enemies[player.chosenEnemy].y + 45 then
                 damageTextY = encounter.enemies[player.chosenEnemy].y + 45
             end
         end
+    end
+    if battle.state == "dialogue" then
+        targetScale = targetScale + dt
+        fightUiAlpha = fightUiAlpha - dt
     end
 end
 
@@ -311,6 +354,11 @@ function ui.draw()
                 love.graphics.print("MISS", encounter.enemies[player.chosenEnemy].x - 12, damageTextY)
             end
         end
+    end
+    if battle.state == "dialogue" then
+        love.graphics.setColor(1, 1, 1, fightUiAlpha)
+        love.graphics.draw(target, 320, 256, 0, 1 - targetScale, 1, target:getWidth()/2)
+        love.graphics.draw(targetChoice[targetFrame], targetX, 256)
     end
 end
 
