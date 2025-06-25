@@ -1,7 +1,7 @@
 local player = {}
 local battleEngine = require 'source.battleEngineState'
 local xvel, yvel = 0, 0
-local blueGrav, jumpstage, jumptimer = 0, 0, 0
+local jumpstage, vspeed = 2, 0
 
 -- Load heart image and position, global so other objects can place it
 player.heart = {
@@ -265,39 +265,38 @@ function player.update(dt)
                     xvel = xvel + speed
                 end
             elseif player.mode == 2 then -- Blue soul movement
-                -- Left and right movement and gravitational pull
-                if jumpstage ~= 1 then blueGrav = blueGrav + 0.75 * dt*30 end
-                yvel = yvel + blueGrav
                 if input.check('left', 'held') then
                     xvel = xvel - speed
                 end
                 if input.check('right', 'held') then
                     xvel = xvel + speed
                 end
-
-                -- Check if player is on the bottom of the box so they can jump, resets the timer and jumpstage
-                if player.heart.y >= ui.box.y + ui.box.height - 19 then
-                    jumpstage = 0
-                    jumptimer = 0
-                    if input.check('up', 'held') then
-                        -- Change jumpstage so the player stays jumping
-                        jumpstage = 1
+                if jumpstage == 2 then
+                    if not input.check('up', 'held') and vspeed <= -1 then
+                        vspeed = -1
+                    end
+                    if vspeed > .5 and vspeed < 8 then
+                        vspeed = vspeed + .6 * dt*30
+                    end
+                    if vspeed > -1 and vspeed <= .5 then
+                        vspeed = vspeed + .2 * dt*30
+                    end
+                    if vspeed > -4 and vspeed <= -1 then
+                        vspeed = vspeed + .5 * dt*30
+                    end
+                    if vspeed <= -4 then
+                        vspeed = vspeed + .2 * dt*30
                     end
                 end
-                if jumpstage == 1 and input.check('up', 'held') and player.heart.y <= ui.box.y + ui.box.height - 19 then
-                    -- Make the player jump by 6 pixels and increase jumptimer to prevent the player from jumping too high
-                    blueGrav = -6
-                    jumptimer = jumptimer + dt*30
+                yvel = yvel + math.floor(vspeed + .5)
+                if player.heart.y >= ui.box.y + ui.box.height - 19 then
+                    player.heart.y = ui.box.y + ui.box.height - 19
+                    jumpstage = 1
+                    vspeed = 0
                 end
-                if player.heart.y <= ui.box.y + ui.box.height - 19 and jumpstage == 1 and not input.check('up', 'held') then
-                    -- Change gravity so movement is tighter
-                    blueGrav = -1.5
+                if input.check('up', 'held') and jumpstage == 1 then
                     jumpstage = 2
-                end
-                if jumptimer > 10 then
-                    -- Don't change gravity so the full motion is fluid
-                    jumptimer = 0
-                    jumpstage = 2
+                    vspeed = -6
                 end
             end
         end
