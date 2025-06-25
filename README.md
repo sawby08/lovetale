@@ -4,7 +4,7 @@
 !["A screenshot of the LÖVETALE engine."](./github/screenie.png "A screenshot of the LÖVETALE engine.")
 
 ### Progress Roadmap
-<p>As of right now, ACT, ITEM, and (almost) MERCY are finished, and FIGHT hasn't been started yet. My goal right now is to finish fighting and to implement a bullet system for the monsters, but later on I'd like to write something like a wiki to better explain how this works, and to optimize the code so it works with love.js.</p>
+<p>As of right now, ACT and ITEM are completely finished. MERCY is *almost* finished but I have yet to code in the sparing particle system. FIGHT has started, but it's still a heavy work in progress because I'm having a hard time coding it in a way that I'd like. My goal right now is to finish fighting and to implement a bullet system for the monsters, but later on I'd like to write something like a wiki to better explain how this works, and to optimize the code so it works with love.js.</p>
 
 ### Credits
 <p>I'm the only person working on this engine, but I used stuff from these cool people!</p>
