@@ -18,18 +18,11 @@ function ui.newButton(name, x, y, id, goTo)
     ui.buttons[id] = button
 end
 
-function ui.newBoxParams(x, y, w, h)
-    ui.box.x = x
-    ui.box.y = y
-    ui.box.width = w
-    ui.box.height = h
-end
-
 -- Load "HP" and "KR" graphics
 local hp = love.graphics.newImage('assets/images/ui/spr_hpname_0.png')
 local kr = love.graphics.newImage('assets/images/ui/spr_krmeter_0.png')
 
--- Load graphics for Fight ui
+-- Load assets and intialize variables for fight ui
 local target = love.graphics.newImage('assets/images/ui/spr_target_0.png')
 local targetChoice = {
     love.graphics.newImage('assets/images/ui/spr_targetchoice_0.png'),
@@ -49,7 +42,7 @@ local damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
 local fightUiAlpha, targetScale = 1, 0
 
 function ui.setUpTarget()
-    if love.math.random(1, 2) == 1 then
+    if love.math.random(1, 2) == 1 then -- Randomly place targetchoice left or right
         targetX = 38
         targetMode = "left"
     else
@@ -90,6 +83,11 @@ function ui.update(dt)
                 targetMode = "miss"
                 damageType = "miss"
                 damageShow = true
+                battleEngine.changeBattleState("dialogue", "enemies")
+                if encounter.enemies[player.chosenEnemy].hp == 0 then
+                    encounter.enemies[player.chosenEnemy].status = "killed"
+                    sfx.dust:play()
+                end
             end
         end
         if targetMode == "right" then -- If it goes out of the box, miss
@@ -98,6 +96,11 @@ function ui.update(dt)
                 targetMode = "miss"
                 damageType = "miss"
                 damageShow = true
+                battleEngine.changeBattleState("dialogue", "enemies")
+                if encounter.enemies[player.chosenEnemy].hp == 0 then
+                    encounter.enemies[player.chosenEnemy].status = "killed"
+                    sfx.dust:play()
+                end
             end
         end
         if input.check('confirm', 'pressed') and targetMode ~= "miss" and targetMode ~= "attack" then
@@ -150,12 +153,13 @@ function ui.update(dt)
                 end
             end
 
+            -- Go to enemy dialogue
             if sliceFrame == 28 then
                 sliceFrame = 29
                 battleEngine.changeBattleState("dialogue", "enemies")
-
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
                     encounter.enemies[player.chosenEnemy].status = "killed"
+                    sfx.dust:play()
                 end
             end
 
@@ -174,9 +178,23 @@ function ui.update(dt)
             end
         end
     end
-    if battle.state == "dialogue" then
-        targetScale = targetScale + dt
-        fightUiAlpha = fightUiAlpha - dt
+    if battle.turn == "enemies" then
+        targetScale = targetScale + dt*2
+        fightUiAlpha = fightUiAlpha - dt*2
+        ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3
+        ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3
+        ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3
+        ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3
+
+        if input.check('confirm', 'pressed') then
+            battleEngine.changeBattleState('attack', 'enemies')
+        end
+    end
+    if battle.turn == "player" then
+        ui.box.x = ui.box.x + (35 - ui.box.x) * 0.3
+        ui.box.y = ui.box.y + (253 - ui.box.y) * 0.3
+        ui.box.width = ui.box.width + (570 - ui.box.width) * 0.3
+        ui.box.height = ui.box.height + (135 - ui.box.height) * 0.3
     end
 end
 

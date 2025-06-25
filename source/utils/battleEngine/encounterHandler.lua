@@ -96,11 +96,7 @@ function encounterHandler.update(dt)
     end
 
     if battle.state == 'attack' and battle.turn == 'enemies' then
-        if input.check('menu', 'pressed') then
-            input.refresh()
-            actTextI = 1
-            battleEngine.changeBattleState('buttons', 'player')
-        end
+        encounter.attacks[battle.turnCount].update(dt)
     end
 end
 
@@ -108,6 +104,9 @@ function encounterHandler.draw()
     love.graphics.setColor(1, 1, 1)
     for _, enemy in ipairs(encounterHandler.enemies) do
         enemy:draw()
+    end
+    if battle.state == 'attack' and battle.turn == 'enemies' then
+        encounter.attacks[battle.turnCount].draw()
     end
 end
 

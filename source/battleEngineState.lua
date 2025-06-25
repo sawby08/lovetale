@@ -12,7 +12,6 @@ local fadeOpacity = 1
 function battleEngine.changeBattleState(state, turn)
     if turn == 'player' then
         if state == 'buttons' then
-            ui.newBoxParams(35, 253, 570, 135)
             if battle.state == 'attack' and battle.turn == 'enemies' then
                 battle.choice = player.lastButton
                 battle.subchoice = 0
@@ -62,11 +61,19 @@ function battleEngine.changeBattleState(state, turn)
             writer:setParams("* YOU WON!     \n* What you've won has not been\n  decided yet.", 52, 274, fonts.determination, 0.02, writer.voices.menuText)
         end
     elseif turn == 'enemies' then
-        ui.newBoxParams(math.floor(320 - 135/2), 253, 135, 135)
         player.heart.x = 312
         player.heart.y = 312
+        if state == 'dialogue' then
+            if encounter.encounterType == "random" then
+                battle.turnCount = love.math.random(1, #encounter.attacks)
+            else
+                battle.turnCount = battle.turnCount + 1
+            end
+            writer:setParams("No proper dialogue yet. Just press Z[break]to go to the attack.", 0, 0, fonts.determination, 0.02, writer.voices.menuText)
+        end
         if state == 'attack' then
             writer:stop()
+            encounter.attacks[battle.turnCount].init()
         end
     else
         error('Turn type ' .. turn .. ' not valid, can only either be player or enemies')

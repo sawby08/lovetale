@@ -131,6 +131,54 @@ data.enemyData = {
     }
 }
 
+data.attacks = {
+    {
+        boxDims = {
+            x = math.floor(320 - 135/2),
+            y = 253,
+            width = 135,
+            height = 135
+        },
+        init = function()
+
+        end,
+        update = function(dt)
+            if input.check('menu', 'pressed') then
+                local battleEngine = require 'source.battleEngineState'
+                input.refresh()
+                battleEngine.changeBattleState('buttons', 'player')
+            end
+        end,
+        draw = function()
+            love.graphics.setColor(1, 1, 1)
+            love.graphics.print("Press C/CTRL to go back to the menu\nPress 1 to use red soul\nPress 2 to use blue soul\nVariation 1")
+        end
+    },
+
+    {
+        boxDims = {
+            x = math.floor(320 - 200/2),
+            y = 253,
+            width = 200,
+            height = 50
+        },
+        init = function()
+
+        end,
+        update = function(dt)
+            if input.check('menu', 'pressed') then
+                local battleEngine = require 'source.battleEngineState'
+                input.refresh()
+                battleEngine.changeBattleState('buttons', 'player')
+            end
+        end,
+        draw = function()
+            love.graphics.setColor(1, 1, 1)
+            love.graphics.print("Press C/CTRL to go back to the menu\nPress 1 to use red soul\nPress 2 to use blue soul\nVariation 2")
+        end
+    }
+}
+
 data.playerLove = 1
 data.playerName = "Sawby"
 data.playerInventory = {11, 1, 1, 23, 17, 19, 19, 52}
