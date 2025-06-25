@@ -47,6 +47,16 @@ data.enemyData = {
                     "[clear]* Enemy 1 joins in.     \n* Enemy 1's DEF increased by 2!"
                 }
             },
+            {
+                name = 'Command',
+                execute = function(self)
+                    self.enemy.canDodge = false
+                end,
+                text = {
+                    '[clear]* You tell Enemy 1 to stop[break]  dodging.',
+                    '[clear]* They comply!      [break]* Enemy 1 will not dodge any[break]  further attacks.'
+                }
+            }
         },
         canSpare = true,
         showHPBar = true,
