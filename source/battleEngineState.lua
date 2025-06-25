@@ -2,6 +2,7 @@ local battleEngine = {}
 
 local refs = {
     main = love.graphics.newImage("refs/main.png"),
+    fight = love.graphics.newImage("refs/fight.png"),
     acts = love.graphics.newImage("refs/acts.png"),
     items = love.graphics.newImage("refs/items.png"),
     choose = love.graphics.newImage("refs/choose.png")
@@ -11,6 +12,7 @@ local fadeOpacity = 1
 function battleEngine.changeBattleState(state, turn)
     if turn == 'player' then
         if state == 'buttons' then
+            ui.newBoxParams(35, 253, 570, 135)
             if battle.state == 'attack' and battle.turn == 'enemies' then
                 battle.choice = player.lastButton
                 battle.subchoice = 0
@@ -60,6 +62,9 @@ function battleEngine.changeBattleState(state, turn)
             writer:setParams("* YOU WON!     \n* What you've won has not been\n  decided yet.", 52, 274, fonts.determination, 0.02, writer.voices.menuText)
         end
     elseif turn == 'enemies' then
+        ui.newBoxParams(math.floor(320 - 135/2), 253, 135, 135)
+        player.heart.x = 312
+        player.heart.y = 312
         if state == 'attack' then
             writer:stop()
         end
@@ -89,12 +94,16 @@ function battleEngine.load(encounterName)
         menuselect = love.audio.newSource('assets/sound/menuSelect.ogg', 'static'),
         playerheal = love.audio.newSource('assets/sound/playerHeal.ogg', 'static'),
         flee = love.audio.newSource("assets/sound/runaway.wav", "static"),
-        dust = love.audio.newSource("assets/sound/enemydust.wav", "static")
+        dust = love.audio.newSource("assets/sound/enemydust.wav", "static"),
+        slice = love.audio.newSource("assets/sound/slice.wav", "static"),
+        hit = love.audio.newSource("assets/sound/hitsound.wav", "static"),
+        hurt = love.audio.newSource("assets/sound/hurtsound.wav", "static")
     }
     fonts = {
         mars = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
         determination = love.graphics.newFont('assets/fonts/determination-mono.ttf', 32),
         dotumche = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
+        attack = love.graphics.newFont("assets/fonts/attack.ttf", 24)
     }
 
     -- Set all sounds to player configuration
@@ -159,17 +168,16 @@ end
 function battleEngine.draw()
     encounter.background()
 
+    encounter.draw() -- basically draws the enemies and the background
     ui.draw()
     writer:draw()
-
-    encounter.draw() -- basically draws the enemies and the background
     player.draw()
 
     -- Saves the graphics state so drawing the ref and black base doesn't mess up the other stuff
     love.graphics.push("all")
 
     love.graphics.setColor(1, 1, 1, 0)
-    love.graphics.draw(refs.choose, 0, 0)
+    love.graphics.draw(refs.fight, 0, 0)
 
     love.graphics.pop()
 

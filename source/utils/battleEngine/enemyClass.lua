@@ -41,7 +41,6 @@ function Enemy:new(config)
         table.insert(self.segments, segment)
     end
 
-
     for _, act in ipairs(self.acts) do
         act.enemy = self
     end
@@ -54,7 +53,6 @@ function Enemy:draw()
     for _, segment in ipairs(self.segments) do
         if self.status == "alive" then
             love.graphics.setColor(segment.color, 1)
-            segment.animation(self, segment)
         else
             love.graphics.setColor(1, 1, 1, 0.5)
         end
@@ -73,7 +71,11 @@ function Enemy:draw()
 end
 
 function Enemy:update(dt)
-    -- nothing
+    for _, segment in ipairs(self.segments) do
+        if self.status == "alive" then
+            segment.animation(self, segment, dt)
+        end
+    end
 end
 
 return Enemy

@@ -52,8 +52,8 @@ data.enemyData = {
         showHPBar = true,
         canDodge = false,
 
-        hp = 100,
-        maxHp = 100,
+        hp = 80,
+        maxHp = 80,
         attack = 2,
         defense = 5,
 
@@ -69,7 +69,7 @@ data.enemyData = {
             yScale = 1,
             xOrigin = 0,
             yOrigin = 0,
-            animation = function(self)
+            animation = function(enemy, segment, dt)
                 -- nothing
             end
         }
@@ -94,8 +94,8 @@ data.enemyData = {
         showHPBar = true,
         canDodge = false,
 
-        hp = 50,
-        maxHp = 50,
+        hp = 100,
+        maxHp = 100,
         attack = 2,
         defense = 2,
 
@@ -112,10 +112,9 @@ data.enemyData = {
             yScale = 1,
             xOrigin = 0,
             yOrigin = 0,
-            animation = function(enemy, segment)
-                local dt = love.timer.getDelta()
+            animation = function(enemy, segment, dt)
                 local timer = love.timer.getTime()
-                segment.y = (math.sin(timer * 2) * 14) - 7
+                segment.y = (math.sin(timer * 2) * 14) - 7 * dt
             end
             }
         }

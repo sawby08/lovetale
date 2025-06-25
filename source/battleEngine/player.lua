@@ -1,7 +1,7 @@
 local player = {}
 local battleEngine = require 'source.battleEngineState'
 local xvel, yvel = 0, 0
-local jumpstage, vspeed = 2, 0
+local jumpstage, vspeed = 2, -1
 
 -- Load heart image and position, global so other objects can place it
 player.heart = {
@@ -204,7 +204,9 @@ function player.update(dt)
                 if battle.choice == 0 and encounter.enemies[battle.subchoice+1].status == "alive" then
                     player.lastButton = battle.choice
                     battle.choice = -1
-                    battleEngine.changeBattleState('attack', 'enemies')
+                    player.chosenEnemy = battle.subchoice + 1
+                    battleEngine.changeBattleState('fight', 'player')
+                    ui.setUpTarget()
                     sfx.menuselect:stop()
                     sfx.menuselect:play()
                 elseif battle.choice == 1 and encounter.enemies[battle.subchoice+1].status == "alive" then
@@ -245,13 +247,11 @@ function player.update(dt)
     elseif battle.turn == 'enemies' then
         if battle.state == 'attack' then
             xvel, yvel = 0, 0
-            local speed = 4
-            if input.check('cancel', 'held') then
-                speed = 2
-            else
-                speed = 4
-            end
             if player.mode == 1 then -- Red soul movement
+                local speed = 4
+                if input.check('cancel', 'held') then
+                    speed = 2
+                end
                 if input.check('up', 'held') then
                     yvel = yvel - speed
                 end
@@ -265,6 +265,10 @@ function player.update(dt)
                     xvel = xvel + speed
                 end
             elseif player.mode == 2 then -- Blue soul movement
+                local speed = 5
+                if input.check('cancel', 'held') then
+                    speed = 2
+                end
                 if input.check('left', 'held') then
                     xvel = xvel - speed
                 end
@@ -293,6 +297,9 @@ function player.update(dt)
                     player.heart.y = ui.box.y + ui.box.height - 19
                     jumpstage = 1
                     vspeed = 0
+                end
+                if player.heart.y <= ui.box.y - ui.box.height + 2 then
+                    vspeed = 1
                 end
                 if input.check('up', 'held') and jumpstage == 1 then
                     jumpstage = 2

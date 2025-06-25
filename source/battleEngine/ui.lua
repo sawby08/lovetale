@@ -28,10 +28,40 @@ end
 local hp = love.graphics.newImage('assets/images/ui/spr_hpname_0.png')
 local kr = love.graphics.newImage('assets/images/ui/spr_krmeter_0.png')
 
+-- Load graphics for Fight ui
+local target = love.graphics.newImage('assets/images/ui/spr_target_0.png')
+local targetChoice = {
+    love.graphics.newImage('assets/images/ui/spr_targetchoice_0.png'),
+    love.graphics.newImage('assets/images/ui/spr_targetchoice_1.png')}
+local slice = {
+    love.graphics.newImage('assets/images/ui/slice/spr_slice_o_0.png'),
+    love.graphics.newImage('assets/images/ui/slice/spr_slice_o_1.png'),
+    love.graphics.newImage('assets/images/ui/slice/spr_slice_o_2.png'),
+    love.graphics.newImage('assets/images/ui/slice/spr_slice_o_3.png'),
+    love.graphics.newImage('assets/images/ui/slice/spr_slice_o_4.png'),
+    love.graphics.newImage('assets/images/ui/slice/spr_slice_o_5.png')}
+local targetX, targetMode, targetFrame = 38, "left", 1
+local sliceFrame, sliceTimer = 1, 0
+local damage = 0
+local targetTimer = 0
+local damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
+
+function ui.setUpTarget()
+    if love.math.random(1, 2) == 1 then
+        targetX = 38
+        targetMode = "left"
+    else
+        targetX = 640-38
+        targetMode = "right"
+    end
+    targetFrame = love.math.random(1, 2)
+    damageTextY = encounter.enemies[player.chosenEnemy].y + 125
+end
+
 function ui.load()
     -- Set box dimensions
     ui.box = {
-        x = 320 - 570/2,
+        x = 35,
         y = 253,
         width = 570,
         height = 135,
@@ -43,6 +73,67 @@ function ui.update(dt)
     -- Disable item menu if player doesn't have any items
     if #player.inventory < 1 then
         ui.buttons[2].canSelect = false
+    end
+
+    if battle.state == "fight" then
+        damage = math.floor(((math.abs(math.abs(targetX - 319) - 319) / 10) / encounter.enemies[player.chosenEnemy].defense) * (1 + itemManager.getPropertyFromID(player.weapon, 'id')))
+        if targetMode == "left" then
+            targetX = targetX + 12 * dt*30
+            if targetX > 640-38 then -- If it goes out of the box, miss
+                targetMode = "miss"
+                damageType = "miss"
+                damageShow = true
+            end
+        end
+        if targetMode == "right" then -- If it goes out of the box, miss
+            targetX = targetX - 12 * dt*30
+            if targetX < 38 then
+                targetMode = "miss"
+                damageType = "miss"
+                damageShow = true
+            end
+        end
+        if input.check('confirm', 'pressed') and targetMode ~= "miss" then
+            targetMode = "attack"
+            damageType = "success"
+            sfx.slice:play()
+        end
+        if targetMode == "attack" then
+            -- Animate targetchoice
+            targetTimer = targetTimer + dt
+            if targetTimer > 0.075 then
+                targetTimer = 0
+                targetFrame = targetFrame + 1
+                if targetFrame > 2 then
+                    targetFrame = 1
+                end
+            end
+
+            -- Animate slice
+            sliceTimer = sliceTimer + dt
+            if sliceTimer > 0.1 then
+                sliceTimer = 0
+                sliceFrame = sliceFrame + 1
+            end
+
+            -- Trigger enemy damage
+            if sliceFrame == 11 then
+                sliceFrame = 12
+                sfx.hit:play()
+                encounter.enemies[player.chosenEnemy].hp = encounter.enemies[player.chosenEnemy].hp - damage
+                damageShow = true
+                damageTextYvel = 12
+                damageTextY = encounter.enemies[player.chosenEnemy].y + 45
+            end
+
+            if damageShow and damageType ~= "miss" then
+                damageTextYvel = damageTextYvel - 1 *dt*30
+                damageTextY = damageTextY - damageTextYvel
+            end
+            if damageTextY > encounter.enemies[player.chosenEnemy].y + 45 then
+                damageTextY = encounter.enemies[player.chosenEnemy].y + 45
+            end
+        end
     end
 end
 
@@ -186,6 +277,39 @@ function ui.draw()
         if encounter.canFlee then
             love.graphics.setColor(1, 1, 1)
             love.graphics.print('  * Flee', 68, 306)
+        end
+    end
+
+    -- Draw fight ui
+    if battle.state == "fight" then
+        love.graphics.draw(target, 38, 256)
+        if targetMode ~= "miss" then
+            love.graphics.draw(targetChoice[targetFrame], targetX, 256)
+        end
+        if targetMode == "attack" and sliceFrame < 7 then
+            love.graphics.draw(slice[sliceFrame], encounter.enemies[player.chosenEnemy].x+35, encounter.enemies[player.chosenEnemy].y)
+        end
+        if damageShow then
+            if damageType ~= "miss" then
+                love.graphics.setColor(0, 0, 0)
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-3, encounter.enemies[player.chosenEnemy].y-3, 100+6, 15+6)
+                love.graphics.setColor(.3, .3, .3)
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x, encounter.enemies[player.chosenEnemy].y, 100, 15)
+                love.graphics.setColor(0, 1, 0)
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x, encounter.enemies[player.chosenEnemy].y, encounter.enemies[player.chosenEnemy].hp / encounter.enemies[player.chosenEnemy].maxHp * 100, 15)
+
+                love.graphics.setColor(0, 0, 0)
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x+12-3, damageTextY-3, fonts.attack:getWidth(damage), fonts.attack:getHeight(damage)+6)
+                love.graphics.setFont(fonts.attack)
+                love.graphics.setColor(.8, 0, 0)
+                love.graphics.print(damage, encounter.enemies[player.chosenEnemy].x+12, damageTextY)
+            else
+                love.graphics.setColor(0, 0, 0)
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x - 12-3, damageTextY-3, fonts.attack:getWidth("MISS"), fonts.attack:getHeight("MISS")+6)
+                love.graphics.setFont(fonts.attack)
+                love.graphics.setColor(.5, .5, .5)
+                love.graphics.print("MISS", encounter.enemies[player.chosenEnemy].x - 12, damageTextY)
+            end
         end
     end
 end

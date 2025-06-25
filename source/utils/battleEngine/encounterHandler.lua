@@ -68,6 +68,9 @@ function encounterHandler.doAct()
 end
 
 function encounterHandler.update(dt)
+    for _, enemy in ipairs(encounterHandler.enemies) do
+        enemy:update(dt)
+    end
     if encounterHandler.bgm then encounter.bgm:play() end
     if battle.state == "flee" or battle.state == "end" then
         if encounterHandler.bgm then
