@@ -72,6 +72,13 @@ function encounterHandler.doAct()
 end
 
 function encounterHandler.update(dt)
+    player.stats.attack = itemManager.getPropertyFromID(player.weapon, 'stat') + ((player.stats.love <= 9) and 2 * (player.stats.love - 1) or 0)
+    if player.armor == 4 then -- Set defense to 0 if armor is Bandage
+        player.stats.defense = (player.stats.love - 1) / 4
+    else
+        player.stats.defense = itemManager.getPropertyFromID(player.armor, 'stat') + (player.stats.love - 1) / 4
+    end
+    
     for _, enemy in ipairs(encounterHandler.enemies) do
         enemy:update(dt)
     end
