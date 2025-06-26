@@ -16,6 +16,8 @@
 
 - Enemy attacks have been started, but aren't a big priority until I've fully finished progamming FIGHTing. Things such as player damage and game over don't exist yet.
 
+<p>My overall progress estimation is ~70% completed. I hope to have this completely ready to use by Undertale's 10th year anniversary.</p>
+
 ### Credits
 <p>I'm the only person working on this engine, but I used stuff from these cool people!</p>
 
