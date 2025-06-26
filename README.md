@@ -24,4 +24,4 @@
 [Toby Fox](https://x.com/tobyfox) - Developer of UNDERTALE, also the composer of Stronger Monsters. </br>
 [Temmie Chang](https://x.com/tuyoki) - Developer of UNDERTALE. </br>
 
-<p>My Discord username is `@sawby08` if you need anything or if you're willing to offer help!</p>
+<p>My Discord username is @sawby08 if you need anything or if you're willing to offer help!</p>
