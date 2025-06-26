@@ -77,7 +77,11 @@ function ui.update(dt)
 
     -- Update stuff for the fight ui
     if battle.state == "fight" then
-        damage = math.floor(((math.abs(math.abs(targetX - 319) - 319) / 5) / encounter.enemies[player.chosenEnemy].defense) * (1 + player.stats.attack))
+        if encounter.enemies[player.chosenEnemy].canSpare then
+            damage = encounter.enemies[player.chosenEnemy].maxHp + math.floor(((math.abs(math.abs(targetX - 319) - 319) / 5) / encounter.enemies[player.chosenEnemy].defense) * (1 + player.stats.attack))
+        else
+            damage = math.floor(((math.abs(math.abs(targetX - 319) - 319) / 5) / encounter.enemies[player.chosenEnemy].defense) * (1 + player.stats.attack))
+        end
         if targetMode == "left" then
             targetX = targetX + 12 * dt*30
             if targetX > 640-38 then -- If it goes out of the box, miss

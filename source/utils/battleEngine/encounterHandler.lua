@@ -40,18 +40,22 @@ function encounterHandler.loadEncounter(encounterData)
     player.inventory = encounterHandler.playerInventory or {}
     player.hasKR = encounterHandler.playerHasKR or false
 
-    player.stats.maxHp = 16 + (player.stats.love * 4)
+    if player.stats.love == 20 then
+        player.stats.maxHp = 99
+    else
+        player.stats.maxHp = 16 + (player.stats.love * 4)
+    end
     player.stats.hp = player.stats.maxHp
     player.kr = 0
 
     player.weapon = 3
     player.armor = 4
 
-    player.stats.attack = itemManager.getPropertyFromID(player.weapon, 'stat')
+    player.stats.attack = itemManager.getPropertyFromID(player.weapon, 'stat') + ((player.stats.love <= 9) and 2 * (player.stats.love - 1) or 0)
     if player.armor == 4 then -- Set defense to 0 if armor is Bandage
-        player.stats.defense = 0
+        player.stats.defense = (player.stats.love - 1) / 4
     else
-        player.stats.defense = itemManager.getPropertyFromID(player.armor, 'stat')
+        player.stats.defense = itemManager.getPropertyFromID(player.armor, 'stat') + (player.stats.love - 1) / 4
     end
 end
 

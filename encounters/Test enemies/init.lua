@@ -51,6 +51,7 @@ data.enemyData = {
                 name = 'Command',
                 execute = function(self)
                     self.enemy.canDodge = false
+                    self.enemy.showHPBar = true
                 end,
                 text = {
                     '[clear]* You tell Enemy 1 to stop[break]  dodging.',
@@ -59,7 +60,7 @@ data.enemyData = {
             }
         },
         canSpare = true,
-        showHPBar = true,
+        showHPBar = false,
         canDodge = true,
 
         hp = 80,
