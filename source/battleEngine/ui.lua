@@ -75,8 +75,9 @@ function ui.update(dt)
         ui.buttons[2].canSelect = false
     end
 
+    -- Update stuff for the fight ui
     if battle.state == "fight" then
-        damage = math.floor(((math.abs(math.abs(targetX - 319) - 319) / 10) / encounter.enemies[player.chosenEnemy].defense) * (1 + itemManager.getPropertyFromID(player.weapon, 'id')))
+        damage = math.floor(((math.abs(math.abs(targetX - 319) - 319) / 5) / encounter.enemies[player.chosenEnemy].defense) * (1 + player.stats.attack))
         if targetMode == "left" then
             targetX = targetX + 12 * dt*30
             if targetX > 640-38 then -- If it goes out of the box, miss
@@ -97,12 +98,13 @@ function ui.update(dt)
                 damageType = "miss"
                 damageShow = true
                 battleEngine.changeBattleState("dialogue", "enemies")
-                if encounter.enemies[player.chosenEnemy].hp == 0 then
+                if encounter.enemies[player.chosenEnemy].hp == 0 then   -- Kill enemy if hp is 0
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
                 end
             end
         end
+        -- When z is pressed while target is moving
         if input.check('confirm', 'pressed') and targetMode ~= "miss" and targetMode ~= "attack" then
             if encounter.enemies[player.chosenEnemy].canDodge then
                 targetMode = "attack"
@@ -156,11 +158,11 @@ function ui.update(dt)
             -- Go to enemy dialogue
             if sliceFrame == 28 then
                 sliceFrame = 29
-                battleEngine.changeBattleState("dialogue", "enemies")
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
                 end
+                battleEngine.changeBattleState("dialogue", "enemies")
             end
 
             if damageShow then
@@ -178,6 +180,8 @@ function ui.update(dt)
             end
         end
     end
+
+    -- Update box
     if battle.turn == "enemies" then
         targetScale = targetScale + dt*2
         fightUiAlpha = fightUiAlpha - dt*2

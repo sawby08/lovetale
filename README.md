@@ -3,8 +3,18 @@
 
 !["A screenshot of the LÖVETALE engine."](./github/screenie.png "A screenshot of the LÖVETALE engine.")
 
-### Progress Roadmap
-<p>As of right now, ACT and ITEM are completely finished. MERCY is *almost* finished but I have yet to code in the sparing particle system. FIGHT has started, but it's still a heavy work in progress because I'm having a hard time coding it in a way that I'd like. My goal right now is to finish fighting and to implement a bullet system for the monsters, but later on I'd like to write something like a wiki to better explain how this works, and to optimize the code so it works with love.js.</p>
+### Progress
+<p>This engine is still being worked on and is not finished. Here's a basic list of what is and isn't finished:</p>
+
+- FIGHTing is being worked on, but is not finished. Basic functionality is there but polish and accuracy improvements are needed. (Any help with this would be greatly appreciated!! Especially with programming in the enemy dust animation.)
+
+- ACTing is completely finished.
+
+- ITEMs are completely finished, besides item specific effects such as the Sea Tea's speed increase and item specific consumption sounds. I don't think these are important enough to work on right now, but later on I might work on putting those in.
+
+- MERCY is completely finished, besides the particle effect that shows up when you spare an enemy.
+
+- Enemy attacks have been started, but aren't a big priority until I've fully finished progamming FIGHTing. Things such as player damage and game over don't exist yet.
 
 ### Credits
 <p>I'm the only person working on this engine, but I used stuff from these cool people!</p>
@@ -13,3 +23,5 @@
 [Davidobot's post on the LOVE2D forums](https://love2d.org/forums/viewtopic.php?p=199030&sid=5e50e42e22e4538ca0f3f7b0717aa2f2#p199030) - FPS Limiter. </br>
 [Toby Fox](https://x.com/tobyfox) - Developer of UNDERTALE, also the composer of Stronger Monsters. </br>
 [Temmie Chang](https://x.com/tuyoki) - Developer of UNDERTALE. </br>
+
+<p>My Discord username is `@sawby08` if you need anything or if you're willing to offer help!</p>

@@ -158,9 +158,9 @@ data.attacks = {
     {
         boxDims = {
             x = math.floor(320 - 200/2),
-            y = 253,
+            y = 203,
             width = 200,
-            height = 50
+            height = 185
         },
         init = function()
 

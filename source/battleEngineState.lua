@@ -62,7 +62,11 @@ function battleEngine.changeBattleState(state, turn)
         end
     elseif turn == 'enemies' then
         player.heart.x = 312
-        player.heart.y = 312
+        if player.mode == 2 then
+            player.heart.y = encounter.attacks[battle.turnCount].boxDims.y + encounter.attacks[battle.turnCount].boxDims.height
+        else
+            player.heart.y = 312
+        end
         if state == 'dialogue' then
             if encounter.encounterType == "random" then
                 battle.turnCount = love.math.random(1, #encounter.attacks)
@@ -152,12 +156,6 @@ function battleEngine.update(dt)
     if fadeOpacity > 0 then
         fadeOpacity = fadeOpacity - 0.125 * dt*30
     end
-    encounter.update(dt)
-
-    ui.update(dt)
-    player.update(dt)
-    writer:update(dt)
-
     -- Stop fight when all enemies are either spared or killed
     if battle.state ~= "end" then
         local noneAreAlive = true
@@ -170,11 +168,15 @@ function battleEngine.update(dt)
             battleEngine.changeBattleState('end', 'player')
         end
     end
+    encounter.update(dt)
+
+    ui.update(dt)
+    player.update(dt)
+    writer:update(dt)
 end
 
 function battleEngine.draw()
     encounter.background()
-
     encounter.draw() -- basically draws the enemies and the background
     ui.draw()
     writer:draw()
