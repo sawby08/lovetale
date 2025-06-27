@@ -206,6 +206,26 @@ function ui.update(dt)
     end
 end
 
+function ui.drawbox(part)
+    love.graphics.push("all")
+
+    love.graphics.translate(ui.box.x, ui.box.y)
+    love.graphics.rotate(ui.box.direction)
+
+    if part == "fill" then
+        love.graphics.setColor(0, 0, 0) -- Fill
+        love.graphics.rectangle('fill', 0, 0, ui.box.width, ui.box.height)
+    end
+    if part == "line" then
+        love.graphics.setColor(1, 1, 1) -- Line
+        love.graphics.setLineWidth(5)
+        love.graphics.setLineStyle('rough')
+        love.graphics.rectangle('line', 0, 0, ui.box.width, ui.box.height)
+    end
+
+    love.graphics.pop()
+end
+
 function ui.draw()
     -- Draw buttons
     for _, button in pairs(ui.buttons) do
@@ -276,21 +296,6 @@ function ui.draw()
             love.graphics.print(player.stats.hp .. ' / ' .. player.stats.maxHp, 289 + player.stats.maxHp*1.25, 400)
         end
     end
-
-    -- Draw box
-    love.graphics.push("all")
-
-    love.graphics.translate(ui.box.x, ui.box.y)
-    love.graphics.rotate(ui.box.direction)
-
-    love.graphics.setColor(0, 0, 0, .50) -- Fill
-    love.graphics.rectangle('fill', 0, 0, ui.box.width, ui.box.height)
-    love.graphics.setColor(1, 1, 1) -- Line
-    love.graphics.setLineWidth(5)
-    love.graphics.setLineStyle('rough')
-    love.graphics.rectangle('line', 0, 0, ui.box.width, ui.box.height)
-
-    love.graphics.pop()
 
     -- Draw text
     love.graphics.setFont(fonts.determination)

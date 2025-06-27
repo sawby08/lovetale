@@ -96,7 +96,7 @@ function battleEngine.load(encounterName)
         state = 'buttons',
         choice = 0,
         subchoice = 0,
-        turnCount = 1
+        turnCount = 2
     }
 
     -- Import assets
@@ -177,7 +177,9 @@ end
 
 function battleEngine.draw()
     encounter.background()
-    encounter.draw() -- basically draws the enemies and the background
+    ui.drawbox('fill') -- Separate function so attacks draw over
+    ui.drawbox('line') -- Separate function so attacks draw over
+    encounter.draw()
     ui.draw()
     writer:draw()
     player.draw()

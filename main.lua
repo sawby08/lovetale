@@ -66,6 +66,7 @@ function love.load()
     end
     
     currentScene.load('Test enemies')
+    player.hitboxLenience = config.player.hitboxLenience
     camera = Camera.new(640, 480)
 end
 

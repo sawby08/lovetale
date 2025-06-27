@@ -1,7 +1,9 @@
 local data = {}
-
 data.encounterPath = "encounters/Test enemies/" -- Makes it less annoying to call for files within the encounter directory
-
+local Bullets = require(data.encounterPath .. 'attacks/example')
+local bullets = {}
+local attackTimer = 0
+local timeSince = 0
 data.text = {
     "[clear]* The test enemies draw near.",
     "[clear]* [red][shake]Lorem [green][wave]ipsum [clear][blue]dolar[clear].",
@@ -59,7 +61,7 @@ data.enemyData = {
                 }
             }
         },
-        canSpare = true,
+        canSpare = false,
         showHPBar = false,
         canDodge = true,
 
@@ -141,7 +143,7 @@ data.attacks = {
             height = 135
         },
         init = function()
-
+            
         end,
         update = function(dt)
             if input.check('menu', 'pressed') then
@@ -169,23 +171,50 @@ data.attacks = {
             height = 185
         },
         init = function()
-
+            attackTimer = 0
+            bullets = {}
         end,
         update = function(dt)
             if input.check('menu', 'pressed') then
                 local battleEngine = require 'source.battleEngineState'
                 input.refresh()
                 battleEngine.changeBattleState('buttons', 'player')
+                bullets = {}
             end
             if love.keyboard.isDown('1') then
                 player.mode = 1
             elseif love.keyboard.isDown('2') then
                 player.mode = 2
             end
+
+            timeSince = timeSince + dt
+            if timeSince > 1/30 then
+                attackTimer = attackTimer + 1
+            end
+
+            if attackTimer == 30 then
+                table.insert(bullets, Bullet:create(125, 312, 2, 0, 'blue', false))
+                table.insert(bullets, Bullet:create(125, 312, 4, 0, 'orange', true))
+                table.insert(bullets, Bullet:create(125, 312, 6, 0, 'orange', true))
+                table.insert(bullets, Bullet:create(125, 312, 8, 0, 'blue', false))
+            end
+
+            for i = #bullets, 1, -1 do
+                local b = bullets[i]
+                b:update(dt)
+
+                if b.remove then
+                    table.remove(bullets, i)
+                end
+            end
         end,
         draw = function()
             love.graphics.setColor(1, 1, 1)
-            love.graphics.print("Press C/CTRL to go back to the menu\nPress 1 to use red soul\nPress 2 to use blue soul\nVariation 2")
+            love.graphics.print("Press C/CTRL to go back to the menu\nPress 1 to use red soul\nPress 2 to use blue soul\nVariation 2\nAttack timer: " .. attackTimer)
+            for i, b in ipairs(bullets) do
+                b:draw()
+            end
+
         end
     }
 }
@@ -193,7 +222,7 @@ data.attacks = {
 data.playerLove = 1
 data.playerName = "Sawby"
 data.playerInventory = {11, 1, 1, 23, 17, 19, 19, 52}
-data.playerHasKR = false
+data.playerHasKR = true
 data.playerWeapon = 3   -- Use ID from the item manager
 data.playerArmor = 4    -- Use ID from the item manager
 

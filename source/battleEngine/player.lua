@@ -98,6 +98,10 @@ local function performMove(type, number)
        sfx.menumove:play()
     end
 end
+
+function player.hurt()
+    player.stats.hp = player.stats.hp - 1
+end
         
 
 function player.load()
@@ -105,6 +109,7 @@ function player.load()
 end
 
 function player.update(dt)
+    local lx, ly = player.heart.x, player.heart.y
     if battle.turn == 'player' then
         if battle.state == "flee" then
             player.heart.x = player.heart.x - 2 * dt*30
@@ -249,6 +254,7 @@ function player.update(dt)
             xvel, yvel = 0, 0
             if player.mode == 1 then -- Red soul movement
                 local speed = 4
+                jumpstage = 1
                 if input.check('cancel', 'held') then
                     speed = 2
                 end
@@ -309,6 +315,7 @@ function player.update(dt)
         end
     end
     updatePosition(dt)
+    player.isMoving = (lx ~= player.heart.x or ly ~= player.heart.y or jumpstage == 2)
 end
 
 function player.draw()

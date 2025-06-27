@@ -52,7 +52,7 @@ function Camera:shake(amountX, amountY)
 end
 
 function Camera:attachLetterBox()
-    love.graphics.setCanvas(yourCanvasName)
+    love.graphics.setCanvas({yourCanvasName, stencil=true})
     love.graphics.clear()
 end
 
