@@ -12,7 +12,7 @@
 ## Progress
 <p>This engine is still being worked on and is not finished. Here's a basic list of what is and isn't finished:</p>
 
-- FIGHTing is being worked on, but is not finished. Basic functionality is there but polish and accuracy improvements are needed. (Any help with this would be greatly appreciated!! Especially with programming in the enemy dust animation.)
+- FIGHTing is being worked on. Basic functionality is there but polish and accuracy improvements are needed. (Any help with this would be greatly appreciated!! Especially with coding in the enemy dust animation.)
 
 - ACTing is completely finished.
 
