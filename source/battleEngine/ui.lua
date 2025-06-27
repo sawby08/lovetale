@@ -189,20 +189,20 @@ function ui.update(dt)
     if battle.turn == "enemies" then
         targetScale = targetScale + dt*2
         fightUiAlpha = fightUiAlpha - dt*2
-        ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3
-        ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3
-        ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3
-        ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3
+        ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3 * dt*30
+        ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3 * dt*30
+        ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
+        ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
 
         if input.check('confirm', 'pressed') then
             battleEngine.changeBattleState('attack', 'enemies')
         end
     end
     if battle.turn == "player" then
-        ui.box.x = ui.box.x + (35 - ui.box.x) * 0.3
-        ui.box.y = ui.box.y + (253 - ui.box.y) * 0.3
-        ui.box.width = ui.box.width + (570 - ui.box.width) * 0.3
-        ui.box.height = ui.box.height + (135 - ui.box.height) * 0.3
+        ui.box.x = ui.box.x + (35 - ui.box.x) * 0.3 * dt*30
+        ui.box.y = ui.box.y + (253 - ui.box.y) * 0.3 * dt*30
+        ui.box.width = ui.box.width + (570 - ui.box.width) * 0.3 * dt*30
+        ui.box.height = ui.box.height + (135 - ui.box.height) * 0.3 * dt*30
     end
 end
 
