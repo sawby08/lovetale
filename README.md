@@ -8,6 +8,15 @@
 !["A screenshot of the LÖVETALE engine."](./github/screenie5.png "A screenshot of the LÖVETALE engine.")
 !["A screenshot of the LÖVETALE engine."](./github/screenie.gif "A screenshot of the LÖVETALE engine.")
 
+## Controls
+- Move - ↑←↓→ / WASD
+- Confirm - Z / Enter
+- Cancel - X / Shift
+- Menu - C / Control
+- Pause - Escape
+- Fullscreen - F4 or F
+
+These are customizable in the `config.ini` file
 
 ## Progress
 <p>This engine is still being worked on and is not finished. Here's a basic list of what is and isn't finished:</p>

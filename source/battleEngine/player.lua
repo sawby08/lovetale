@@ -309,12 +309,6 @@ function player.update(dt)
         end
     end
     updatePosition(dt)
-
-    if love.keyboard.isDown('1') then
-        player.mode = 1
-    elseif love.keyboard.isDown('2') then
-        player.mode = 2
-    end
 end
 
 function player.draw()
