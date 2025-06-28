@@ -2,6 +2,7 @@ local player = {}
 local battleEngine = require 'source.battleEngineState'
 local xvel, yvel = 0, 0
 local jumpstage, vspeed = 2, -1
+local invframetimer = 0
 
 -- Load heart image and position, global so other objects can place it
 player.heart = {
@@ -99,8 +100,10 @@ local function performMove(type, number)
     end
 end
 
-function player.hurt()
-    player.stats.hp = player.stats.hp - 1
+function player.hurt(damage)
+    player.stats.hp = player.stats.hp - damage
+    sfx.hurt:stop()
+    sfx.hurt:play()
 end
         
 
@@ -254,7 +257,6 @@ function player.update(dt)
             xvel, yvel = 0, 0
             if player.mode == 1 then -- Red soul movement
                 local speed = 4
-                jumpstage = 1
                 if input.check('cancel', 'held') then
                     speed = 2
                 end
@@ -315,7 +317,7 @@ function player.update(dt)
         end
     end
     updatePosition(dt)
-    player.isMoving = (lx ~= player.heart.x or ly ~= player.heart.y or jumpstage == 2)
+    player.isMoving = (lx ~= player.heart.x or ly ~= player.heart.y or (jumpstage == 2 and player.mode == 2))
 end
 
 function player.draw()

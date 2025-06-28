@@ -57,6 +57,8 @@ function encounterHandler.loadEncounter(encounterData)
     else
         player.stats.defense = itemManager.getPropertyFromID(player.armor, 'stat') + (player.stats.love - 1) / 4
     end
+
+    player.invframes = encounterHandler.playerInvFrames
 end
 
 function encounterHandler.doAct()

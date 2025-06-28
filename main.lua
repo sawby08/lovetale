@@ -1,7 +1,8 @@
-local currentScene = nil
+currentScene = nil
 local isPaused = false
-local scenes = {
-    battleEngine = require 'source.battleEngineState'
+scenes = {
+    battleEngine = require 'source.battleEngineState',
+    gameover = require 'source.gameOverState'
 }
 local borders = {
     castle = "assets/images/borders/bg_border_castle_1080.png",
@@ -39,6 +40,7 @@ end
 
 currentScene = scenes.battleEngine
 function love.load()
+    love.audio.stop()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     canvas = love.graphics.newCanvas(virtualWidth, virtualHeight)
 

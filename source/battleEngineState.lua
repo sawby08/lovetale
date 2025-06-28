@@ -69,7 +69,7 @@ function battleEngine.changeBattleState(state, turn)
         end
         if state == 'dialogue' then
             if encounter.encounterType == "random" then
-                battle.turnCount = love.math.random(1, #encounter.attacks)
+                battle.turnCount = 1
             else
                 battle.turnCount = battle.turnCount + 1
             end
@@ -96,7 +96,7 @@ function battleEngine.load(encounterName)
         state = 'buttons',
         choice = 0,
         subchoice = 0,
-        turnCount = 2
+        turnCount = 1
     }
 
     -- Import assets
@@ -173,6 +173,11 @@ function battleEngine.update(dt)
     ui.update(dt)
     player.update(dt)
     writer:update(dt)
+
+    if player.stats.hp < 1 then
+        currentScene = scenes.gameover
+        love.load()
+    end
 end
 
 function battleEngine.draw()

@@ -75,3 +75,5 @@ Optionally, you can load the engine's directory in Visual Studio Code and run it
 
 1. Open up a terminal and install LÖVE: `pacman -S love`
 2. Go to the engines directory and run `love ./`
+
+<p>(a few methods i do coding wise are a little gross sorry i don't care as long as they work)</p>

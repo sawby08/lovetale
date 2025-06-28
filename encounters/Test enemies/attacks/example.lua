@@ -10,7 +10,7 @@ local function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
          y2 < y1+h1
 end
 
-function Bullet:create(x, y, xvel, yvel, color, isMasked)
+function Bullet:create(x, y, xvel, yvel, color, isMasked, damage)
     local bullet = setmetatable({}, Bullet)
     bullet.x = x
     bullet.y = y
@@ -18,6 +18,7 @@ function Bullet:create(x, y, xvel, yvel, color, isMasked)
     bullet.yvel = yvel
     bullet.color = color
     bullet.isMasked = isMasked
+    bullet.damage = damage
     return bullet
 end
 
@@ -27,10 +28,12 @@ function Bullet:update(dt)
 
     if CheckCollision(self.x, self.y, 16, 16, player.heart.x+player.hitboxLenience, player.heart.y+player.hitboxLenience, 16 - player.hitboxLenience*2, 16 - player.hitboxLenience*2) then
         if (self.color == 'orange' and not player.isMoving) or (self.color == 'blue' and player.isMoving) or self.color == 'white' then
-            camera:shake(1, 1)
             if not player.hasKR then
+                camera:shake(1, 1)
                 self.remove = true
-                player.hurt()
+                player.hurt(self.damage)
+            else
+                player.hurt(self.damage)
             end
         end
     end
