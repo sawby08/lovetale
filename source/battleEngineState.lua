@@ -174,7 +174,7 @@ function battleEngine.update(dt)
     player.update(dt)
     writer:update(dt)
 
-    if player.stats.hp < 1 then
+    if player.stats.hp < 1 then     -- When HP is lower than 1, go to gameover scene
         currentScene = scenes.gameover
         love.load()
     end

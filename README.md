@@ -1,5 +1,5 @@
 # LÖVETALE Engine
-<p>My third attempt at writing an Undertale battle engine in LÖVE with a goal of providing an easy framework for anyone to make their own accurate fanmade battles.</p>
+<p>A learning project I'm doing that's a recreation of Undertale's battle system in LÖVE! This is mostly a personal project but you're more than welcome to use it yourself just as long as you credit me and excuse some unfortunate programming methods I've used!</p>
 
 !["A screenshot of the LÖVETALE engine."](./github/screenie1.png "A screenshot of the LÖVETALE engine.")
 !["A screenshot of the LÖVETALE engine."](./github/screenie2.png "A screenshot of the LÖVETALE engine.")
@@ -75,5 +75,3 @@ Optionally, you can load the engine's directory in Visual Studio Code and run it
 
 1. Open up a terminal and install LÖVE: `pacman -S love`
 2. Go to the engines directory and run `love ./`
-
-<p>(a few methods i do coding wise are a little gross sorry i don't care as long as they work)</p>
