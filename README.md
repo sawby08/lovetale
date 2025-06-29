@@ -69,9 +69,9 @@ Optionally, you can load the engine's directory in Visual Studio Code and run it
 ### Linux (Debian-based Distros)
 
 1. Open up a terminal and install LÖVE: `sudo apt install love`
-2. Go to the engines directory and run `love ./`
+2. Go to the engine's directory and run `love ./`
 
 ### Linux (Arch-based Distros)
 
 1. Open up a terminal and install LÖVE: `pacman -S love`
-2. Go to the engines directory and run `love ./`
+2. Go to the engine's directory and run `love ./`
