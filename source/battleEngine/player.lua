@@ -98,7 +98,6 @@ local function performMove(type, number)
        sfx.menumove:play()
     end
 end
-        
 
 function player.load()
     player.mode = 1
