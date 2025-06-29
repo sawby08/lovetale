@@ -50,7 +50,7 @@ data.enemyData = {
                     else -- Act exhaust
                         self.enemy.acts[2].text = {
                             "* You try putting your fists up\n  again.",
-                            "* Enemy 1 doesn't seem to be\n  interested anymore."
+                            "* They're already at their best[break]  defensive position."
                         }
                     end
                 end,

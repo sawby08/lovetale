@@ -99,6 +99,7 @@ function encounterHandler.update(dt)
                     performActText(battle.subchoice, actTextI)
                 else
                     battleEngine.changeBattleState('attack', 'enemies')
+                    actTextI = 1
                 end
             else
                 battleEngine.changeBattleState('attack', 'enemies')
