@@ -168,10 +168,10 @@ function player.update(dt)
                 performMove('item', 1)
             end
             if input.check('confirm', 'pressed') then
+                input.refresh()
                 battleEngine.changeBattleState('use item', 'player')
             end
             if input.check('cancel', 'pressed') then
-                input.refresh()
                 battleEngine.changeBattleState('buttons', 'player')
             end
         elseif battle.state == 'act' then
@@ -188,12 +188,12 @@ function player.update(dt)
                 performMove('act', 1)
             end
             if input.check('cancel', 'pressed') then
-                input.refresh()
                 battle.subchoice = player.chosenEnemy - 1
                 battleEngine.changeBattleState('choose enemy', 'player')
             end
             if input.check('confirm', 'pressed') then
                 battleEngine.changeBattleState('perform act', 'player')
+                input.refresh()
             end
         elseif battle.state == 'choose enemy' then
             if input.check('cancel', 'pressed') then

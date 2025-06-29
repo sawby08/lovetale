@@ -37,10 +37,7 @@ function encounterHandler.loadEncounter(encounterData)
 
     player.stats.love = encounterHandler.playerLove or 1
     player.stats.name = encounterHandler.playerName or 'chara'
-    player.inventory = {}
-    for i, item in ipairs(encounterHandler.playerInventory or {}) do
-        player.inventory[i] = item
-    end
+    player.inventory = encounterHandler.playerInventory
     player.hasKR = encounterHandler.playerHasKR or false
 
     if player.stats.love == 20 then

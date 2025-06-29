@@ -36,7 +36,11 @@ data.enemyData = {
             {
                 name = 'Talk',
                 execute = function(self)
-                    -- Nothing
+                   if not self.enemy.canDodge then
+                    self.enemy.canSpare = true
+                    self.enemy.acts[1].text[1] = "* You and Enemy 1 have a nice[break]  conversation."
+                    self.enemy.acts[1].text[2] = "* You two get along!     [break]* Enemy 1 is sparing you."
+                   end
                 end,
                 text = {
                     "* You try to talk to it but it\n  didn't respond."
@@ -139,6 +143,7 @@ data.enemyData = {
     }
 }
 
+----==== ATTACK BOX POSITIONS ====----
 data.attacks = {
     {
         boxDims = {

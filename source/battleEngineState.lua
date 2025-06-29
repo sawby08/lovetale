@@ -9,7 +9,23 @@ local refs = {
 }
 local fadeOpacity = 1
 
+local function deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else
+        copy = orig
+    end
+    return copy
+end
+
 function battleEngine.changeBattleState(state, turn)
+    input.refresh()
     if turn == 'player' then
         if state == 'buttons' then
             if battle.state == 'attack' and battle.turn == 'enemies' then
@@ -132,8 +148,11 @@ function battleEngine.load(encounterName)
     encounter = require 'source.utils.battleEngine.encounterHandler'
     itemManager = require 'source.utils.battleEngine.itemManager'
 
-    -- Load objects
-    encounter.loadEncounter(require("encounters/" .. encounterName))
+    local originalEncounterData = require("encounters/" .. encounterName)
+    local freshData = deepcopy(originalEncounterData)
+
+    encounter.loadEncounter(freshData)
+
 
     ui.load()
     ui.newButton('fight', 27, 432, 0, 'choose enemy')
