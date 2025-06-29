@@ -1,1 +1,1 @@
-the main place where your fights go
+Everything you need to add or change is in here! The only other thing you may need to modify is the love.load() function in main.lua so it directs to your encounter instead. (or you can just modify the "Text enemies" folder and not change its name.)

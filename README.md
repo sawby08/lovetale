@@ -1,5 +1,5 @@
 # LÖVETALE Engine
-<p>A learning project I'm doing that's a recreation of Undertale's battle system in LÖVE! This is mostly a personal project but you're more than welcome to use it yourself just as long as you credit me and excuse some unfortunate programming methods I've used!</p>
+<p>My third attempt at writing an Undertale battle engine in LÖVE with a goal of providing an easy framework for anyone to make their own accurate fanmade battles. Everything you need is in the "encounters" folder!</p>
 
 !["A screenshot of the LÖVETALE engine."](./github/screenie1.png "A screenshot of the LÖVETALE engine.")
 !["A screenshot of the LÖVETALE engine."](./github/screenie2.png "A screenshot of the LÖVETALE engine.")
@@ -16,7 +16,7 @@
 - Pause - Escape
 - Fullscreen - F4 or F
 
-These are customizable in the `config.ini` file
+<p>These are customizable in the `config.ini` file, as well as the enemy spare color, hitbox lenience, FPS, the usage of borders, and more.</p>
 
 ## Progress
 <p>This engine is still being worked on and is not finished. Here's a basic list of what is and isn't finished:</p>
