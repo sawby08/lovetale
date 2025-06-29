@@ -194,7 +194,7 @@ function ui.update(dt)
         ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
         ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
 
-        if input.check('confirm', 'pressed') then
+        if input.check('confirm', 'pressed') and battle.state == 'dialogue' then
             battleEngine.changeBattleState('attack', 'enemies')
         end
     end

@@ -57,8 +57,6 @@ function encounterHandler.loadEncounter(encounterData)
     else
         player.stats.defense = itemManager.getPropertyFromID(player.armor, 'stat') + (player.stats.love - 1) / 4
     end
-
-    player.invframes = encounterHandler.playerInvFrames
 end
 
 function encounterHandler.doAct()
@@ -107,10 +105,6 @@ function encounterHandler.update(dt)
             end
         end
     end
-
-    if battle.state == 'attack' and battle.turn == 'enemies' then
-        encounter.attacks[battle.turnCount].update(dt)
-    end
 end
 
 function encounterHandler.draw()
@@ -122,9 +116,6 @@ function encounterHandler.draw()
         enemy:draw()
 
         love.graphics.pop("pop")
-    end
-    if battle.state == 'attack' and battle.turn == 'enemies' then
-        encounter.attacks[battle.turnCount].draw()
     end
 end
 

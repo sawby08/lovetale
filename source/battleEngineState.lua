@@ -69,7 +69,7 @@ function battleEngine.changeBattleState(state, turn)
         end
         if state == 'dialogue' then
             if encounter.encounterType == "random" then
-                battle.turnCount = 1
+                battle.turnCount = love.math.random(1, #encounter.attacks)
             else
                 battle.turnCount = battle.turnCount + 1
             end
@@ -77,7 +77,6 @@ function battleEngine.changeBattleState(state, turn)
         end
         if state == 'attack' then
             writer:stop()
-            encounter.attacks[battle.turnCount].init()
         end
     else
         error('Turn type ' .. turn .. ' not valid, can only either be player or enemies')
@@ -174,9 +173,22 @@ function battleEngine.update(dt)
     player.update(dt)
     writer:update(dt)
 
-    if player.stats.hp < 1 then     -- When HP is lower than 1, go to gameover scene
+    -- Game over
+    if player.stats.hp < 1 then
         currentScene = scenes.gameover
         love.load()
+    end
+
+    -- DEBUG STUFF WONT BE USED LATER
+    if battle.state == "attack" and battle.turn == "enemies" then
+        if love.keyboard.isDown("1") then
+            player.mode = 1
+        elseif love.keyboard.isDown("2") then
+            player.mode = 2
+        end
+        if input.check('menu', 'pressed') then
+            battleEngine.changeBattleState('buttons', 'player')
+        end
     end
 end
 
@@ -200,6 +212,14 @@ function battleEngine.draw()
     if fadeOpacity > 0 then
         love.graphics.setColor(0, 0, 0, fadeOpacity)
         love.graphics.rectangle('fill', 0, 0, 640, 480)
+    end
+
+    -- DEBUG STUFF WONT BE USED LATER
+    if battle.state == "attack" and battle.turn == "enemies" then
+        love.graphics.setColor(0, 0, 0)
+        love.graphics.print("NO ATTACK SYSTEM YET (i restarted)\n1 - Red soul\n2 - Blue soul\n\nC/CTRL - Go to menu", -2, 2)
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.print("NO ATTACK SYSTEM YET (i restarted)\n1 - Red soul\n2 - Blue soul\n\nC/CTRL - Go to menu")
     end
 end
 

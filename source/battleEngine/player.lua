@@ -2,7 +2,6 @@ local player = {}
 local battleEngine = require 'source.battleEngineState'
 local xvel, yvel = 0, 0
 local jumpstage, vspeed = 2, -1
-local invframetimer = 0
 
 -- Load heart image and position, global so other objects can place it
 player.heart = {
@@ -98,12 +97,6 @@ local function performMove(type, number)
        sfx.menumove:stop()
        sfx.menumove:play()
     end
-end
-
-function player.hurt(damage)
-    player.stats.hp = player.stats.hp - damage
-    sfx.hurt:stop()
-    sfx.hurt:play()
 end
         
 
