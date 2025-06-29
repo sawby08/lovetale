@@ -389,7 +389,9 @@ function ui.draw()
     if battle.state == "dialogue" then
         love.graphics.setColor(1, 1, 1, fightUiAlpha)
         love.graphics.draw(target, 320, 256, 0, 1 - targetScale, 1, target:getWidth()/2)
-        love.graphics.draw(targetChoice[targetFrame], targetX, 256)
+        if targetMode ~= "miss" then
+            love.graphics.draw(targetChoice[targetFrame], targetX, 256)
+        end
     end
 end
 
