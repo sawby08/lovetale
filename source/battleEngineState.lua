@@ -38,7 +38,7 @@ function battleEngine.changeBattleState(state, turn)
             else
                 encounterText = encounter.text[love.math.random(1, #encounter.text)]
             end
-            writer:setParams(encounterText, 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+            writer:setParams(encounterText, 52, 274, fonts.main, 0.02, writer.voices.menuText)
         elseif state == 'fight' then
             battle.choice = -1
         elseif state == 'use item' then
@@ -51,14 +51,14 @@ function battleEngine.changeBattleState(state, turn)
                 sfx.playerheal:play()
                 verb = 'ate'
                 if player.stats.hp >= player.stats.maxHp then
-                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     \n* Your HP maxed out!', 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     \n* Your HP maxed out!', 52, 274, fonts.main, 0.02, writer.voices.menuText)
                 else
-                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     \n* You recovered ' .. itemManager.getPropertyFromID(selectedItem, 'stat') .. ' HP.', 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+                    writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.     \n* You recovered ' .. itemManager.getPropertyFromID(selectedItem, 'stat') .. ' HP.', 52, 274, fonts.main, 0.02, writer.voices.menuText)
                 end
             else
                 sfx.menuselect:play()
                 verb = 'equipped'
-                writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.', 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+                writer:setParams("* You " .. verb .. " the " .. itemManager.getPropertyFromID(selectedItem, 'name') .. '.', 52, 274, fonts.main, 0.02, writer.voices.menuText)
             end
         elseif state == 'perform act' then
             encounter.doAct()
@@ -70,11 +70,11 @@ function battleEngine.changeBattleState(state, turn)
                 "  * Escaped...",
                 "  * Don't slow me down."
             }
-            writer:setParams(fleeingLines[love.math.random(1, #fleeingLines)], 68, 306, fonts.determination, 0.02, writer.voices.menuText)
+            writer:setParams(fleeingLines[love.math.random(1, #fleeingLines)], 68, 306, fonts.main, 0.02, writer.voices.menuText)
             sfx.flee:play()
         elseif state == "end" then
             battle.choice = -1
-            writer:setParams("* YOU WON!     \n* What you've won has not been\n  decided yet.", 52, 274, fonts.determination, 0.02, writer.voices.menuText)
+            writer:setParams("* YOU WON!     \n* What you've won has not been\n  decided yet.", 52, 274, fonts.main, 0.02, writer.voices.menuText)
         end
     elseif turn == 'enemies' then
         player.heart.x = 312
@@ -89,7 +89,7 @@ function battleEngine.changeBattleState(state, turn)
             else
                 battle.turnCount = battle.turnCount + 1
             end
-            writer:setParams("No proper dialogue yet. Just press Z[break]to go to the attack.", 0, 0, fonts.determination, 0.02, writer.voices.menuText)
+            writer:setParams("No proper dialogue yet. Just press Z[break]to go to the attack.", 0, 0, fonts.main, 0.02, writer.voices.menuText)
         end
         if state == 'attack' then
             writer:stop()
@@ -126,9 +126,9 @@ function battleEngine.load(encounterName)
         hurt = love.audio.newSource("assets/sound/hurtsound.wav", "static")
     }
     fonts = {
-        mars = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
-        determination = love.graphics.newFont('assets/fonts/determination-mono.ttf', 32),
-        dotumche = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
+        ui = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
+        main = love.graphics.newFont('assets/fonts/determination-mono.ttf', 32),
+        dialog = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
         attack = love.graphics.newFont("assets/fonts/attack.ttf", 24)
     }
 
@@ -164,7 +164,9 @@ function battleEngine.load(encounterName)
 
     -- Go to menu or enemy turn
     if encounter.startFirst then
-        battleEngine.changeBattleState('attack', 'enemies')
+        player.lastButton = 0
+        battleEngine.changeBattleState('dialogue', 'enemies')
+        battle.choice = -1
     else
         battleEngine.changeBattleState('buttons', 'player')
     end

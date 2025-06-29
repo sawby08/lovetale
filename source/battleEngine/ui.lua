@@ -67,6 +67,7 @@ function ui.load()
         height = 135,
         direction = 0
     }
+    fightUiAlpha = 0
 end
 
 function ui.update(dt)
@@ -243,7 +244,7 @@ function ui.draw()
     end
 
     -- Draw stats text
-    love.graphics.setFont(fonts.mars)
+    love.graphics.setFont(fonts.ui)
     love.graphics.print(player.stats.name or 'chara', 30, 400) -- NAME
     love.graphics.print('LV ' .. player.stats.love, 148, 400) -- LV
 
@@ -274,11 +275,11 @@ function ui.draw()
             else
                 -- Purple color (I haven't gotten to that part yet)
             end
-            love.graphics.setFont(fonts.mars)
+            love.graphics.setFont(fonts.ui)
             love.graphics.print('0' .. player.stats.hp .. ' / ' .. player.stats.maxHp, 320 + player.stats.maxHp*1.25, 400)
         else
             love.graphics.setColor(1, 1, 1)
-            love.graphics.setFont(fonts.mars)
+            love.graphics.setFont(fonts.ui)
             love.graphics.print('0' .. player.stats.hp .. ' / ' .. player.stats.maxHp, 289 + player.stats.maxHp*1.25, 400)
         end
     else
@@ -288,17 +289,17 @@ function ui.draw()
             else
                 -- Purple color (I haven't gotten to that part yet)
             end
-            love.graphics.setFont(fonts.mars)
+            love.graphics.setFont(fonts.ui)
             love.graphics.print(player.stats.hp .. ' / ' .. player.stats.maxHp, 320 + player.stats.maxHp*1.25, 400)
         else
             love.graphics.setColor(1, 1, 1)
-            love.graphics.setFont(fonts.mars)
+            love.graphics.setFont(fonts.ui)
             love.graphics.print(player.stats.hp .. ' / ' .. player.stats.maxHp, 289 + player.stats.maxHp*1.25, 400)
         end
     end
 
     -- Draw text
-    love.graphics.setFont(fonts.determination)
+    love.graphics.setFont(fonts.main)
     if battle.state == 'choose enemy' then
         local i = 1
         for _, enemy in ipairs(encounter.enemies) do
@@ -372,14 +373,10 @@ function ui.draw()
                 love.graphics.setColor(0, 1, 0)
                 love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x, encounter.enemies[player.chosenEnemy].y, encounter.enemies[player.chosenEnemy].hp / encounter.enemies[player.chosenEnemy].maxHp * 100, 15)
 
-                love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x+12-3, damageTextY-3, fonts.attack:getWidth(damage), fonts.attack:getHeight(damage)+6)
                 love.graphics.setFont(fonts.attack)
                 love.graphics.setColor(.8, 0, 0)
                 love.graphics.print(damage, encounter.enemies[player.chosenEnemy].x+12, damageTextY)
             else
-                love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x - 12-3, damageTextY-3, fonts.attack:getWidth("MISS"), fonts.attack:getHeight("MISS")+6)
                 love.graphics.setFont(fonts.attack)
                 love.graphics.setColor(.5, .5, .5)
                 love.graphics.print("MISS", encounter.enemies[player.chosenEnemy].x - 12, damageTextY)
