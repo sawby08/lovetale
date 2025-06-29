@@ -30,7 +30,7 @@ function love.keyreleased(key)
     input.keyreleased(key)
 end
 
-local function split(str, sep)
+local function split(str, sep)  -- Helper function that loads lists from .ini files as arrays
     local result = {}
     for token in string.gmatch(str, "([^"..sep.."]+)") do
         table.insert(result, token)
@@ -66,7 +66,11 @@ function love.load()
     for i = 1, #conf.spareColor do
         conf.spareColor[i] = tonumber(conf.spareColor[i])
     end
-    
+    if love.window.getFullscreen() then
+        conf.fullscreen = true
+    else
+        conf.fullscreen = false
+    end
     currentScene.load('Test enemies')
     player.hitboxLenience = config.player.hitboxLenience
     camera = Camera.new(640, 480)
