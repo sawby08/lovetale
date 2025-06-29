@@ -136,7 +136,7 @@ function battleEngine.load(encounterName)
     encounter.loadEncounter(require("encounters/" .. encounterName))
 
     ui.load()
-    ui.newButton('fight', 27, 432, 0, 'choose enemy') -- make buttons
+    ui.newButton('fight', 27, 432, 0, 'choose enemy')
     ui.newButton('act', 185, 432, 1, 'choose enemy')
     ui.newButton('item', 343, 432, 2)
     ui.newButton('mercy', 501, 432, 3)
