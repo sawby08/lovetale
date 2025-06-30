@@ -41,6 +41,19 @@ local targetTimer = 0
 local damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
 local fightUiAlpha, targetScale = 1, 0
 
+local function drawText(text, x, y, color, outlineColor)
+    for i = -3, 3 do
+        love.graphics.setColor(outlineColor)
+        for j = -3, 3 do
+            if i ~= 3 then
+                love.graphics.print(text, x + i, y + j)
+            end
+        end
+    end
+    love.graphics.setColor(color)
+    love.graphics.print(text, x, y)
+end
+
 function ui.setUpTarget()
     if love.math.random(1, 2) == 1 then -- Randomly place targetchoice left or right
         targetX = 38
@@ -145,14 +158,14 @@ function ui.update(dt)
                     sliceFrame = 12
                     damageShow = true
                     damageTextYvel = 12
-                    damageTextY = encounter.enemies[player.chosenEnemy].y + 45 * dt*30
+                    damageTextY = encounter.enemies[player.chosenEnemy].y + 0 * dt*30
                 else
                     sliceFrame = 12
                     sfx.hit:play()
                     encounter.enemies[player.chosenEnemy].hp = encounter.enemies[player.chosenEnemy].hp - damage
                     damageShow = true
                     damageTextYvel = 12
-                    damageTextY = encounter.enemies[player.chosenEnemy].y + 45 * dt*30
+                    damageTextY = encounter.enemies[player.chosenEnemy].y + 0 * dt*30
 
                     if encounter.enemies[player.chosenEnemy].hp < 0 then
                         encounter.enemies[player.chosenEnemy].hp = 0
@@ -180,8 +193,8 @@ function ui.update(dt)
                     damageTextY = damageTextY - damageTextYvel *dt*30
                 end
             end
-            if damageTextY > encounter.enemies[player.chosenEnemy].y + 45 then
-                damageTextY = encounter.enemies[player.chosenEnemy].y + 45
+            if damageTextY > encounter.enemies[player.chosenEnemy].y + 0 then
+                damageTextY = encounter.enemies[player.chosenEnemy].y + 0
             end
         end
     end
@@ -366,20 +379,18 @@ function ui.draw()
         end
         if damageShow then
             if damageType ~= "miss" then
+                -- 149, 13
                 love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-3, encounter.enemies[player.chosenEnemy].y-3, 100+6, 15+6)
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-3 - 149/5, encounter.enemies[player.chosenEnemy].y-3+35, 149+6, 13+6)
                 love.graphics.setColor(.3, .3, .3)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x, encounter.enemies[player.chosenEnemy].y, 100, 15)
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-149/5, encounter.enemies[player.chosenEnemy].y+35, 149, 13)
                 love.graphics.setColor(0, 1, 0)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x, encounter.enemies[player.chosenEnemy].y, encounter.enemies[player.chosenEnemy].hp / encounter.enemies[player.chosenEnemy].maxHp * 100, 15)
-
+                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-149/5, encounter.enemies[player.chosenEnemy].y+35, encounter.enemies[player.chosenEnemy].hp / encounter.enemies[player.chosenEnemy].maxHp * 149, 13)
                 love.graphics.setFont(fonts.attack)
-                love.graphics.setColor(.8, 0, 0)
-                love.graphics.print(damage, encounter.enemies[player.chosenEnemy].x+12, damageTextY)
+                drawText(damage, encounter.enemies[player.chosenEnemy].x+20, damageTextY, {1, 0, 0}, {0, 0, 0})
             else
                 love.graphics.setFont(fonts.attack)
-                love.graphics.setColor(.5, .5, .5)
-                love.graphics.print("MISS", encounter.enemies[player.chosenEnemy].x - 12, damageTextY)
+                drawText("MISS", encounter.enemies[player.chosenEnemy].x, damageTextY, {.5, .5, .5}, {0, 0, 0})
             end
         end
     end

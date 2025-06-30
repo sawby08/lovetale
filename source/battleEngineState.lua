@@ -5,7 +5,8 @@ local refs = {
     fight = love.graphics.newImage("refs/fight.png"),
     acts = love.graphics.newImage("refs/acts.png"),
     items = love.graphics.newImage("refs/items.png"),
-    choose = love.graphics.newImage("refs/choose.png")
+    choose = love.graphics.newImage("refs/choose.png"),
+    damage = love.graphics.newImage("refs/damage.png")
 }
 local fadeOpacity = 1
 
@@ -129,7 +130,7 @@ function battleEngine.load(encounterName)
         ui = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
         main = love.graphics.newFont('assets/fonts/determination-mono.ttf', 32),
         dialog = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
-        attack = love.graphics.newFont("assets/fonts/attack.ttf", 24)
+        attack = love.graphics.newFont("assets/fonts/hachicro.ttf", 32)
     }
 
     -- Set all sounds to player configuration
@@ -226,7 +227,8 @@ function battleEngine.draw()
     love.graphics.push("all")
 
     love.graphics.setColor(1, 1, 1, 0)
-    love.graphics.draw(refs.fight, 0, 0)
+    love.graphics.draw(refs.damage, 0, 0)
+
 
     love.graphics.pop()
 
