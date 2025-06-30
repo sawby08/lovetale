@@ -155,6 +155,7 @@ function battleEngine.load(encounterName)
     encounter.loadEncounter(freshData)
 
 
+    -- Placements are mostly accurate to undertale, but buttons are slightly changed to be actually centered
     ui.load()
     ui.newButton('fight', 27, 432, 0, 'choose enemy')
     ui.newButton('act', 185, 432, 1, 'choose enemy')
