@@ -30,6 +30,7 @@ data.enemyData = {
         defense = 2,
         x = 145,
         y = 34,
+        dodgeOffset = -100,
 
         -----==== ACTS ====----
         acts = {

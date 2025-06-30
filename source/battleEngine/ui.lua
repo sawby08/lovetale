@@ -40,6 +40,8 @@ local damage = 0
 local targetTimer = 0
 local damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
 local fightUiAlpha, targetScale = 1, 0
+local lastEnemyX, enemyVelo = nil, 0
+local sliceX = 0
 
 local function drawText(text, x, y, color, outlineColor)
     for i = -3, 3 do
@@ -69,6 +71,7 @@ function ui.setUpTarget()
     targetTimer = 0
     damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
     fightUiAlpha, targetScale = 1, 0
+    enemyVelo = 6
 end
 
 function ui.load()
@@ -119,6 +122,7 @@ function ui.update(dt)
         end
         -- When z is pressed while target is moving
         if input.check('confirm', 'pressed') and targetMode ~= "miss" and targetMode ~= "attack" then
+            lastEnemyX = encounter.enemies[player.chosenEnemy].x
             if encounter.enemies[player.chosenEnemy].canDodge then
                 targetMode = "attack"
                 sfx.slice:play()
@@ -145,6 +149,11 @@ function ui.update(dt)
             if sliceTimer > 0.1 then
                 sliceTimer = 0
                 sliceFrame = sliceFrame + 1
+            end
+
+            -- Animate enemy dodging
+            if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+                encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
             end
 
             -- Trigger enemy damage
@@ -200,6 +209,11 @@ function ui.update(dt)
             end
         end
     end
+    if battle.state == "dialogue" then
+        if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+            encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
+        end
+    end
 
     -- Update box
     if battle.turn == "enemies" then
@@ -212,6 +226,7 @@ function ui.update(dt)
 
         if input.check('confirm', 'pressed') and battle.state == 'dialogue' then
             battleEngine.changeBattleState('attack', 'enemies')
+            lastEnemyX = nil
         end
     end
     if battle.turn == "player" then
@@ -378,21 +393,21 @@ function ui.draw()
             love.graphics.draw(targetChoice[targetFrame], targetX, 256)
         end
         if targetMode == "attack" and sliceFrame < 7 then
-            love.graphics.draw(slice[sliceFrame], encounter.enemies[player.chosenEnemy].x+35, encounter.enemies[player.chosenEnemy].y)
+            love.graphics.draw(slice[sliceFrame], lastEnemyX+35, encounter.enemies[player.chosenEnemy].y)
         end
         if damageShow then
             if damageType ~= "miss" then
                 love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-3 - 149/5, encounter.enemies[player.chosenEnemy].y-3+35, 149+6, 13+6)
+                love.graphics.rectangle('fill', lastEnemyX-3 - 149/5, encounter.enemies[player.chosenEnemy].y-3+35, 149+6, 13+6)
                 love.graphics.setColor(.3, .3, .3)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-149/5, encounter.enemies[player.chosenEnemy].y+35, 149, 13)
+                love.graphics.rectangle('fill', lastEnemyX-149/5, encounter.enemies[player.chosenEnemy].y+35, 149, 13)
                 love.graphics.setColor(0, 1, 0)
-                love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-149/5, encounter.enemies[player.chosenEnemy].y+35, encounter.enemies[player.chosenEnemy].hp / encounter.enemies[player.chosenEnemy].maxHp * 149, 13)
+                love.graphics.rectangle('fill', lastEnemyX-149/5, encounter.enemies[player.chosenEnemy].y+35, encounter.enemies[player.chosenEnemy].hp / encounter.enemies[player.chosenEnemy].maxHp * 149, 13)
                 love.graphics.setFont(fonts.attack)
-                drawText(damage, encounter.enemies[player.chosenEnemy].x+50 - fonts.attack:getWidth(damage)/2, damageTextY, {1, 0, 0}, {0, 0, 0})
+                drawText(damage, lastEnemyX+50 - fonts.attack:getWidth(damage)/2, damageTextY, {1, 0, 0}, {0, 0, 0})
             else
                 love.graphics.setFont(fonts.attack)
-                drawText("MISS", encounter.enemies[player.chosenEnemy].x, damageTextY, {.5, .5, .5}, {0, 0, 0})
+                drawText("MISS", lastEnemyX, damageTextY, {.5, .5, .5}, {0, 0, 0})
             end
         end
     end

@@ -21,6 +21,7 @@ function Enemy:new(config)
     self.segments = {}
     self.x = config.x
     self.y = config.y
+    self.dodgeOffset = config.dodgeOffset or -100
     local segmentConfigs = config.segments
     if not segmentConfigs[1] then
         segmentConfigs = { segmentConfigs }
