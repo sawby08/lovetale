@@ -24,10 +24,10 @@ data.enemyData = {
         canSpare = false,
         showHPBar = false,
         canDodge = true,
-        hp = 80,
-        maxHp = 80,
-        attack = 2,
-        defense = 5,
+        hp = 50,
+        maxHp = 50,
+        attack = 1,
+        defense = 2,
         x = 145,
         y = 34,
 
@@ -49,8 +49,8 @@ data.enemyData = {
             {
                 name = 'Pose',
                 execute = function(self)
-                    if self.enemy.defense < 7 then
-                        self.enemy.defense = self.enemy.defense + 2
+                    if self.enemy.defense < 3 then
+                        self.enemy.defense = self.enemy.defense + 1
                     else -- Act exhaust
                         self.enemy.acts[2].text = {
                             "* You try putting your fists up\n  again.",
@@ -60,7 +60,7 @@ data.enemyData = {
                 end,
                 text = {
                     '[clear]* You put your fists up\n  defensively.',
-                    "[clear]* Enemy 1 joins in.     \n* Enemy 1's DEF increased by 2!"
+                    "[clear]* Enemy 1 joins in.     \n* Enemy 1's DEF increased by 1!"
                 }
             },
             {
@@ -101,10 +101,10 @@ data.enemyData = {
         canSpare = false,
         showHPBar = true,
         canDodge = false,
-        hp = 100,
-        maxHp = 100,
-        attack = 2,
-        defense = 2,
+        hp = 30,
+        maxHp = 30,
+        attack = 4,
+        defense = 5,
         x = 345,
         y = 140,
 

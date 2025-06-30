@@ -91,11 +91,6 @@ function ui.update(dt)
 
     -- Update stuff for the fight ui
     if battle.state == "fight" then
-        if encounter.enemies[player.chosenEnemy].canSpare then
-            damage = encounter.enemies[player.chosenEnemy].maxHp + math.floor(((math.abs(math.abs(targetX - 319) - 319) / 5) / encounter.enemies[player.chosenEnemy].defense) * (1 + player.stats.attack))
-        else
-            damage = math.floor(((math.abs(math.abs(targetX - 319) - 319) / 5) / encounter.enemies[player.chosenEnemy].defense) * (1 + player.stats.attack))
-        end
         if targetMode == "left" then
             targetX = targetX + 12 * dt*30
             if targetX > 640-38 then -- If it goes out of the box, miss
@@ -154,6 +149,13 @@ function ui.update(dt)
 
             -- Trigger enemy damage
             if sliceFrame == 11 then
+                if encounter.enemies[player.chosenEnemy].canSpare then
+                    damage = encounter.enemies[player.chosenEnemy].maxHp
+                else
+                    -- I know this sucks i'm sorry
+                    local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 13
+                    damage = math.floor(distFromCenter + (player.stats.attack+itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense))
+                end
                 if encounter.enemies[player.chosenEnemy].canDodge then
                     sliceFrame = 12
                     damageShow = true
@@ -370,6 +372,7 @@ function ui.draw()
 
     -- Draw fight ui
     if battle.state == "fight" then
+        love.graphics.setColor(1, 1, 1)
         love.graphics.draw(target, 38, 256)
         if targetMode ~= "miss" then
             love.graphics.draw(targetChoice[targetFrame], targetX, 256)
@@ -386,7 +389,7 @@ function ui.draw()
                 love.graphics.setColor(0, 1, 0)
                 love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-149/5, encounter.enemies[player.chosenEnemy].y+35, encounter.enemies[player.chosenEnemy].hp / encounter.enemies[player.chosenEnemy].maxHp * 149, 13)
                 love.graphics.setFont(fonts.attack)
-                drawText(damage, encounter.enemies[player.chosenEnemy].x+20, damageTextY, {1, 0, 0}, {0, 0, 0})
+                drawText(damage, encounter.enemies[player.chosenEnemy].x+50 - fonts.attack:getWidth(damage)/2, damageTextY, {1, 0, 0}, {0, 0, 0})
             else
                 love.graphics.setFont(fonts.attack)
                 drawText("MISS", encounter.enemies[player.chosenEnemy].x, damageTextY, {.5, .5, .5}, {0, 0, 0})
