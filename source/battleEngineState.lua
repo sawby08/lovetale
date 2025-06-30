@@ -39,7 +39,7 @@ function battleEngine.changeBattleState(state, turn)
             else
                 encounterText = encounter.text[love.math.random(1, #encounter.text)]
             end
-            writer:setParams(encounterText, 52, 274, fonts.main, 0.02, writer.voices.menuText)
+            writer:setParams(encounterText, 52, 274, fonts.main, 0.02, writer.voices.menuText, true)
         elseif state == 'fight' then
             battle.choice = -1
         elseif state == 'use item' then

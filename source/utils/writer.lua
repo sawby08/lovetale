@@ -47,6 +47,7 @@ local textFont
 local textSound = 1
 local index = 1
 local doingText = false
+local doesMasking = false
 
 writer.isDone = nil
 writer.voices = {
@@ -114,7 +115,7 @@ function writer:stop()
     index = #parsedText
 end
 
-function writer:setParams(string, x, y, font, time, sound)
+function writer:setParams(string, x, y, font, time, sound, mask)
     text = string or 'no string provided :/'
     parsedText = parseText(text)
     startX = x or 0
@@ -125,6 +126,7 @@ function writer:setParams(string, x, y, font, time, sound)
     timeSince = 0
     index = 1
     doingText = true
+    doesMasking = mask or false
     writer.isDone = false
 end
 
@@ -198,7 +200,26 @@ function writer:draw()
             end
 
             love.graphics.setColor(currentColor)
-            love.graphics.print(c.char, x + shakeX, y + shakeY)
+
+
+            if doesMasking then
+                local function stencilFunction()
+                    love.graphics.push()
+
+                    love.graphics.translate(ui.box.x, ui.box.y)
+                    love.graphics.rectangle('fill', 0, 0, ui.box.width, ui.box.height)
+                    
+                    love.graphics.pop()
+                end
+
+                love.graphics.stencil(stencilFunction, 'replace', 1)
+                
+                love.graphics.setStencilTest('equal', 1)
+                love.graphics.print(c.char, x + shakeX, y + shakeY)
+                love.graphics.setStencilTest()
+            else
+                love.graphics.print(c.char, x + shakeX, y + shakeY)
+            end
             x = x + love.graphics.getFont():getWidth(c.char)
             if c.char ~= ' ' then
                 animi = animi + 0.5

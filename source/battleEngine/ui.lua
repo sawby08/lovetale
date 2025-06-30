@@ -379,7 +379,6 @@ function ui.draw()
         end
         if damageShow then
             if damageType ~= "miss" then
-                -- 149, 13
                 love.graphics.setColor(0, 0, 0)
                 love.graphics.rectangle('fill', encounter.enemies[player.chosenEnemy].x-3 - 149/5, encounter.enemies[player.chosenEnemy].y-3+35, 149+6, 13+6)
                 love.graphics.setColor(.3, .3, .3)
