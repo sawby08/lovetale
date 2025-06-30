@@ -112,7 +112,7 @@ function love.draw()
         love.graphics.rectangle('fill', 0, 0, 640, 480)
 
         love.graphics.setColor(1, 1, 0)
-        love.graphics.setFont(fonts.determination)
+        love.graphics.setFont(fonts.main)
         love.graphics.printf('PAUSED', 0, 240, 640, 'center')
 
         love.graphics.setColor(1, 1, 1)
