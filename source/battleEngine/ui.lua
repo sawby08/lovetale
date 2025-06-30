@@ -149,11 +149,11 @@ function ui.update(dt)
 
             -- Trigger enemy damage
             if sliceFrame == 11 then
+                -- I know this sucks i'm sorry
+                local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 320
                 if encounter.enemies[player.chosenEnemy].canSpare then
-                    damage = encounter.enemies[player.chosenEnemy].maxHp
+                    damage = encounter.enemies[player.chosenEnemy].maxHp + math.floor(distFromCenter + ((player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') + 6)*4 - encounter.enemies[player.chosenEnemy].defense))
                 else
-                    -- I know this sucks i'm sorry
-                    local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 320
                     damage = math.floor(distFromCenter + ((player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') + 6)*4 - encounter.enemies[player.chosenEnemy].defense))
                 end
                 if encounter.enemies[player.chosenEnemy].canDodge then
