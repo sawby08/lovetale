@@ -153,8 +153,8 @@ function ui.update(dt)
                     damage = encounter.enemies[player.chosenEnemy].maxHp
                 else
                     -- I know this sucks i'm sorry
-                    local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 11
-                    damage = math.floor(distFromCenter + (player.stats.attack+itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense))
+                    local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 320
+                    damage = math.floor(distFromCenter + ((player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') + 6)*4 - encounter.enemies[player.chosenEnemy].defense))
                 end
                 if encounter.enemies[player.chosenEnemy].canDodge then
                     sliceFrame = 12
