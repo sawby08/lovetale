@@ -44,7 +44,7 @@ data.enemyData = {
                    end
                 end,
                 text = {
-                    "* You try to talk to it but it\n  didn't respond."
+                    "* You try to talk to it but they\n  don't respond."
                 }
             },
             {
