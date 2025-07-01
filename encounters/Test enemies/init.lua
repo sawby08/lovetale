@@ -5,7 +5,7 @@ data.encounterPath = "encounters/Test enemies/" -- Makes it less annoying to cal
 data.text = {
     "[clear]* The test enemies draw near.",
     "[clear]* [red][shake]Lorem [green][wave]ipsum [clear][blue]dolar[clear].",
-    "[clear][rainbow]* Happy pride month!"
+    "[clear]* I'm not sure what would be funny[break]  to put here so I'm just writing[break]  this out to fill out the empty space"
 }
 data.startFirst = false
 data.canFlee = true
