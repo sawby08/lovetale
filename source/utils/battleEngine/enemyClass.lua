@@ -27,6 +27,7 @@ function Enemy:new(config)
         segmentConfigs = { segmentConfigs }
     end
 
+    self.doAnimation = config.doAnimation
     for _, segmentConfig in ipairs(segmentConfigs) do
         local segment = {
             image = love.graphics.newImage(segmentConfig.imagePath),
@@ -73,7 +74,7 @@ end
 
 function Enemy:update(dt)
     for _, segment in ipairs(self.segments) do
-        if self.status == "alive" then
+        if self.status == "alive" and self.doAnimation then
             segment.animation(self, segment, dt)
         end
     end

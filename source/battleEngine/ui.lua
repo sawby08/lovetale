@@ -40,8 +40,7 @@ local damage = 0
 local targetTimer = 0
 local damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
 local fightUiAlpha, targetScale = 1, 0
-local lastEnemyX, enemyVelo = nil, 0
-local sliceX = 0
+local lastEnemyX, shake, shakeMult, shakeMultTimer = nil, 0, 1, 0
 
 local function drawText(text, x, y, color, outlineColor)
     for i = -3, 3 do
@@ -71,7 +70,7 @@ function ui.setUpTarget()
     targetTimer = 0
     damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
     fightUiAlpha, targetScale = 1, 0
-    enemyVelo = 6
+    shake, shakeMult, shakeMultTimer = 0, 1, 1
 end
 
 function ui.load()
@@ -92,7 +91,7 @@ function ui.update(dt)
         ui.buttons[2].canSelect = false
     end
 
-    -- Update stuff for the fight ui
+    -- Update stuff for the fight ui (FAIR WARNING: the code for the fight ui is hot garbage but it works so i'm not gonna do anything about it)
     if battle.state == "fight" then
         if targetMode == "left" then
             targetX = targetX + 12 * dt*30
@@ -123,6 +122,7 @@ function ui.update(dt)
         -- When z is pressed while target is moving
         if input.check('confirm', 'pressed') and targetMode ~= "miss" and targetMode ~= "attack" then
             lastEnemyX = encounter.enemies[player.chosenEnemy].x
+            shake = encounter.enemies[player.chosenEnemy].dodgeOffset
             if encounter.enemies[player.chosenEnemy].canDodge then
                 targetMode = "attack"
                 sfx.slice:play()
@@ -151,9 +151,22 @@ function ui.update(dt)
                 sliceFrame = sliceFrame + 1
             end
 
-            -- Animate enemy dodging
+            -- Animate enemy dodging / shaking
             if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
                 encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
+            elseif lastEnemyX and sliceFrame > 11 then
+                if shake > 0 then
+                    shake = shake - 8 * dt*30
+                    encounter.enemies[player.chosenEnemy].doAnimation = false
+                else
+                    shake = 0
+                end
+                shakeMultTimer = shakeMultTimer + dt
+                if shakeMultTimer > 0.05 then
+                    shakeMultTimer = 0
+                    shakeMult = shakeMult * -1
+                    encounter.enemies[player.chosenEnemy].x = lastEnemyX + shake/8 * shakeMult
+                end
             end
 
             -- Trigger enemy damage
@@ -177,11 +190,17 @@ function ui.update(dt)
                     damageShow = true
                     damageTextYvel = 12
                     damageTextY = encounter.enemies[player.chosenEnemy].y + 0 * dt*30
+                    shake = math.abs(shake)
 
                     if encounter.enemies[player.chosenEnemy].hp < 0 then
                         encounter.enemies[player.chosenEnemy].hp = 0
                     end
                 end
+            end
+
+            -- Start playing enemy animation again after being hit
+            if sliceFrame == 21 then
+                encounter.enemies[player.chosenEnemy].doAnimation = true
             end
 
             -- Go to enemy dialogue
@@ -212,6 +231,8 @@ function ui.update(dt)
     if battle.state == "dialogue" then
         if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
             encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
+        elseif lastEnemyX then
+            encounter.enemies[player.chosenEnemy].x = lastEnemyX
         end
     end
 

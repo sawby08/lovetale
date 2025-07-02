@@ -5,7 +5,7 @@ data.encounterPath = "encounters/Test enemies/" -- Makes it less annoying to cal
 data.text = {
     "[clear]* The test enemies draw near.",
     "[clear]* [red][shake]Lorem [green][wave]ipsum [clear][blue]dolar[clear].",
-    "[clear]* I'm not sure what would be funny[break]  to put here so I'm just writing[break]  this out to fill out the empty space"
+    "[clear]* I'm not sure what would be funny[break]  to put here so I'm just writing[break]  this out to fill out the empty[break]  space do you like how it's masked into the box"
 }
 data.startFirst = false
 data.canFlee = true
@@ -77,6 +77,7 @@ data.enemyData = {
             }
         },
 
+        doAnimation = true,
         ----==== ENEMY SPRITE SEGMENTS ====----
         segments = {
             imagePath = data.encounterPath .. "images/test1.png",
@@ -108,6 +109,7 @@ data.enemyData = {
         defense = 5,
         x = 345,
         y = 140,
+        dodgeOffset = -100,
 
         -----==== ACTS ====----
         acts = {
@@ -123,6 +125,7 @@ data.enemyData = {
             }
         },
 
+        doAnimation = true,
         ----==== ENEMY SPRITE SEGMENTS ====----
         segments = {
             {
