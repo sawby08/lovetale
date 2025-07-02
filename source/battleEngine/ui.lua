@@ -42,6 +42,10 @@ local damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
 local fightUiAlpha, targetScale = 1, 0
 local lastEnemyX, shake, shakeMult, shakeMultTimer = nil, 0, 1, 0
 
+-- Load misc assets
+local speechBubble = love.graphics.newImage('assets/images/ui/speechbubble.png')
+local dialogueIteration = 1
+
 local function drawText(text, x, y, color, outlineColor)
     for i = -3, 3 do
         love.graphics.setColor(outlineColor)
@@ -53,6 +57,28 @@ local function drawText(text, x, y, color, outlineColor)
     end
     love.graphics.setColor(color)
     love.graphics.print(text, x, y)
+end
+
+local function doDialogueStuff()
+    if encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleDirection == "left" then
+        writer:setParams(
+            "[black]" .. encounter.attacks[battle.turnCount].dialogue[dialogueIteration].text,
+            encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].x + encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleOffset - 224,
+            encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].y + 12,
+            fonts.dialogue,
+            0.02,
+            writer.voices.menuText
+        )
+    else
+        writer:setParams(
+            "[black]" .. encounter.attacks[battle.turnCount].dialogue[dialogueIteration].text,
+            encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].x + encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleOffset + 40,
+            encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].y + 12,
+            fonts.dialogue,
+            0.02,
+            writer.voices.menuText
+        )
+    end
 end
 
 function ui.setUpTarget()
@@ -151,10 +177,7 @@ function ui.update(dt)
                 sliceFrame = sliceFrame + 1
             end
 
-            -- Animate enemy dodging / shaking
-            if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
-                encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
-            elseif lastEnemyX and sliceFrame > 11 then
+            if lastEnemyX and sliceFrame > 11 and not encounter.enemies[player.chosenEnemy].canDodge then
                 if shake > 0 then
                     shake = shake - 8 * dt*30
                     encounter.enemies[player.chosenEnemy].doAnimation = false
@@ -174,9 +197,9 @@ function ui.update(dt)
                 -- I know this sucks i'm sorry
                 local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 14
                 if encounter.enemies[player.chosenEnemy].canSpare then
-                    damage = encounter.enemies[player.chosenEnemy].maxHp + math.floor(distFromCenter + (player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense) + 0.5)
+                    damage = math.abs(encounter.enemies[player.chosenEnemy].maxHp + math.floor(distFromCenter + (player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense) + 0.5))
                 else
-                    damage = math.floor(distFromCenter + (player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense) + 0.5)
+                    damage = math.abs(math.floor(distFromCenter + (player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense) + 0.5))
                 end
                 if encounter.enemies[player.chosenEnemy].canDodge then
                     sliceFrame = 12
@@ -198,6 +221,16 @@ function ui.update(dt)
                 end
             end
 
+            if sliceFrame > 0 and sliceFrame < 11 then
+                -- Animate enemy dodging
+                if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+                    encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
+                end
+            else
+                if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+                    encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
+                end
+            end
             -- Start playing enemy animation again after being hit
             if sliceFrame == 21 then
                 encounter.enemies[player.chosenEnemy].doAnimation = true
@@ -210,7 +243,11 @@ function ui.update(dt)
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
                 end
+                if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+                    encounter.enemies[player.chosenEnemy].x = lastEnemyX
+                end
                 battleEngine.changeBattleState("dialogue", "enemies")
+                doDialogueStuff()
             end
 
             if damageShow then
@@ -228,13 +265,6 @@ function ui.update(dt)
             end
         end
     end
-    if battle.state == "dialogue" then
-        if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
-            encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
-        elseif lastEnemyX then
-            encounter.enemies[player.chosenEnemy].x = lastEnemyX
-        end
-    end
 
     -- Update box
     if battle.turn == "enemies" then
@@ -244,16 +274,24 @@ function ui.update(dt)
         ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3 * dt*30
         ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
         ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
-        if input.check('confirm', 'pressed') and battle.state == 'dialogue' then
-            battleEngine.changeBattleState('attack', 'enemies')
-            lastEnemyX = nil
-        end
     end
     if battle.turn == "player" then
         ui.box.x = ui.box.x + (35 - ui.box.x) * 0.3 * dt*30
         ui.box.y = ui.box.y + (253 - ui.box.y) * 0.3 * dt*30
         ui.box.width = ui.box.width + (570 - ui.box.width) * 0.3 * dt*30
         ui.box.height = ui.box.height + (135 - ui.box.height) * 0.3 * dt*30
+    end
+
+    -- Progress through dialogue
+    if input.check('confirm', 'pressed') and battle.state == 'dialogue' and writer.isDone then
+        if dialogueIteration < #encounter.attacks[battle.turnCount].dialogue then
+            dialogueIteration = dialogueIteration + 1
+            doDialogueStuff()
+        else
+            battleEngine.changeBattleState('attack', 'enemies')
+            lastEnemyX = nil
+            dialogueIteration = 1
+        end
     end
 end
 
@@ -437,6 +475,22 @@ function ui.draw()
         if targetMode ~= "miss" then
             love.graphics.draw(targetChoice[targetFrame], targetX, 256)
         end
+    end
+
+    -- Draw speech bubbles
+    if battle.state == "dialogue" then
+        love.graphics.push("all")
+        love.graphics.translate(0, ui.box.y - 253)
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.draw(
+            speechBubble,
+            encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].x + encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleOffset,
+            encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].y,
+            0,
+            encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleDirection == "left" and -1 or 1,
+            1
+        )
+        love.graphics.pop()
     end
 end
 

@@ -90,7 +90,6 @@ function battleEngine.changeBattleState(state, turn)
             else
                 battle.turnCount = battle.turnCount + 1
             end
-            writer:setParams("No proper dialogue yet. Just press Z[break]to go to the attack.", 0, 0, fonts.main, 0.02, writer.voices.menuText)
         end
         if state == 'attack' then
             writer:stop()
@@ -130,7 +129,8 @@ function battleEngine.load(encounterName)
         ui = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
         main = love.graphics.newFont('assets/fonts/determination-mono.ttf', 32),
         dialog = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
-        attack = love.graphics.newFont("assets/fonts/hachicro.ttf", 32)
+        attack = love.graphics.newFont("assets/fonts/hachicro.ttf", 32),
+        dialogue = love.graphics.newFont("assets/fonts/dotumche.ttf", 12)
     }
 
     -- Set all sounds to player configuration
@@ -221,15 +221,20 @@ function battleEngine.draw()
     ui.drawbox('line') -- Separate function so attacks draw over
     encounter.draw()
     ui.draw()
+
+    love.graphics.push("all")
+    love.graphics.translate(0, ui.box.y - 253)
     writer:draw()
+    love.graphics.pop()
+    
     player.draw()
+    
 
     -- Saves the graphics state so drawing the ref and black base doesn't mess up the other stuff
     love.graphics.push("all")
 
     love.graphics.setColor(1, 1, 1, 0)
     love.graphics.draw(refs.damage, 0, 0)
-
 
     love.graphics.pop()
 

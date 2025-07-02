@@ -5,7 +5,7 @@ data.encounterPath = "encounters/Test enemies/" -- Makes it less annoying to cal
 data.text = {
     "[clear]* The test enemies draw near.",
     "[clear]* [red][shake]Lorem [green][wave]ipsum [clear][blue]dolar[clear].",
-    "[clear]* I'm not sure what would be funny[break]  to put here so I'm just writing[break]  this out to fill out the empty[break]  space do you like how it's masked into the box"
+    "[clear]* I'm not sure what would be funny[break]  to put here so I'm just writing[break]  this out to fill out the empty[break]  space do you like how it's masked"
 }
 data.startFirst = false
 data.canFlee = true
@@ -19,7 +19,7 @@ data.enemyData = {
     {
         ----==== BASIC INFORMATION ====----
         name = "Enemy 1",
-        description = "[clear]* The first half of the test\n  site.",
+        description = "[clear]* Freakishly tall.",
         status = "alive",
         canSpare = false,
         showHPBar = false,
@@ -147,7 +147,7 @@ data.enemyData = {
     }
 }
 
-----==== ATTACK BOX POSITIONS ====----
+----==== ATTACK BOX POSITIONS AND DIALOGUE ====----
 data.attacks = {
     {
         boxDims = {
@@ -155,6 +155,26 @@ data.attacks = {
             y = 253,
             width = 135,
             height = 135
+        },
+        dialogue = {
+            {
+                speaker = 1,
+                text = "hey lads",
+                bubbleDirection = "right",
+                bubbleOffset = 125
+            },
+            {
+                speaker = 1,
+                text = "how we doin today",
+                bubbleDirection = "right",
+                bubbleOffset = 125
+            },
+            {
+                speaker = 2,
+                text = "SHUT YOUR FUCKING\nMOUTH!!!!!",
+                bubbleDirection = "left",
+                bubbleOffset = 0
+            }
         }
     },
 
@@ -164,6 +184,20 @@ data.attacks = {
             y = 203,
             width = 200,
             height = 185
+        },
+        dialogue = {
+            {
+                speaker = 1,        -- Enemy number from the enemies array
+                text = "why are you saying\nsuch rude things\nto me",
+                bubbleDirection = "right",
+                bubbleOffset = 125
+            },
+            {
+                speaker = 2,
+                text = "shut up",
+                bubbleDirection = "left",
+                bubbleOffset = 0
+            }
         }
     }
 }

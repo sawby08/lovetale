@@ -186,7 +186,7 @@ function writer:draw()
 
         if c.char == "\n" then
             x = startX
-            y = y + 32
+            y = y + love.graphics.getFont():getHeight(" ")*(32/28)
         else
             local currentColor
             if c.color == "rainbow" then
