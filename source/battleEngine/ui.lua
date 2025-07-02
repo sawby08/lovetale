@@ -172,11 +172,11 @@ function ui.update(dt)
             -- Trigger enemy damage
             if sliceFrame == 11 then
                 -- I know this sucks i'm sorry
-                local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 320
+                local distFromCenter = math.abs(math.abs(targetX - 320) - 320) / 14
                 if encounter.enemies[player.chosenEnemy].canSpare then
-                    damage = encounter.enemies[player.chosenEnemy].maxHp + math.floor(distFromCenter + ((player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') + 6)*4 - encounter.enemies[player.chosenEnemy].defense))
+                    damage = encounter.enemies[player.chosenEnemy].maxHp + math.floor(distFromCenter + (player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense) + 0.5)
                 else
-                    damage = math.floor(distFromCenter + ((player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') + 6)*4 - encounter.enemies[player.chosenEnemy].defense))
+                    damage = math.floor(distFromCenter + (player.stats.attack + itemManager.getPropertyFromID(player.weapon, 'stat') - encounter.enemies[player.chosenEnemy].defense) + 0.5)
                 end
                 if encounter.enemies[player.chosenEnemy].canDodge then
                     sliceFrame = 12
@@ -238,23 +238,15 @@ function ui.update(dt)
 
     -- Update box
     if battle.turn == "enemies" then
-        if battle.state == "dialogue" then
-            targetScale = targetScale + dt*4
-            fightUiAlpha = fightUiAlpha - dt*4
-            ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3 * dt*30
-            ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3 * dt*30
-            ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
-            ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
-        end
+        targetScale = targetScale + dt*4
+        fightUiAlpha = fightUiAlpha - dt*4
+        ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3 * dt*30
+        ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3 * dt*30
+        ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
+        ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
         if input.check('confirm', 'pressed') and battle.state == 'dialogue' then
             battleEngine.changeBattleState('attack', 'enemies')
             lastEnemyX = nil
-            targetScale = targetScale + dt*4
-            fightUiAlpha = fightUiAlpha - dt*4
-            ui.box.x = encounter.attacks[battle.turnCount].boxDims.x
-            ui.box.y = encounter.attacks[battle.turnCount].boxDims.y
-            ui.box.width = encounter.attacks[battle.turnCount].boxDims.width
-            ui.box.height = encounter.attacks[battle.turnCount].boxDims.height
         end
     end
     if battle.turn == "player" then
