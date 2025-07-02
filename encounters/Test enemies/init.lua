@@ -41,6 +41,9 @@ data.enemyData = {
                     self.enemy.canSpare = true
                     self.enemy.acts[1].text[1] = "* You and Enemy 1 have a nice[break]  conversation."
                     self.enemy.acts[1].text[2] = "* You two get along!     [break]* Enemy 1 is sparing you."
+                    encounter.attacks[1].dialogue[1].text = "i'm happy now :-)"
+                    encounter.attacks[1].dialogue[2].text = "i'm happy now :-)"
+                    encounter.attacks[2].dialogue[1].text = "i'm happy now :-)"
                    end
                 end,
                 text = {
@@ -201,6 +204,59 @@ data.attacks = {
         }
     }
 }
+
+data.onDeath = function(enemy)       -- Function that's run when an enemy dies (enemy is the enemy that's dead)
+    if enemy == 1 then
+        battle.turnCount = 1
+        encounter.attacks = {}
+        encounter.attacks[1] = {
+            boxDims = {
+                x = math.floor(320 - 135/2),
+                y = 253,
+                width = 135,
+                height = 135
+            },
+            dialogue = {
+                {
+                    speaker = 2,
+                    text = "heh. i don't believe\nin you anymore..",
+                    bubbleDirection = "left",
+                    bubbleOffset = 0
+                }
+            }
+        }
+        encounter.text = "[clear]shut up dude"
+    elseif enemy == 2 then
+        battle.turnCount = 1
+        encounter.attacks = {}
+        encounter.bgm:setPitch(0.25)
+        encounter.attacks[1] = {
+            boxDims = {
+                x = math.floor(320 - 135/2),
+                y = 253,
+                width = 135,
+                height = 135
+            },
+            dialogue = {
+                {
+                    speaker = 1,
+                    text = "[shake]oh... :-(",
+                    bubbleDirection = "right",
+                    bubbleOffset = 125
+                }
+            }
+        }
+        encounter.text = "[clear]* You feel an overwhelming\n  sense of regret."
+        encounter.enemies[1].canSpare = true
+        encounter.enemies[1].canDodge = false
+        encounter.enemies[1].defense = -99999999999999999999999999999999999999999999999999999999
+        encounter.enemies[1].description = "* Nothing."
+    end
+end
+
+data.onSpare(enemy) = function(enemy)
+
+end
 
 data.playerLove = 1
 data.playerName = "Sawby"

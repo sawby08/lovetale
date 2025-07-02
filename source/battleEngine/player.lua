@@ -121,12 +121,16 @@ function player.update(dt)
         if battle.state == 'mercy' then
             if input.check('confirm', 'pressed') then
                 if battle.subchoice == 0 then
+                    local i = 1
                     for _, enemy in ipairs(encounter.enemies) do
                         if enemy.canSpare then
                             enemy.status = "spared"
                             enemy.canSpare = false
+                            encounter.onSpare(i)
+
                             sfx.dust:play()
                         end
+                        i = i + 1
                     end
                 elseif battle.subchoice == 1 then
                     battleEngine.changeBattleState('flee', 'player')

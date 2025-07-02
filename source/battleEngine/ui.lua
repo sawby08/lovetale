@@ -126,6 +126,7 @@ function ui.update(dt)
                 damageType = "miss"
                 damageShow = true
                 battleEngine.changeBattleState("dialogue", "enemies")
+                doDialogueStuff()
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
@@ -139,6 +140,7 @@ function ui.update(dt)
                 damageType = "miss"
                 damageShow = true
                 battleEngine.changeBattleState("dialogue", "enemies")
+                doDialogueStuff()
                 if encounter.enemies[player.chosenEnemy].hp == 0 then   -- Kill enemy if hp is 0
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
@@ -240,6 +242,7 @@ function ui.update(dt)
             if sliceFrame == 28 then
                 sliceFrame = 29
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
+                    encounter.onDeath(player.chosenEnemy)
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
                 end
