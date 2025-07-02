@@ -254,7 +254,7 @@ data.onDeath = function(enemy)       -- Function that's run when an enemy dies (
     end
 end
 
-data.onSpare(enemy) = function(enemy)
+data.onSpare = function(enemy)
 
 end
 
