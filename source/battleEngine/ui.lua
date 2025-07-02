@@ -238,16 +238,23 @@ function ui.update(dt)
 
     -- Update box
     if battle.turn == "enemies" then
-        targetScale = targetScale + dt*4
-        fightUiAlpha = fightUiAlpha - dt*4
-        ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3 * dt*30
-        ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3 * dt*30
-        ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
-        ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
-
+        if battle.state == "dialogue" then
+            targetScale = targetScale + dt*4
+            fightUiAlpha = fightUiAlpha - dt*4
+            ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3 * dt*30
+            ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3 * dt*30
+            ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
+            ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
+        end
         if input.check('confirm', 'pressed') and battle.state == 'dialogue' then
             battleEngine.changeBattleState('attack', 'enemies')
             lastEnemyX = nil
+            targetScale = targetScale + dt*4
+            fightUiAlpha = fightUiAlpha - dt*4
+            ui.box.x = encounter.attacks[battle.turnCount].boxDims.x
+            ui.box.y = encounter.attacks[battle.turnCount].boxDims.y
+            ui.box.width = encounter.attacks[battle.turnCount].boxDims.width
+            ui.box.height = encounter.attacks[battle.turnCount].boxDims.height
         end
     end
     if battle.turn == "player" then
