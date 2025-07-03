@@ -73,7 +73,7 @@ function love.load()
     else
         conf.fullscreen = false
     end
-    currentScene.load('Test enemies')
+    currentScene.load('Test sans')
     player.hitboxLenience = config.player.hitboxLenience
     camera = Camera.new(640, 480)
     lastf = love.timer.getTime()

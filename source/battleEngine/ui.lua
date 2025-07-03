@@ -65,7 +65,7 @@ function ui.doDialogueStuff()
             "[black]" .. encounter.attacks[battle.turnCount].dialogue[dialogueIteration].text,
             encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].x + encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleOffset - 224,
             encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].y + 12,
-            fonts.dialogue,
+            fonts.comicsans,
             0.02,
             writer.voices.menuText
         )
@@ -74,7 +74,7 @@ function ui.doDialogueStuff()
             "[black]" .. encounter.attacks[battle.turnCount].dialogue[dialogueIteration].text,
             encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].x + encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleOffset + 40,
             encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].y + 12,
-            fonts.dialogue,
+            fonts.comicsans,
             0.02,
             writer.voices.menuText
         )
