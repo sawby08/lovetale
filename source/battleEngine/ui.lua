@@ -248,6 +248,7 @@ function ui.update(dt)
                     encounter.enemies[player.chosenEnemy].x = lastEnemyX
                 end
                 battleEngine.changeBattleState("dialogue", "enemies")
+                battleEngine.checkEnemiesStates()
             end
 
             if damageShow then

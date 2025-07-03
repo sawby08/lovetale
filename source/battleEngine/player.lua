@@ -162,6 +162,7 @@ function player.update(dt)
                     end
                     encounter.onSpare(sparedenem)
                     battleEngine.changeBattleState('dialogue', 'enemies')
+                    battleEngine.checkEnemiesStates()
                 elseif battle.subchoice == 1 then
                     battleEngine.changeBattleState('flee', 'player')
                 end

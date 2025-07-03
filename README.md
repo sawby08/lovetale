@@ -23,7 +23,6 @@
 
 - FIGHTing is completely finished.
     - Dusting effect has not been implemented yet. To be honest, I don't even know where to start with this.
-    - Slight visual glitches show when killing both enemies and the "YOU WON!" screen shows.
 
 - ACTing is completely finished.
 
@@ -31,7 +30,6 @@
 
 - MERCY is completely finished.
     - Sparing dust effect has not been implemented yet.
-    - Slight visual glitches show when both enemies are spared and the "YOU WON!" screen shows.
 
 - Enemy attacks are completely finished.
 

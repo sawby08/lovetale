@@ -25,6 +25,20 @@ local function deepcopy(orig)
     return copy
 end
 
+function battleEngine.checkEnemiesStates()
+    if battle.state ~= "end" then
+        local noneAreAlive = true
+        for _, enemy in ipairs(encounter.enemies) do
+            if enemy.status == "alive" then
+                noneAreAlive = false
+            end
+        end
+        if noneAreAlive then
+            battleEngine.changeBattleState('end', 'player')
+        end
+    end
+end
+
 function battleEngine.changeBattleState(state, turn)
     input.refresh()
     if turn == 'player' then
@@ -181,17 +195,8 @@ function battleEngine.update(dt)
         fadeOpacity = fadeOpacity - 0.125 * dt*30
     end
     -- Stop fight when all enemies are either spared or killed
-    if battle.state ~= "end" then
-        local noneAreAlive = true
-        for _, enemy in ipairs(encounter.enemies) do
-            if enemy.status == "alive" then
-                noneAreAlive = false
-            end
-        end
-        if noneAreAlive then
-            battleEngine.changeBattleState('end', 'player')
-        end
-    end
+    battleEngine.checkEnemiesStates()
+
     encounter.update(dt)
     if battle.state == "attack" and battle.turn == "enemies" then
         encounter.attacks[battle.turnCount].update(dt)
