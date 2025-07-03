@@ -2,6 +2,8 @@ local player = {}
 local battleEngine = require 'source.battleEngineState'
 local xvel, yvel = 0, 0
 local jumpstage, vspeed = 2, -1
+local currentInvFrame, timeSince = 30, 0
+local krTimer = 0
 
 -- Load heart image and position, global so other objects can place it
 player.heart = {
@@ -99,11 +101,35 @@ local function performMove(type, number)
     end
 end
 
+function player.hurt(damage)
+    if player.hasKR then
+        if player.stats.hp > 1 then
+            player.stats.kr = player.stats.kr + 2
+        else
+            player.stats.kr = player.stats.kr - 1
+        end
+        player.stats.hp = player.stats.hp - damage
+        sfx.hurt:stop()
+        sfx.hurt:play()
+    elseif currentInvFrame >= player.invFrames then
+        camera:shake(1, 1)
+        player.stats.hp = player.stats.hp - damage
+        sfx.hurt:stop()
+        sfx.hurt:play()
+        currentInvFrame = 0
+    end
+end
+
 function player.load()
     player.mode = 1
 end
 
 function player.update(dt)
+    timeSince = timeSince + 1
+    if timeSince > 1 * dt*30 then
+        timeSince = 0
+        currentInvFrame = currentInvFrame + 1
+    end
     local lx, ly = player.heart.x, player.heart.y
     if battle.turn == 'player' then
         if battle.state == "flee" then
@@ -119,19 +145,23 @@ function player.update(dt)
             end
         end
         if battle.state == 'mercy' then
+            player.lastButton = battle.choice
             if input.check('confirm', 'pressed') then
                 if battle.subchoice == 0 then
                     local i = 1
+                    local sparedenem = 0
                     for _, enemy in ipairs(encounter.enemies) do
                         if enemy.canSpare then
                             enemy.status = "spared"
                             enemy.canSpare = false
-                            encounter.onSpare(i)
-
                             sfx.dust:play()
+                            sparedenem = i
                         end
                         i = i + 1
+                        battle.choice = -1
                     end
+                    encounter.onSpare(sparedenem)
+                    battleEngine.changeBattleState('dialogue', 'enemies')
                 elseif battle.subchoice == 1 then
                     battleEngine.changeBattleState('flee', 'player')
                 end
@@ -314,15 +344,26 @@ function player.update(dt)
     end
     updatePosition(dt)
     player.isMoving = (lx ~= player.heart.x or ly ~= player.heart.y or (jumpstage == 2 and player.mode == 2))
+
+    krTimer = krTimer + dt
+    if krTimer > 1.8 / (player.stats.kr + 1) then
+        krTimer = 0
+        if player.stats.hp + player.stats.kr > player.stats.hp then
+            player.stats.kr = player.stats.kr - 1
+        else
+            player.stats.kr = 0
+        end
+    end
 end
 
 function player.draw()
     love.graphics.push("all")
 
+    local brightness = currentInvFrame >= player.invFrames and 1 or 0.5
     if player.mode == 1 then
-        love.graphics.setColor(1, 0, 0)
+        love.graphics.setColor(1, 0, 0, brightness)
     elseif player.mode == 2 then
-        love.graphics.setColor(0, 0, 1)
+        love.graphics.setColor(0, 0, 1, brightness)
     end
     if battle.state == "flee" then
         love.graphics.draw(fleeingFrames[math.floor((love.timer.getTime()*10)%2) + 1], player.heart.x, player.heart.y)

@@ -46,13 +46,15 @@ function encounterHandler.loadEncounter(encounterData)
         player.stats.maxHp = 16 + (player.stats.love * 4)
     end
     player.stats.hp = player.stats.maxHp
-    player.kr = 0
+    player.stats.kr = 0
 
     player.weapon = 3
     player.armor = 4
 
     player.stats.attack = -2 + (2 * player.stats.love)
     player.stats.defense = math.floor((player.stats.love - 1) / 4)
+
+    player.invFrames = encounterHandler.playerInvFrames
 end
 
 function encounterHandler.doAct()

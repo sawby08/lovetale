@@ -12,7 +12,7 @@ function gameover.update(dt)
 end
 
 function gameover.draw()
-    love.graphics.setFont(fonts.determination)
+    love.graphics.setFont(fonts.main)
     love.graphics.print("YOU SUCK AT THIS GAME!!!!\npress z to try again")
 end
 

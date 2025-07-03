@@ -59,7 +59,7 @@ local function drawText(text, x, y, color, outlineColor)
     love.graphics.print(text, x, y)
 end
 
-local function doDialogueStuff()
+function ui.doDialogueStuff()
     if encounter.attacks[battle.turnCount].dialogue[dialogueIteration].bubbleDirection == "left" then
         writer:setParams(
             "[black]" .. encounter.attacks[battle.turnCount].dialogue[dialogueIteration].text,
@@ -126,7 +126,6 @@ function ui.update(dt)
                 damageType = "miss"
                 damageShow = true
                 battleEngine.changeBattleState("dialogue", "enemies")
-                doDialogueStuff()
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
@@ -140,7 +139,6 @@ function ui.update(dt)
                 damageType = "miss"
                 damageShow = true
                 battleEngine.changeBattleState("dialogue", "enemies")
-                doDialogueStuff()
                 if encounter.enemies[player.chosenEnemy].hp == 0 then   -- Kill enemy if hp is 0
                     encounter.enemies[player.chosenEnemy].status = "killed"
                     sfx.dust:play()
@@ -250,7 +248,6 @@ function ui.update(dt)
                     encounter.enemies[player.chosenEnemy].x = lastEnemyX
                 end
                 battleEngine.changeBattleState("dialogue", "enemies")
-                doDialogueStuff()
             end
 
             if damageShow then
@@ -289,7 +286,7 @@ function ui.update(dt)
     if input.check('confirm', 'pressed') and battle.state == 'dialogue' and writer.isDone then
         if dialogueIteration < #encounter.attacks[battle.turnCount].dialogue then
             dialogueIteration = dialogueIteration + 1
-            doDialogueStuff()
+            ui.doDialogueStuff()
         else
             battleEngine.changeBattleState('attack', 'enemies')
             lastEnemyX = nil
@@ -343,53 +340,56 @@ function ui.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.draw(hp, 240, 400)
     if player.hasKR then
-        if player.kr > 0 then
-            -- Purple color (I haven't gotten to that part yet)
+        if player.stats.kr > 0 then
+            love.graphics.setColor(1, 0, 1)
         end
         love.graphics.draw(kr, 280 + player.stats.maxHp * 1.25, 405)
     end
 
     -- Draw HP bar
-    if player.stats.hp > player.stats.maxHp then    -- Cap the healthbar without any visual feedback
-        player.stats.hp = player.stats.maxHp
+    if player.stats.hp + player.stats.kr > player.stats.maxHp then    -- Cap the healthbar without any visual feedback
+        player.stats.hp = player.stats.maxHp - player.stats.kr
     end
     love.graphics.setColor(.8, 0, 0)
     love.graphics.rectangle('fill', 275, 400, player.stats.maxHp * 1.25, 21)
+    love.graphics.setColor(1, 0, 1)
+    love.graphics.rectangle('fill', 275, 400, (player.stats.hp+player.stats.kr) * 1.25, 21)
     love.graphics.setColor(1, 1, 0)
     love.graphics.rectangle('fill', 275, 400, player.stats.hp * 1.25, 21)
 
     -- Draw HP numbers
-    if player.stats.hp < 10 then
+    if player.stats.hp+player.stats.kr < 10 then
         if player.hasKR then
-            if player.kr == 0 then
+            if player.stats.kr == 0 then
                 love.graphics.setColor(1, 1, 1)
             else
-                -- Purple color (I haven't gotten to that part yet)
+                love.graphics.setColor(1, 0, 1)
             end
             love.graphics.setFont(fonts.ui)
-            love.graphics.print('0' .. player.stats.hp .. ' / ' .. player.stats.maxHp, 320 + player.stats.maxHp*1.25, 400)
+            love.graphics.print('0' .. player.stats.hp+player.stats.kr .. ' / ' .. player.stats.maxHp, 320 + player.stats.maxHp*1.25, 400)
         else
             love.graphics.setColor(1, 1, 1)
             love.graphics.setFont(fonts.ui)
-            love.graphics.print('0' .. player.stats.hp .. ' / ' .. player.stats.maxHp, 289 + player.stats.maxHp*1.25, 400)
+            love.graphics.print('0' .. player.stats.hp+player.stats.kr .. ' / ' .. player.stats.maxHp, 289 + player.stats.maxHp*1.25, 400)
         end
     else
         if player.hasKR then
-            if player.kr == 0 then
+            if player.stats.kr == 0 then
                 love.graphics.setColor(1, 1, 1)
             else
-                -- Purple color (I haven't gotten to that part yet)
+                love.graphics.setColor(1, 0, 1)
             end
             love.graphics.setFont(fonts.ui)
-            love.graphics.print(player.stats.hp .. ' / ' .. player.stats.maxHp, 320 + player.stats.maxHp*1.25, 400)
+            love.graphics.print(player.stats.hp+player.stats.kr .. ' / ' .. player.stats.maxHp, 320 + player.stats.maxHp*1.25, 400)
         else
             love.graphics.setColor(1, 1, 1)
             love.graphics.setFont(fonts.ui)
-            love.graphics.print(player.stats.hp .. ' / ' .. player.stats.maxHp, 289 + player.stats.maxHp*1.25, 400)
+            love.graphics.print(player.stats.hp+player.stats.kr .. ' / ' .. player.stats.maxHp, 289 + player.stats.maxHp*1.25, 400)
         end
     end
 
     -- Draw text
+    love.graphics.setColor(1, 1, 1)
     love.graphics.setFont(fonts.main)
     if battle.state == 'choose enemy' then
         local i = 1

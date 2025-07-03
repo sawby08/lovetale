@@ -19,6 +19,7 @@ function Bullet:create(x, y, xvel, yvel, color, isMasked, damage)
     bullet.color = color
     bullet.isMasked = isMasked
     bullet.damage = damage
+    self.remove = false
     return bullet
 end
 
@@ -29,9 +30,9 @@ function Bullet:update(dt)
     if CheckCollision(self.x, self.y, 16, 16, player.heart.x+player.hitboxLenience, player.heart.y+player.hitboxLenience, 16 - player.hitboxLenience*2, 16 - player.hitboxLenience*2) then
         if (self.color == 'orange' and not player.isMoving) or (self.color == 'blue' and player.isMoving) or self.color == 'white' then
             if not player.hasKR then
-                camera:shake(1, 1)
-                self.remove = true
+                local lasthp = player.stats.hp
                 player.hurt(self.damage)
+                self.remove = lasthp ~= player.stats.hp
             else
                 player.hurt(self.damage)
             end

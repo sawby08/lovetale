@@ -19,19 +19,23 @@
 <p>These are customizable in the `config.ini` file, as well as the enemy spare color, hitbox lenience, FPS, the usage of borders, and more.</p>
 
 ## Progress
-<p>This engine is still being worked on and is not finished. Here's a basic list of what is and isn't finished:</p>
+<p>This engine is functionally complete, though some polish needs to be made.</p>
 
-- FIGHTing is being worked on. Basic functionality is there but polish and accuracy improvements are needed. (Any help with this would be greatly appreciated!! Especially with coding in the enemy dust animation.)
+- FIGHTing is completely finished.
+    - Dusting effect has not been implemented yet. To be honest, I don't even know where to start with this.
+    - Slight visual glitches show when killing both enemies and the "YOU WON!" screen shows.
 
 - ACTing is completely finished.
 
-- ITEMs are completely finished, besides item specific effects such as the Sea Tea's speed increase and item specific consumption sounds. I don't think these are important enough to work on right now, but later on I might work on putting those in.
+- ITEMs are completely finished.
 
-- MERCY is completely finished, besides the particle effect that shows up when you spare an enemy.
+- MERCY is completely finished.
+    - Sparing dust effect has not been implemented yet.
+    - Slight visual glitches show when both enemies are spared and the "YOU WON!" screen shows.
 
-- Enemy attacks have been started, but aren't a big priority until I've fully finished progamming FIGHTing. Things such as player damage and game over don't exist yet.
+- Enemy attacks are completely finished.
 
-<p>My overall progress estimation is ~70% completed. I hope to have this completely ready to use by Undertale's 10th year anniversary.</p>
+<p>My overall progress estimation is 95% completed. Again, this engine is techincally finished but I need to polish some things out.</p>
 
 ## Credits
 <p>I'm the only person working on this engine, but I used stuff from these cool people!</p>

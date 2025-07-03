@@ -90,9 +90,11 @@ function battleEngine.changeBattleState(state, turn)
             else
                 battle.turnCount = battle.turnCount + 1
             end
+            ui.doDialogueStuff()
         end
         if state == 'attack' then
             writer:stop()
+            encounter.attacks[battle.turnCount].init()
         end
     else
         error('Turn type ' .. turn .. ' not valid, can only either be player or enemies')
@@ -191,26 +193,25 @@ function battleEngine.update(dt)
         end
     end
     encounter.update(dt)
-
+    if battle.state == "attack" and battle.turn == "enemies" then
+        encounter.attacks[battle.turnCount].update(dt)
+    end
     ui.update(dt)
     player.update(dt)
     writer:update(dt)
 
     -- Game over
     if player.stats.hp < 1 then
-        currentScene = scenes.gameover
-        love.load()
-    end
-
-    -- DEBUG STUFF WONT BE USED LATER
-    if battle.state == "attack" and battle.turn == "enemies" then
-        if love.keyboard.isDown("1") then
-            player.mode = 1
-        elseif love.keyboard.isDown("2") then
-            player.mode = 2
+        if player.hasKR then
+        if (player.stats.hp + player.stats.kr > player.stats.hp) then
+            player.stats.hp = 1
+        else
+            currentScene = scenes.gameover
+            love.load()
         end
-        if input.check('menu', 'pressed') then
-            battleEngine.changeBattleState('buttons', 'player')
+        elseif not player.hasKR then
+            currentScene = scenes.gameover
+            love.load()
         end
     end
 end
@@ -218,6 +219,9 @@ end
 function battleEngine.draw()
     encounter.background()
     ui.drawbox('fill') -- Separate function so attacks draw over
+    if battle.state == "attack" and battle.turn == "enemies" then
+        encounter.attacks[battle.turnCount].draw()
+    end
     ui.drawbox('line') -- Separate function so attacks draw over
     encounter.draw()
     ui.draw()
@@ -241,14 +245,6 @@ function battleEngine.draw()
     if fadeOpacity > 0 then
         love.graphics.setColor(0, 0, 0, fadeOpacity)
         love.graphics.rectangle('fill', 0, 0, 640, 480)
-    end
-
-    -- DEBUG STUFF WONT BE USED LATER
-    if battle.state == "attack" and battle.turn == "enemies" then
-        love.graphics.setColor(0, 0, 0)
-        love.graphics.print("NO ATTACK SYSTEM YET (i restarted)\n1 - Red soul\n2 - Blue soul\n\nC/CTRL - Go to menu", -2, 2)
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.print("NO ATTACK SYSTEM YET (i restarted)\n1 - Red soul\n2 - Blue soul\n\nC/CTRL - Go to menu")
     end
 end
 
