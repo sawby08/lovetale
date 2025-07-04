@@ -125,8 +125,8 @@ function player.load()
 end
 
 function player.update(dt)
-    timeSince = timeSince + 1
-    if timeSince > 1 * dt*30 then
+    timeSince = timeSince + 1* dt*30
+    if timeSince >= 1 then
         timeSince = 0
         currentInvFrame = currentInvFrame + 1
     end
