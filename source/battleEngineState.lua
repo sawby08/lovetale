@@ -146,8 +146,7 @@ function battleEngine.load(encounterName)
         main = love.graphics.newFont('assets/fonts/determination-mono.ttf', 32),
         dialog = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
         attack = love.graphics.newFont("assets/fonts/hachicro.ttf", 32),
-        dialogue = love.graphics.newFont("assets/fonts/dotumche.ttf", 14),
-        comicsans = love.graphics.newFont("assets/fonts/comic-sans-ut.ttf", 14)
+        dialogue = love.graphics.newFont("assets/fonts/dotumche.ttf", 12)
     }
 
     -- Set all sounds to player configuration
