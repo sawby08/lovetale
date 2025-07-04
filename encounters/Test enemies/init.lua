@@ -167,19 +167,22 @@ data.attacks = {
                 speaker = 1,
                 text = "hey lads",
                 bubbleDirection = "right",
-                bubbleOffset = 125
+                bubbleOffset = 125,
+                font = fonts.dialogue
             },
             {
                 speaker = 1,
                 text = "how we doin today",
                 bubbleDirection = "right",
-                bubbleOffset = 125
+                bubbleOffset = 125,
+                font = fonts.sans
             },
             {
                 speaker = 2,
                 text = "SHUT YOUR FUCKING\nMOUTH!!!!!",
                 bubbleDirection = "left",
-                bubbleOffset = 0
+                bubbleOffset = 0,
+                font = fonts.papyrus
             }
         },
         init = function()
@@ -281,13 +284,15 @@ data.attacks = {
                 speaker = 1,        -- Enemy number from the enemies array
                 text = "why are you saying\nsuch rude things\nto me",
                 bubbleDirection = "right",
-                bubbleOffset = 125
+                bubbleOffset = 125,
+                font = fonts.dialogue
             },
             {
                 speaker = 2,
                 text = "shut up",
                 bubbleDirection = "left",
-                bubbleOffset = 0
+                bubbleOffset = 0,
+                font = fonts.dialogue
             }
         },
         init = function()
@@ -404,7 +409,8 @@ data.onDeath = function(enemy)       -- Function that's run when an enemy dies (
                     speaker = 2,
                     text = "heh. i don't believe\nin you anymore..",
                     bubbleDirection = "left",
-                    bubbleOffset = 0
+                    bubbleOffset = 0,
+                    font = fonts.dialogue
                 }
             },
             init = function()
@@ -459,7 +465,8 @@ data.onDeath = function(enemy)       -- Function that's run when an enemy dies (
                         speaker = 1,
                         text = "[shake]oh... :-(",
                         bubbleDirection = "right",
-                        bubbleOffset = 125
+                        bubbleOffset = 125,
+                        font = fonts.dialogue
                     }
                 },
                 init = function()
@@ -524,7 +531,8 @@ data.onSpare = function(enemy)
                     speaker = 2,
                     text = "this is cool i\nguess",
                     bubbleDirection = "left",
-                    bubbleOffset = 0
+                    bubbleOffset = 0,
+                    font = fonts.dialogue
                 }
             },
             init = function()
@@ -583,7 +591,8 @@ data.onSpare = function(enemy)
                         speaker = 1,
                         text = ":-) !!",
                         bubbleDirection = "right",
-                        bubbleOffset = 125
+                        bubbleOffset = 125,
+                        font = fonts.dialogue
                     }
                 },
                 init = function()

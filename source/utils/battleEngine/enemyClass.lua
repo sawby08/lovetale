@@ -58,16 +58,18 @@ function Enemy:draw()
         else
             love.graphics.setColor(1, 1, 1, 0.5)
         end
-        love.graphics.draw(
-            segment.image,
-            segment.x + self.x,
-            segment.y + self.y,
-            segment.direction or 0,
-            segment.xScale or 1,
-            segment.yScale or 1,
-            segment.xOrigin or 0,
-            segment.yOrigin or 0
-        )
+        if self.status ~= "killed" then
+            love.graphics.draw(
+                segment.image,
+                segment.x + self.x,
+                segment.y + self.y,
+                segment.direction or 0,
+                segment.xScale or 1,
+                segment.yScale or 1,
+                segment.xOrigin or 0,
+                segment.yOrigin or 0
+            )
+        end
     end
     love.graphics.pop()
 end
