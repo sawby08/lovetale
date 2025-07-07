@@ -332,6 +332,8 @@ function player.update(dt)
                     player.heart.y = ui.box.y + ui.box.height - 19
                     jumpstage = 1
                     vspeed = 0
+                else
+                    jumpstage = 2
                 end
                 if player.heart.y <= ui.box.y - ui.box.height + 2 then
                     vspeed = 1
