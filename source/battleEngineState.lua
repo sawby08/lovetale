@@ -1,13 +1,4 @@
 local battleEngine = {}
-
-local refs = {
-    main = love.graphics.newImage("refs/main.png"),
-    fight = love.graphics.newImage("refs/fight.png"),
-    acts = love.graphics.newImage("refs/acts.png"),
-    items = love.graphics.newImage("refs/items.png"),
-    choose = love.graphics.newImage("refs/choose.png"),
-    damage = love.graphics.newImage("refs/damage.png")
-}
 local fadeOpacity = 1
 
 local function deepcopy(orig)
