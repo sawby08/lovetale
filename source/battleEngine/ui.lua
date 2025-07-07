@@ -112,6 +112,10 @@ function ui.setUpTarget()
     shake, shakeMult, shakeMultTimer = 0, 1, 1
 end
 
+function ui.removeTweens()
+    tweens = {}
+end
+
 function ui.load()
     -- Set box dimensions
     ui.box = {
@@ -141,6 +145,7 @@ function ui.update(dt)
                 battleEngine.changeBattleState("dialogue", "enemies")
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
                     encounter.enemies[player.chosenEnemy].status = "killed"
+                    encounter.enemies[player.chosenEnemy].canSpare = false
                     sfx.dust:play()
                 end
             end
@@ -154,6 +159,7 @@ function ui.update(dt)
                 battleEngine.changeBattleState("dialogue", "enemies")
                 if encounter.enemies[player.chosenEnemy].hp == 0 then   -- Kill enemy if hp is 0
                     encounter.enemies[player.chosenEnemy].status = "killed"
+                    encounter.enemies[player.chosenEnemy].canSpare = false
                     sfx.dust:play()
                 end
             end
@@ -255,13 +261,14 @@ function ui.update(dt)
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
                     encounter.onDeath(player.chosenEnemy)
                     encounter.enemies[player.chosenEnemy].status = "killed"
+                    encounter.enemies[player.chosenEnemy].canSpare = false
                     sfx.dust:play()
                 end
                 if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
                     encounter.enemies[player.chosenEnemy].x = lastEnemyX
                 end
-                battleEngine.changeBattleState("dialogue", "enemies")
                 battleEngine.checkEnemiesStates()
+                battleEngine.changeBattleState("dialogue", "enemies")
             end
 
             if damageShow then
@@ -446,10 +453,13 @@ function ui.draw()
         end
     elseif battle.state == 'mercy' then
         love.graphics.setColor(1, 1, 1)
+        local i = 1
         for _, enemy in ipairs(encounter.enemies) do
             if enemy.canSpare then
                 love.graphics.setColor(conf.spareColor)
+                print('Enemy ' .. i .. ' sparable')
             end
+            i = i + 1
         end
         love.graphics.print('  * Spare', 68, 274)
         if encounter.canFlee then

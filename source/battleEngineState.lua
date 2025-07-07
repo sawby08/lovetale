@@ -80,6 +80,7 @@ function battleEngine.changeBattleState(state, turn)
             sfx.flee:play()
         elseif state == "end" then
             battle.choice = -1
+            ui.removeTweens()
             writer:setParams("* YOU WON!     \n* What you've won has not been\n  decided yet.", 52, 274, fonts.main, 0.02, writer.voices.menuText)
         end
     elseif turn == 'enemies' then

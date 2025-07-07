@@ -4,6 +4,8 @@ function eventsSetup(data)
     data.onDeath = function(enemy)       -- Function that's run when an enemy dies (enemy is the enemy that's dead)
         if enemy == 1 then
             battle.turnCount = 1
+            encounter.enemies[2].acts = {}
+            encounter.enemies[2].canSpare = true
             encounter.attacks = {}
             encounter.attacks[1] = {
                 boxDims = {
@@ -49,15 +51,13 @@ function eventsSetup(data)
                     -- Everything below this is your custom code
 
                     if attackTimer == 15 then
-                        local battleEngine = require 'source.battleEngineState'
-                        battleEngine.changeBattleState('buttons', 'player')
+                        ui.goToMenu()
                         bullets = {}
                     end
                 end,
                 draw = function()
                 end
             }
-            encounter.enemies[2].acts = {}
             encounter.text = "[clear]* Get a load of this guy[break]:face_holding_back_tears:"
         elseif enemy == 2 then
             battle.turnCount = 1
@@ -107,8 +107,7 @@ function eventsSetup(data)
                         -- Everything below this is your custom code
 
                         if attackTimer == 15 then
-                            local battleEngine = require 'source.battleEngineState'
-                            battleEngine.changeBattleState('buttons', 'player')
+                            ui.goToMenu()
                             bullets = {}
                         end
                     end,
