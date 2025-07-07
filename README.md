@@ -8,6 +8,8 @@
 !["A screenshot of the LÖVETALE engine."](./github/screenie5.png "A screenshot of the LÖVETALE engine.")
 !["A screenshot of the LÖVETALE engine."](./github/screenie.gif "A screenshot of the LÖVETALE engine.")
 
+[Gamejolt Page](https://gamejolt.com/games/lovetale/1000844)
+
 ## Controls
 - Move - ↑←↓→ / WASD
 - Confirm - Z / Enter

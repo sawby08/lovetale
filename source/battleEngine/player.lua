@@ -43,6 +43,8 @@ local function updatePosition(dt)
             }
             player.heart.x = positions.x[placement+1]
             player.heart.y = positions.y[placement+1]
+        elseif battle.state == "flee" then
+            
         else
             player.heart.x = -16
             player.heart.y = -16
