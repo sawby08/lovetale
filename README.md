@@ -8,9 +8,7 @@
 !["A screenshot of the LÖVETALE engine."](./github/screenie5.png "A screenshot of the LÖVETALE engine.")
 !["A screenshot of the LÖVETALE engine."](./github/screenie.gif "A screenshot of the LÖVETALE engine.")
 
-<iframe
-    src="https://widgets.gamejolt.com/package/v1?key=DEoZvnZP" frameborder="0" width="500" height="245">
-</iframe>
+[Gamejolt Page](https://gamejolt.com/games/lovetale/1000844)
 
 ## Controls
 - Move - ↑←↓→ / WASD
