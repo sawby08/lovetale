@@ -1,3 +1,4 @@
+-- encounter. is being used instead of data. because the enemy data has already been loaded by the encounter handler when these functions are called!
 function eventsSetup(data)
 
     data.onDeath = function(enemy)       -- Function that's run when an enemy dies (enemy is the enemy that's dead)

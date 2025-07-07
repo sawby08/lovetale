@@ -1,4 +1,5 @@
 -- Don't edit these!
+-- encounter. is being used instead of data. because the enemy data has already been loaded by the encounter handler when these functions are called!
 local timeSince = 0
 local bullets = {}
 local attackTimer = 0
