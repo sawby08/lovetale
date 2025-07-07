@@ -106,7 +106,11 @@ function encounterHandler.draw()
     for _, enemy in ipairs(encounterHandler.enemies) do
         love.graphics.push("all")
 
-        love.graphics.translate(0, ui.box.y - 253)
+        if battle.turn == "enemies" then
+            love.graphics.translate(0, encounter.attacks[battle.turnCount].boxDims.y - 253)
+        else
+           love.graphics.translate(0, 0) 
+        end
         enemy:draw()
 
         love.graphics.pop("pop")
@@ -120,7 +124,11 @@ function encounterHandler.background()
     if encounterHandler.backgroundImage then
         love.graphics.push("all")
 
-        love.graphics.translate(0, ui.box.y - 253)
+        if battle.turn == "enemies" then
+            love.graphics.translate(0, encounter.attacks[battle.turnCount].boxDims.y - 253)
+        else
+           love.graphics.translate(0, 0) 
+        end
         love.graphics.setColor(1, 1, 1)
         love.graphics.draw(encounterHandler.backgroundImage)
     
