@@ -495,7 +495,7 @@ function ui.draw()
     -- Draw speech bubbles
     if battle.state == "dialogue" then
         love.graphics.push("all")
-        love.graphics.translate(0, ui.box.y - 253)
+        love.graphics.translate(0, encounter.attacks[battle.turnCount].boxDims.y - 253)
         love.graphics.setColor(1, 1, 1)
         love.graphics.draw(
             speechBubble,

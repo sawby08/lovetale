@@ -227,7 +227,11 @@ function battleEngine.draw()
     ui.draw()
 
     love.graphics.push("all")
-    love.graphics.translate(0, ui.box.y - 253)
+    if battle.turn == "enemies" then
+        love.graphics.translate(0, encounter.attacks[battle.turnCount].boxDims.y - 253)
+    else
+        love.graphics.translate(0, 0) 
+    end
     writer:draw()
     love.graphics.pop()
     
