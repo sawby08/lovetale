@@ -57,32 +57,31 @@ function wavesSetup(data)
                     timeSince = 0
                 end
 
-                local i = 1 -- here to remove bullets
-                for _, bullet in ipairs(bullets) do
+                for i = #bullets, 1, -1 do
+                    local bullet = bullets[i]
                     bullet:update(dt)
                     if bullet.remove then
                         table.remove(bullets, i)
                     end
-                    i = i + 1
                 end
                 -- Everything below this is your custom code
 
                 if attackTimer == 15 then
                     table.insert(
                         bullets,
-                        exampleBullet:create(231, 312, 4, 0, "white", true, 2)
+                        exampleBullet:create(231, 312, 4, 0, 1, 1, "white", true, 2)
                     )
                     table.insert(
                         bullets,
-                        exampleBullet:create(312 + (312 - 231), 312, -4, 0, "white", true, 2)
+                        exampleBullet:create(312 + (312 - 231), 312, -4, 0, 1, 1, "white", true, 2)
                     )
                     table.insert(
                         bullets,
-                        exampleBullet:create(312, 253-24, 0, 4, "white", true, 2)
+                        exampleBullet:create(312, 253-24, 0, 4, 1, 1, "white", true, 2)
                     )
                     table.insert(
                         bullets,
-                        exampleBullet:create(312, 253 + 135 + 8, 0, -4, "white", true, 2)
+                        exampleBullet:create(312, 253 + 135 + 8, 0, -4, 1, 1, "white", true, 2)
                     )
                     attackTimer = 16    -- Prevents multiple insances of an attack at once
                 end
@@ -90,26 +89,26 @@ function wavesSetup(data)
                     for i=1, 16 do
                         table.insert(
                             bullets,
-                            exampleBullet:create(231 + i*17, 253 + 135 + 8, 0, -4, "orange", true, 2)
+                            exampleBullet:create(231 + i*17, 253 + 135 + 8, 0, -4, 1, 1, "orange", true, 2)
                         )
                     end
                     for i=1, 16 do
                         table.insert(
                             bullets,
-                            exampleBullet:create(231 + i*17, 253 - 24, 0, 4, "blue", true, 2)
+                            exampleBullet:create(231 + i*17, 253 - 24, 0, 4, 1, 1, "blue", true, 2)
                         )
                     end
                     table.insert(
                         bullets,
-                        exampleBullet:create(231, 253-24, 4, 4, "white", true, 2)
+                        exampleBullet:create(231, 253-24, 4, 4, 1, 1, "white", true, 2)
                     )
                     table.insert(
                         bullets,
-                        exampleBullet:create(312 + (312 - 231), 253-24, -4, 4, "white", true, 2)
+                        exampleBullet:create(312 + (312 - 231), 253-24, -4, 4, 1, 1, "white", true, 2)
                     )
                     table.insert(
                         bullets,
-                        exampleBullet:create(312, 253 + 135 + 8, 0, -4, "white", true, 2)
+                        exampleBullet:create(312, 253 + 135 + 8, 0, -4, 1, 1, "white", true, 2)
                     )
                     attackTimer = 31
                 end
@@ -168,73 +167,69 @@ function wavesSetup(data)
                     timeSince = 0
                 end
 
-                local i = 1 -- here to remove bullets
-                for _, bullet in ipairs(bullets) do
+                for i = #bullets, 1, -1 do
+                    local bullet = bullets[i]
                     bullet:update(dt)
                     if bullet.remove then
                         table.remove(bullets, i)
                     end
-                    i = i + 1
                 end
+
                 -- Everything below this is your custom code
 
-                if attackTimer == 15 then
-                    local rand1 = love.math.random(1, 12)
-                    local rand2 = love.math.random(1, 12)
-                    for i=1, 12 do
-                        if i ~= rand1 and i ~= rand2 then
+                if attackTimer == 25 then
+                    local rand = love.math.random(1, 6)
+                    for i=1, 6 do
+                        if i ~= rand then
                             table.insert(
                                 bullets,
-                                exampleBullet:create(204 + i*17, 187, 0, 4, "white", true, 2)
+                                exampleBullet:create(184 + i*34, 187, 0, 4, 2, 1, "white", true, 2)
                             )
-                            attackTimer = 16
+                            attackTimer = 26
                         end
                     end
                 end
 
-                if attackTimer == 30 then
-                    local rand1 = love.math.random(1, 12)
-                    local rand2 = love.math.random(1, 12)
-                    for i=1, 12 do
-                        if i ~= rand1 and i ~= rand2 then
+                if attackTimer == 50 then
+                    local rand = love.math.random(1, 6)
+                    for i=1, 6 do
+                        if i ~= rand then
                             table.insert(
                                 bullets,
-                                exampleBullet:create(204 + i*17, 187, 0, 4, "white", true, 2)
+                                exampleBullet:create(184 + i*34, 187, 0, 4, 2, 1, "white", true, 2)
                             )
-                            attackTimer = 31
+                            attackTimer = 51
                         end
                     end
                 end
-
-                if attackTimer == 45 then
-                    local rand1 = love.math.random(1, 12)
-                    local rand2 = love.math.random(1, 12)
-                    for i=1, 12 do
-                        if i ~= rand1 and i ~= rand2 then
+        
+                if attackTimer == 75 then
+                    local rand = love.math.random(1, 6)
+                    for i=1, 6 do
+                        if i ~= rand then
                             table.insert(
                                 bullets,
-                                exampleBullet:create(204 + i*17, 187, 0, 4, "white", true, 2)
+                                exampleBullet:create(184 + i*34, 187, 0, 4, 2, 1, "white", true, 2)
                             )
-                            attackTimer = 46
-                        end
-                    end
-                end
-
-                if attackTimer == 60 then
-                    local rand1 = love.math.random(1, 12)
-                    local rand2 = love.math.random(1, 12)
-                    for i=1, 12 do
-                        if i ~= rand1 and i ~= rand2 then
-                            table.insert(
-                                bullets,
-                                exampleBullet:create(204 + i*17, 187, 0, 4, "white", true, 2)
-                            )
-                            attackTimer = 61
+                            attackTimer = 76
                         end
                     end
                 end
 
                 if attackTimer == 100 then
+                    local rand = love.math.random(1, 6)
+                    for i=1, 6 do
+                        if i ~= rand then
+                            table.insert(
+                                bullets,
+                                exampleBullet:create(184 + i*34, 187, 0, 4, 2, 1, "white", true, 2)
+                            )
+                            attackTimer = 101
+                        end
+                    end
+                end
+
+                if attackTimer == 130 then
                     ui.goToMenu()
                     bullets = {}
                 end
