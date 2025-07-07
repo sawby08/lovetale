@@ -115,8 +115,7 @@ function wavesSetup(data)
                 end
 
                 if attackTimer == 70 then
-                    local battleEngine = require 'source.battleEngineState'
-                    battleEngine.changeBattleState('buttons', 'player')
+                    ui.goToMenu()
                     bullets = {}
                 end
             end,
@@ -236,8 +235,7 @@ function wavesSetup(data)
                 end
 
                 if attackTimer == 100 then
-                    local battleEngine = require 'source.battleEngineState'
-                    battleEngine.changeBattleState('buttons', 'player')
+                    ui.goToMenu()
                     bullets = {}
                 end
             end,

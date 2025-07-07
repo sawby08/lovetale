@@ -43,8 +43,8 @@ function battleEngine.changeBattleState(state, turn)
     input.refresh()
     if turn == 'player' then
         if state == 'buttons' then
-            if battle.state == 'attack' and battle.turn == 'enemies' then
-                battle.choice = player.lastButton
+            if battle.state == 'go to menu' then
+                battle.choice = player.lastButton or 0
                 battle.subchoice = 0
             end
             local encounterText
@@ -105,6 +105,7 @@ function battleEngine.changeBattleState(state, turn)
                 battle.turnCount = battle.turnCount + 1
             end
             ui.doDialogueStuff()
+            ui.goToAttack()
         end
         if state == 'attack' then
             writer:stop()
@@ -240,15 +241,6 @@ function battleEngine.draw()
     love.graphics.pop()
     
     player.draw()
-    
-
-    -- Saves the graphics state so drawing the ref and black base doesn't mess up the other stuff
-    love.graphics.push("all")
-
-    love.graphics.setColor(1, 1, 1, 0)
-    love.graphics.draw(refs.damage, 0, 0)
-
-    love.graphics.pop()
 
     if fadeOpacity > 0 then
         love.graphics.setColor(0, 0, 0, fadeOpacity)

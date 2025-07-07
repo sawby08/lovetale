@@ -1,4 +1,4 @@
--- All encounter-related stuff is in the example encounter's init.lua file. Only get in here if you know what you're doing please!! this code can be ugly sometimes!!
+-- All encounter-related stuff is in the example encounter folder. Only get in here if you know what you're doing please!! this code can be ugly sometimes!!
 
 currentScene = nil
 local isPaused = false

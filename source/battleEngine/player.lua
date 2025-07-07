@@ -22,10 +22,7 @@ player.stats = {}
 -- This only exists because I don't know a better way to make the heart not delayed between menu states
 local function updatePosition(dt)
     if battle.turn == 'player' then
-        if battle.state == 'fight' or battle.state == 'perform act' or battle.state == 'use item' or battle.state == "end" then
-            player.heart.x = -16
-            player.heart.y = -16
-        elseif battle.state == 'buttons' then
+        if battle.state == 'buttons' then
             player.heart.x = ui.buttons[battle.choice].x + 8
             player.heart.y = ui.buttons[battle.choice].y + 13
         elseif battle.state == 'choose enemy' or battle.state == 'mercy' then
@@ -46,6 +43,9 @@ local function updatePosition(dt)
             }
             player.heart.x = positions.x[placement+1]
             player.heart.y = positions.y[placement+1]
+        else
+            player.heart.x = -16
+            player.heart.y = -16
         end
     end
     if battle.turn == 'enemies' then
@@ -191,6 +191,7 @@ function player.update(dt)
             end
         elseif battle.state == 'use item' and writer.isDone and input.check('confirm', 'pressed') then
             battleEngine.changeBattleState('attack', 'enemies')
+            ui.goToAttack()
         elseif battle.state == 'item' then
             if input.check('up', 'pressed') then
                 performMove('item', -2)

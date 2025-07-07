@@ -46,6 +46,10 @@ local lastEnemyX, shake, shakeMult, shakeMultTimer = nil, 0, 1, 0
 local speechBubble = love.graphics.newImage('assets/images/ui/speechbubble.png')
 local dialogueIteration = 1
 
+-- Load tweening library for box movement
+local tween = require 'source.utils.tween'
+local tweens = {}
+
 local function drawText(text, x, y, color, outlineColor)
     for i = -3, 3 do
         love.graphics.setColor(outlineColor)
@@ -79,6 +83,15 @@ function ui.doDialogueStuff()
             encounter.attacks[battle.turnCount].dialogue[dialogueIteration].voice
         )
     end
+end
+
+function ui.goToMenu()
+    battleEngine.changeBattleState('go to menu', 'enemies')
+    table.insert(tweens, tween.new(1/3, ui.box, {x = 35, y = 253, width = 570, height = 135}, 'linear'))
+end
+
+function ui.goToAttack()
+    table.insert(tweens, tween.new(1/3, ui.box, {x = encounter.attacks[battle.turnCount].boxDims.x, y = encounter.attacks[battle.turnCount].boxDims.y, width = encounter.attacks[battle.turnCount].boxDims.width, height = encounter.attacks[battle.turnCount].boxDims.height}, 'linear'))
 end
 
 function ui.setUpTarget()
@@ -267,20 +280,18 @@ function ui.update(dt)
         end
     end
 
-    -- Update box
+    -- Update box tweens
+    for _, activeTweens in ipairs(tweens) do
+        activeTweens:update(dt)
+    end
     if battle.turn == "enemies" then
         targetScale = targetScale + dt*4
         fightUiAlpha = fightUiAlpha - dt*4
-        ui.box.x = ui.box.x + (encounter.attacks[battle.turnCount].boxDims.x - ui.box.x) * 0.3 * dt*30
-        ui.box.y = ui.box.y + (encounter.attacks[battle.turnCount].boxDims.y - ui.box.y) * 0.3 * dt*30
-        ui.box.width = ui.box.width + (encounter.attacks[battle.turnCount].boxDims.width - ui.box.width) * 0.3 * dt*30
-        ui.box.height = ui.box.height + (encounter.attacks[battle.turnCount].boxDims.height - ui.box.height) * 0.3 * dt*30
     end
-    if battle.turn == "player" then
-        ui.box.x = ui.box.x + (35 - ui.box.x) * 0.3 * dt*30
-        ui.box.y = ui.box.y + (253 - ui.box.y) * 0.3 * dt*30
-        ui.box.width = ui.box.width + (570 - ui.box.width) * 0.3 * dt*30
-        ui.box.height = ui.box.height + (135 - ui.box.height) * 0.3 * dt*30
+    if battle.state == "go to menu" then
+        if ui.box.x == 35 then
+            battleEngine.changeBattleState('buttons', 'player')
+        end
     end
 
     -- Progress through dialogue
