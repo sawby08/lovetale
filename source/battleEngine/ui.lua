@@ -67,7 +67,7 @@ function ui.doDialogueStuff()
             encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].y + 12,
             encounter.attacks[battle.turnCount].dialogue[dialogueIteration].font,
             0.02,
-            writer.voices.menuText
+            encounter.attacks[battle.turnCount].dialogue[dialogueIteration].voice
         )
     else
         writer:setParams(
@@ -76,7 +76,7 @@ function ui.doDialogueStuff()
             encounter.enemies[encounter.attacks[battle.turnCount].dialogue[dialogueIteration].speaker].y + 12,
             encounter.attacks[battle.turnCount].dialogue[dialogueIteration].font,
             0.02,
-            writer.voices.menuText
+            encounter.attacks[battle.turnCount].dialogue[dialogueIteration].voice
         )
     end
 end

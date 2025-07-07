@@ -20,21 +20,24 @@ function wavesSetup(data)
                     text = "hey lads",
                     bubbleDirection = "right",
                     bubbleOffset = 125,
-                    font = fonts.dialogue
+                    font = fonts.dialogue,
+                    voice = data.voices.default
                 },
                 {
                     speaker = 1,
                     text = "how we doin today",
                     bubbleDirection = "right",
                     bubbleOffset = 125,
-                    font = fonts.sans
+                    font = fonts.sans,
+                    voice = data.voices.sans
                 },
                 {
                     speaker = 2,
                     text = "SHUT YOUR FUCKING\nMOUTH!!!!!",
                     bubbleDirection = "left",
                     bubbleOffset = 0,
-                    font = fonts.papyrus
+                    font = fonts.papyrus,
+                    voice = data.voices.papyrus
                 }
             },
             init = function()
@@ -137,14 +140,16 @@ function wavesSetup(data)
                     text = "why are you saying\nsuch rude things\nto me",
                     bubbleDirection = "right",
                     bubbleOffset = 125,
-                    font = fonts.dialogue
+                    font = fonts.dialogue,
+                    voice = data.voices.default
                 },
                 {
                     speaker = 2,
                     text = "shut up",
                     bubbleDirection = "left",
                     bubbleOffset = 0,
-                    font = fonts.dialogue
+                    font = fonts.dialogue,
+                    voice = data.voices.default
                 }
             },
             init = function()

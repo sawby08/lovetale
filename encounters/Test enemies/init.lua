@@ -12,6 +12,12 @@ data.encounterType = 'random'
 data.bgmPath = "sound/mus_strongermonsters.ogg"
 data.backgroundImagePath = "images/backgrounds/spr_battlebg_1.png"
 data.backgroundColor = {0, 0, 0}
+--                                                                              |
+data.voices = {     -- Located in sound/voices                                  v   edit this
+    default = love.audio.newSource(data.encounterPath .. 'sound/voices/' .. 'monster.wav', 'static'),
+    papyrus = love.audio.newSource(data.encounterPath .. 'sound/voices/' .. 'papyrus.wav', 'static'),
+    sans = love.audio.newSource(data.encounterPath  .. 'sound/voices/' .. 'sans.wav', 'static')
+}
 
 require(data.encounterPath .. 'events')
 require(data.encounterPath .. 'waves')
@@ -151,9 +157,11 @@ data.enemyData = {
     }
 }
 
-----==== CALL STUFF FROM OTHER FILES ====----
+
 wavesSetup(data)
 eventsSetup(data)
+
+----==== CALL STUFF FROM OTHER FILES ====----
 
 data.playerLove = 1
 data.playerName = "Sawby"

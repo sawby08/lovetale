@@ -17,7 +17,8 @@ function eventsSetup(data)
                         text = "heh. i don't believe\nin you anymore..",
                         bubbleDirection = "left",
                         bubbleOffset = 0,
-                        font = fonts.dialogue
+                        font = fonts.papyrus,
+                        voice = data.voices.papyrus
                     }
                 },
                 init = function()
@@ -55,7 +56,8 @@ function eventsSetup(data)
                 draw = function()
                 end
             }
-            encounter.text = "[clear]shut up dude"
+            encounter.enemies[2].acts = {}
+            encounter.text = "[clear]* Get a load of this guy[break]:face_holding_back_tears:"
         elseif enemy == 2 then
             battle.turnCount = 1
             encounter.bgm:setPitch(0.25)
@@ -73,7 +75,8 @@ function eventsSetup(data)
                             text = "[shake]oh... :-(",
                             bubbleDirection = "right",
                             bubbleOffset = 125,
-                            font = fonts.dialogue
+                            font = fonts.dialogue,
+                            voice = data.voices.default
                         }
                     },
                     init = function()
@@ -139,7 +142,8 @@ function eventsSetup(data)
                         text = "this is cool i\nguess",
                         bubbleDirection = "left",
                         bubbleOffset = 0,
-                        font = fonts.dialogue
+                        font = fonts.dialogue,
+                        voice = data.voices.default
                     }
                 },
                 init = function()
@@ -199,7 +203,8 @@ function eventsSetup(data)
                             text = ":-) !!",
                             bubbleDirection = "right",
                             bubbleOffset = 125,
-                            font = fonts.dialogue
+                            font = fonts.dialogue,
+                            voice = data.voices.default
                         }
                     },
                     init = function()

@@ -157,10 +157,12 @@ function player.update(dt)
                             sfx.dust:play()
                             sparedenem = i
                         end
+                        if enemy.status == "alive" then
+                            encounter.onSpare(sparedenem)
+                        end
                         i = i + 1
                         battle.choice = -1
                     end
-                    encounter.onSpare(sparedenem)
                     battleEngine.changeBattleState('dialogue', 'enemies')
                     battleEngine.checkEnemiesStates()
                 elseif battle.subchoice == 1 then
