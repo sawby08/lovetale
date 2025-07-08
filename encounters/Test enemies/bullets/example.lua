@@ -57,7 +57,7 @@ function Bullet:draw()
             if self.color == 'orange' then
                 love.graphics.setColor(1, 0.5, 0)
             elseif self.color == 'blue' then
-                love.graphics.setColor(0.25, 0.25, 1)
+                love.graphics.setColor(0, 162 / 255, 232 / 255)
             else
                 love.graphics.setColor(1, 1, 1)
             end
@@ -67,7 +67,7 @@ function Bullet:draw()
         if self.color == 'orange' then
             love.graphics.setColor(1, 0.5, 0)
         elseif self.color == 'blue' then
-            love.graphics.setColor(0.25, 0.25, 1)
+            love.graphics.setColor(0, 162 / 255, 232 / 255)
         else
             love.graphics.setColor(1, 1, 1)
         end
