@@ -84,12 +84,6 @@ function battleEngine.changeBattleState(state, turn)
             writer:setParams("* YOU WON!     \n* What you've won has not been\n  decided yet.", 52, 274, fonts.main, 0.02, writer.voices.menuText)
         end
     elseif turn == 'enemies' then
-        player.heart.x = 312
-        if player.mode == 2 then
-            player.heart.y = encounter.attacks[battle.turnCount].boxDims.y + encounter.attacks[battle.turnCount].boxDims.height
-        else
-            player.heart.y = 312
-        end
         if state == 'dialogue' then
             if encounter.encounterType == "random" then
                 battle.turnCount = love.math.random(1, #encounter.attacks)
@@ -98,10 +92,14 @@ function battleEngine.changeBattleState(state, turn)
             end
             ui.doDialogueStuff()
             ui.goToAttack()
+            player.heart.x = encounter.attacks[battle.turnCount].boxDims.x + (encounter.attacks[battle.turnCount].boxDims.width / 2) - 8
+            player.heart.y = encounter.attacks[battle.turnCount].boxDims.y + (encounter.attacks[battle.turnCount].boxDims.height / 2) - 8
         end
         if state == 'attack' then
             writer:stop()
             encounter.attacks[battle.turnCount].init()
+            player.heart.x = encounter.attacks[battle.turnCount].boxDims.x + (encounter.attacks[battle.turnCount].boxDims.width / 2) - 8
+            player.heart.y = encounter.attacks[battle.turnCount].boxDims.y + (encounter.attacks[battle.turnCount].boxDims.height / 2) - 8
         end
     else
         error('Turn type ' .. turn .. ' not valid, can only either be player or enemies')

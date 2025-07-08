@@ -65,6 +65,8 @@ local function updatePosition(dt)
             if player.heart.y > ui.box.y + ui.box.height - 19 then
                 player.heart.y = ui.box.y + ui.box.height - 19
             end
+        elseif battle.state == "dialogue" then
+            
         else
             player.heart.x = -16
             player.heart.y = -16
