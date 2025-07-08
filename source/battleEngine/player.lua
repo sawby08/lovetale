@@ -49,23 +49,25 @@ local function updatePosition(dt)
             player.heart.x = -16
             player.heart.y = -16
         end
-    end
-    if battle.turn == 'enemies' then
-        if battle.state == 'attack' then
+    elseif battle.turn == 'enemies' then
+        if battle.state == "attack" then
             player.heart.x = player.heart.x + (xvel * dt*30)
             player.heart.y = player.heart.y + (yvel * dt*30)
-        end
-        if player.heart.x < ui.box.x + 2 then
-            player.heart.x = ui.box.x + 2
-        end
-        if player.heart.x > ui.box.x + ui.box.width - 19 then
-            player.heart.x = ui.box.x + ui.box.width - 19
-        end
-        if player.heart.y < ui.box.y + 2 then
-            player.heart.y = ui.box.y + 2
-        end
-        if player.heart.y > ui.box.y + ui.box.height - 19 then
-            player.heart.y = ui.box.y + ui.box.height - 19
+            if player.heart.x < ui.box.x + 2 then
+                player.heart.x = ui.box.x + 2
+            end
+            if player.heart.x > ui.box.x + ui.box.width - 19 then
+                player.heart.x = ui.box.x + ui.box.width - 19
+            end
+            if player.heart.y < ui.box.y + 2 then
+                player.heart.y = ui.box.y + 2
+            end
+            if player.heart.y > ui.box.y + ui.box.height - 19 then
+                player.heart.y = ui.box.y + ui.box.height - 19
+            end
+        else
+            player.heart.x = -16
+            player.heart.y = -16
         end
     end
 end
@@ -159,9 +161,7 @@ function player.update(dt)
                             sfx.dust:play()
                             sparedenem = i
                         end
-                        if enemy.status == "alive" then
-                            encounter.onSpare(sparedenem)
-                        end
+                        encounter.onSpare(sparedenem)
                         i = i + 1
                         battle.choice = -1
                     end

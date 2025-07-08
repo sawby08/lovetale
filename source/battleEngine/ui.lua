@@ -453,13 +453,10 @@ function ui.draw()
         end
     elseif battle.state == 'mercy' then
         love.graphics.setColor(1, 1, 1)
-        local i = 1
         for _, enemy in ipairs(encounter.enemies) do
             if enemy.canSpare then
                 love.graphics.setColor(conf.spareColor)
-                print('Enemy ' .. i .. ' sparable')
             end
-            i = i + 1
         end
         love.graphics.print('  * Spare', 68, 274)
         if encounter.canFlee then

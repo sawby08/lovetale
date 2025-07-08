@@ -173,8 +173,7 @@ function eventsSetup(data)
                     -- Everything below this is your custom code
 
                     if attackTimer == 15 then
-                        local battleEngine = require 'source.battleEngineState'
-                        battleEngine.changeBattleState('buttons', 'player')
+                        ui.goToMenu()
                         bullets = {}
                     end
                 end,
@@ -234,8 +233,7 @@ function eventsSetup(data)
                         -- Everything below this is your custom code
 
                         if attackTimer == 15 then
-                            local battleEngine = require 'source.battleEngineState'
-                            battleEngine.changeBattleState('buttons', 'player')
+                            ui.goToMenu()
                             bullets = {}
                         end
                     end,

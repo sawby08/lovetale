@@ -132,6 +132,4 @@ function love.draw()
         windowWidth, windowHeight = love.window.getMode()
         love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
     end
-
-    love.graphics.print(love.timer.getFPS())
 end
