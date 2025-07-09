@@ -90,7 +90,7 @@ function ui.doDialogueStuff()
 end
 
 function ui.goToMenu()
-    battleEngine.changeBattleState('go to menu', 'enemies')
+    battleEngine.changeBattleState('go to menu', 'player')
     table.insert(tweens, tween.new(1/3, ui.box, {x = 35, y = 253, width = 570, height = 135}, 'linear'))
 end
 
@@ -248,7 +248,7 @@ function ui.update(dt)
             if sliceFrame == 1 then
                 -- Animate enemy dodging
                 if not dodgeStep1 and encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
-                    table.insert(tweens, tween.new(1/2, encounter.enemies[player.chosenEnemy], {x = lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset}, 'outQuad'))
+                    table.insert(tweens, tween.new(1/3, encounter.enemies[player.chosenEnemy], {x = lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset}, 'outSine'))
                     dodgeStep1 = false
                 end
             end

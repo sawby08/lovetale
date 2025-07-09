@@ -217,12 +217,12 @@ end
 
 function battleEngine.draw()
     encounter.background()
+    encounter.draw()
     ui.drawbox('fill') -- Separate function so attacks draw over
     if battle.state == "attack" and battle.turn == "enemies" then
         encounter.attacks[battle.turnCount].draw()
     end
     ui.drawbox('line') -- Separate function so attacks draw over
-    encounter.draw()
     ui.draw()
 
     love.graphics.push("all")
