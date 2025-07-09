@@ -22,6 +22,7 @@ local border = love.graphics.newImage(borders.sepia)
 input = require 'source.utils.input'
 Camera = require 'source.utils.camera'
 local inifile = require 'source.utils.inifile'
+require('source.utils.fps')
 
 function love.keypressed(key)
     input.keypressed(key)
@@ -76,11 +77,9 @@ function love.load()
     currentScene.load('Test enemies')
     player.hitboxLenience = config.player.hitboxLenience
     camera = Camera.new(640, 480)
-    lastf = love.timer.getTime()
 end
 
 function love.update(dt)
-    curf = love.timer.getTime()
     input.update(dt)
     camera:update(dt)
     love.audio.setVolume(conf.mainVolume)
@@ -100,13 +99,6 @@ function love.update(dt)
     end
 
     input.refresh()
-    local elasped = curf - lastf
-    local sleep = 1/conf.fps - elasped
-    if sleep > 0 then
-        love.timer.sleep(sleep)
-    end
-
-    lastf = love.timer.getTime()
 end
 
 function love.draw()

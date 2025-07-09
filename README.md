@@ -20,28 +20,20 @@
 
 <p>These are customizable in the `config.ini` file, as well as the enemy spare color, hitbox lenience, FPS, the usage of borders, and more.</p>
 
-## Progress
-<p>This engine is functionally complete, though some polish needs to be made.</p>
-
-- FIGHTing is completely finished.
-    - Dusting effect has not been implemented yet. To be honest, I don't even know where to start with this.
-
-- ACTing is completely finished.
-
-- ITEMs are completely finished.
-
-- MERCY is completely finished.
-    - Sparing dust effect has not been implemented yet.
-
-- Enemy attacks are completely finished.
-
-<p>My overall progress estimation is 95% completed. Again, this engine is techincally finished but I need to polish some things out.</p>
+## Notes
+- This engine isn't compatible with love.js.
+    - The FPS limiter I use modifies love.run() which probably isn't supported by the program.
+        - I was previously using an FPS limiter that supported love.js (which allowed for testing the engine in the web atrols  least) but it made the controls feel a little weird so I switched back.
+    - I think the state manager has some compatibility issues, too? It probably has something to do with constant love.load() calls but honestly I can't be bothered to make it completely compatible.
+- The ACT and ITEM menu controls aren't one-to-one to the original game. I couldn't find a way to make it accurate while not having it hard-coded so they control a little differently.
+    - Because of this, the ITEM menu supports unlimited pages!
 
 ## Credits
 <p>I'm the only person working on this engine, but I used stuff from these cool people!</p>
 
-[92q6](https://github.com/92q6) - A friend of mine who I stole some code from.<br>
-[emir4169](https://github.com/emir4169) - Pull requests on my older engine that inspired some coding methods on this one <br>
+[92q6](https://github.com/92q6) - Awesome friend that I exchange programming ideas with.<br>
+[emir4169](https://github.com/emir4169) - Pull requests on my older engine that inspired some coding methods on this one. <br>
+[Davidobot's post on the LOVE2D forums](https://love2d.org/forums/viewtopic.php?p=199030&sid=5e50e42e22e4538ca0f3f7b0717aa2f2#p199030) - FPS Limiter. </br>
 [Toby Fox](https://x.com/tobyfox) - Developer of Undertale, also the composer of Stronger Monsters. </br>
 [Temmie Chang](https://x.com/tuyoki) - Developer of Undertale. </br>
 

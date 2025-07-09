@@ -50,6 +50,10 @@ local dialogueIteration = 1
 local tween = require 'source.utils.tween'
 local tweens = {}
 
+-- idk if this does anything i hope it does
+local dodgeStep1 = false
+local dodgeStep2 = false
+
 local function drawText(text, x, y, color, outlineColor)
     for i = -3, 3 do
         love.graphics.setColor(outlineColor)
@@ -110,6 +114,8 @@ function ui.setUpTarget()
     damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
     fightUiAlpha, targetScale = 1, 0
     shake, shakeMult, shakeMultTimer = 0, 1, 1
+    dodgeStep1 = false
+    dodgeStep2 = false
 end
 
 function ui.removeTweens()
@@ -239,15 +245,17 @@ function ui.update(dt)
                     end
                 end
             end
-
-            if sliceFrame > 0 and sliceFrame < 11 then
+            if sliceFrame == 1 then
                 -- Animate enemy dodging
-                if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
-                    encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
+                if not dodgeStep1 and encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+                    table.insert(tweens, tween.new(1/2, encounter.enemies[player.chosenEnemy], {x = lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset}, 'outQuad'))
+                    dodgeStep1 = false
                 end
-            else
-                if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
-                    encounter.enemies[player.chosenEnemy].x = encounter.enemies[player.chosenEnemy].x + (lastEnemyX - encounter.enemies[player.chosenEnemy].x) * 0.3 * dt*30
+            end
+            if sliceFrame == 17 then
+                if not dodgeStep2 and encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+                    table.insert(tweens, tween.new(1/2, encounter.enemies[player.chosenEnemy], {x = lastEnemyX}, 'inCubic'))
+                    dodgeStep2 = true
                 end
             end
             -- Start playing enemy animation again after being hit
