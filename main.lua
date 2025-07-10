@@ -41,7 +41,6 @@ local function split(str, sep)  -- Helper function that loads lists from .ini fi
 end
 
 currentScene = scenes.battleEngine
-local lastf, curf = 0, 0
 function love.load()
     love.audio.stop()
     love.graphics.setDefaultFilter('nearest', 'nearest')
