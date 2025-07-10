@@ -245,15 +245,15 @@ function ui.update(dt)
                     end
                 end
             end
-            if sliceFrame == 1 then
+            if sliceFrame == 1 or sliceFrame == 2 then
                 -- Animate enemy dodging
-                if not dodgeStep1 and encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+                if (not dodgeStep1) and encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
                     table.insert(tweens, tween.new(1/3, encounter.enemies[player.chosenEnemy], {x = lastEnemyX+encounter.enemies[player.chosenEnemy].dodgeOffset}, 'outSine'))
                     dodgeStep1 = false
                 end
             end
-            if sliceFrame == 17 then
-                if not dodgeStep2 and encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
+            if sliceFrame == 17 or sliceFrame == 18 then
+                if (not dodgeStep2) and encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
                     table.insert(tweens, tween.new(1/2, encounter.enemies[player.chosenEnemy], {x = lastEnemyX}, 'inCubic'))
                     dodgeStep2 = true
                 end
