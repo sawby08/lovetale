@@ -275,8 +275,8 @@ function ui.update(dt)
                 if encounter.enemies[player.chosenEnemy].canDodge and lastEnemyX then
                     encounter.enemies[player.chosenEnemy].x = lastEnemyX
                 end
-                battleEngine.checkEnemiesStates()
                 battleEngine.changeBattleState("dialogue", "enemies")
+                battleEngine.checkEnemiesStates()
             end
 
             if damageShow then

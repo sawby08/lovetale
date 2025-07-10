@@ -5,7 +5,7 @@ function eventsSetup(data)
         if enemy == 1 then
             battle.turnCount = 1
             encounter.enemies[2].acts = {}
-            encounter.enemies[2].canSpare = true
+            encounter.enemies[2].canSpare = false
             encounter.attacks = {}
             encounter.attacks[1] = {
                 boxDims = {
