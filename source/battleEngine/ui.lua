@@ -51,8 +51,7 @@ local tween = require 'source.utils.tween'
 local tweens = {}
 
 -- idk if this does anything i hope it does
-local dodgeStep1 = false
-local dodgeStep2 = false
+local dodgeStep1, dodgeStep2 = false, false
 
 local function drawText(text, x, y, color, outlineColor)
     for i = -3, 3 do
@@ -114,8 +113,7 @@ function ui.setUpTarget()
     damageTextYvel, damageTextY, damageShow, damageType = 0, 0, false, "miss"
     fightUiAlpha, targetScale = 1, 0
     shake, shakeMult, shakeMultTimer = 0, 1, 1
-    dodgeStep1 = false
-    dodgeStep2 = false
+    dodgeStep1, dodgeStep2 = false, false
 end
 
 function ui.removeTweens()
@@ -202,7 +200,8 @@ function ui.update(dt)
                 sliceFrame = sliceFrame + 1
             end
 
-            if lastEnemyX and sliceFrame > 11 and not encounter.enemies[player.chosenEnemy].canDodge then
+            if (lastEnemyX) and (sliceFrame > 11) and (not encounter.enemies[player.chosenEnemy].canDodge) then
+                ui.removeTweens()
                 if shake > 0 then
                     shake = shake - 8 * dt*30
                     encounter.enemies[player.chosenEnemy].doAnimation = false
