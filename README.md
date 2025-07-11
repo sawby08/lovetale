@@ -27,6 +27,7 @@
     - I think the state manager has some compatibility issues, too? It probably has something to do with constant love.load() calls but honestly I can't be bothered to make it completely compatible.
 - The ACT and ITEM menu controls aren't one-to-one to the original game. I couldn't find a way to make it accurate while not having it hard-coded so they control a little differently.
     - Because of this, the ITEM menu supports unlimited pages!
+- This *does* serve as a battle engine for others to use, but to me this is primarily just a learning project! Some code could definitely use some touching up but regardless this project helped me learn a lot about LÖVE that'll come in handy in the future.
 
 ## Credits
 <p>I'm the only person working on this engine, but I used stuff from these cool people!</p>
@@ -37,7 +38,7 @@
 [Toby Fox](https://x.com/tobyfox) - Developer of Undertale, also the composer of Stronger Monsters. </br>
 [Temmie Chang](https://x.com/tuyoki) - Developer of Undertale. </br>
 
-<p>My Discord username is @sawby08 if you need anything or if you're willing to offer help!</p>
+<p>My Discord username is @sawby08 if you need anything!</p>
 
 ## How to Run
 <p>I assume you already know how to do this but I thought I'd make these just in case!<br>An easy way to run this engine is to:</p>
