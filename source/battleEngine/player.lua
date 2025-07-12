@@ -118,10 +118,12 @@ function player.hurt(damage)
         sfx.hurt:stop()
         sfx.hurt:play()
     elseif currentInvFrame >= player.invFrames then
-        camera:shake(1, 1)
+        if player.stats.hp - damage > 0 then
+            camera:shake(1, 1)
+            sfx.hurt:stop()
+            sfx.hurt:play()
+        end
         player.stats.hp = player.stats.hp - damage
-        sfx.hurt:stop()
-        sfx.hurt:play()
         currentInvFrame = 0
     end
 end
