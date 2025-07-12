@@ -91,12 +91,12 @@ function battleEngine.changeBattleState(state, turn)
             end
             ui.doDialogueStuff()
             ui.goToAttack()
+            encounter.attacks[battle.turnCount].init()
             player.heart.x = encounter.attacks[battle.turnCount].boxDims.x + (encounter.attacks[battle.turnCount].boxDims.width / 2) - 8
             player.heart.y = encounter.attacks[battle.turnCount].boxDims.y + (encounter.attacks[battle.turnCount].boxDims.height / 2) - 8
         end
         if state == 'attack' then
             writer:stop()
-            encounter.attacks[battle.turnCount].init()
             player.heart.x = encounter.attacks[battle.turnCount].boxDims.x + (encounter.attacks[battle.turnCount].boxDims.width / 2) - 8
             player.heart.y = encounter.attacks[battle.turnCount].boxDims.y + (encounter.attacks[battle.turnCount].boxDims.height / 2) - 8
         end

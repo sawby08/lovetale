@@ -22,7 +22,6 @@ require('source.utils.fps')
 sceneman = require 'source.utils.sceneman'
 sceneman.scenePrefix = "source."
 
-
 function love.keypressed(key)
     input.keypressed(key)
 end
