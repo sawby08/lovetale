@@ -24,7 +24,7 @@
 - This engine isn't compatible with love.js.
     - The FPS limiter I use modifies love.run() which probably isn't supported by the program.
         - I was previously using an FPS limiter that supported love.js (which allowed for testing the engine in the web atrols  least) but it made the controls feel a little weird so I switched back.
-    - I think the state manager has some compatibility issues, too? It probably has something to do with constant love.load() calls but honestly I can't be bothered to make it completely compatible.
+    - I switched to sceneman from my own old and bad scene manager but I'm not bothered to test it myself. If you're interested in doing it yourself, just remove all of the code in `fps.lua` or remove the require function in `main.lua`.
 - The ACT and ITEM menu controls aren't one-to-one to the original game. I couldn't find a way to make it accurate while not having it hard-coded so they control a little differently.
     - Because of this, the ITEM menu supports unlimited pages!
 - This *does* serve as a battle engine for others to use, but to me this is primarily just a learning project! Some code could definitely use some touching up but regardless this project helped me learn a lot about LÖVE that'll come in handy in the future.
@@ -37,6 +37,7 @@
 [Davidobot's post on the LOVE2D forums](https://love2d.org/forums/viewtopic.php?p=199030&sid=5e50e42e22e4538ca0f3f7b0717aa2f2#p199030) - FPS Limiter. </br>
 [Toby Fox](https://x.com/tobyfox) - Developer of Undertale, also the composer of Stronger Monsters. </br>
 [Temmie Chang](https://x.com/tuyoki) - Developer of Undertale. </br>
+[lonesound's pklove repository](https://codeberg.org/lonesound/pklove/src/branch/main/sceneman.lua) - Scene Manager (sceneman.lua)
 
 <p>My Discord username is @sawby08 if you need anything!</p>
 

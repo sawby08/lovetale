@@ -1,11 +1,7 @@
 -- All encounter-related stuff is in the example encounter folder. Only get in here if you know what you're doing please!! this code can be ugly sometimes!!
 
-currentScene = nil
-local isPaused = false
-scenes = {
-    battleEngine = require 'source.battleEngineState',
-    gameover = require 'source.gameOverState'
-}
+local quitTimer = 0
+local curTimer
 local borders = {
     castle = "assets/images/borders/bg_border_castle_1080.png",
     fire = "assets/images/borders/bg_border_fire_1080.png",
@@ -23,6 +19,7 @@ input = require 'source.utils.input'
 Camera = require 'source.utils.camera'
 local inifile = require 'source.utils.inifile'
 require('source.utils.fps')
+sceneman = require 'source.utils.sceneman'
 
 function love.keypressed(key)
     input.keypressed(key)
@@ -40,7 +37,6 @@ local function split(str, sep)  -- Helper function that loads lists from .ini fi
     return result
 end
 
-currentScene = scenes.battleEngine
 function love.load()
     love.audio.stop()
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -52,6 +48,7 @@ function love.load()
     conf.fullscreen         = config.graphics.fullscreen
     conf.useBorders         = config.graphics.useBorders
     conf.spareColor         = split(config.player.spareColor, ",")
+    conf.hitboxLenience     = config.player.hitboxLenience
     conf.keys.up            = split(config.player.up, ",")
     conf.keys.down          = split(config.player.down, ",")
     conf.keys.left          = split(config.player.left, ",")
@@ -60,7 +57,7 @@ function love.load()
     conf.keys.cancel        = split(config.player.cancel, ",")
     conf.keys.menu          = split(config.player.menu, ",")
     conf.keys.fullscreen    = split(config.player.fullscreen, ",")
-    conf.keys.pause         = split(config.player.pause, ",")
+    conf.keys.quit          = split(config.player.quit, ",")
     conf.bgmVolume          = config.audio.bgm
     conf.sfxVolume          = config.audio.sfx
     conf.textVolume         = config.audio.txt
@@ -73,8 +70,7 @@ function love.load()
     else
         conf.fullscreen = false
     end
-    currentScene.load('Test enemies')
-    player.hitboxLenience = config.player.hitboxLenience
+    sceneman.switchScene('source.battleEngineState', 'Test enemies')
     camera = Camera.new(640, 480)
 end
 
@@ -83,18 +79,20 @@ function love.update(dt)
     camera:update(dt)
     love.audio.setVolume(conf.mainVolume)
 
-    if not isPaused then
-        currentScene.update(dt)
-    else
-        love.audio.setVolume(conf.mainVolume/4)
-    end
+    sceneman.update(dt)
     if input.check('fullscreen', 'pressed') then
         conf.fullscreen = not conf.fullscreen
         local fullscreen = conf.fullscreen
 		love.window.setFullscreen(fullscreen, "desktop")
     end
-    if input.check('pause', 'pressed') then
-        isPaused = not isPaused
+
+    if input.check('quit', 'pressed') then
+        curTimer = love.timer.getTime()
+    end
+    if input.check('quit', 'held') then
+        quitTimer = (love.timer.getTime() - curTimer) / 2
+    else
+        quitTimer = 0
     end
 
     input.refresh()
@@ -104,23 +102,34 @@ function love.draw()
     camera:attachLetterBox()
     camera:apply()
 
-    currentScene.draw()
+    sceneman.draw()
 
     camera:reset()
     camera:detachLetterBox()
 
-    if isPaused then
-        love.graphics.setColor(0, 0, 0, .5)
-        love.graphics.rectangle('fill', 0, 0, 640, 480)
-
-        love.graphics.setColor(1, 1, 0)
-        love.graphics.setFont(fonts.main)
-        love.graphics.printf('PAUSED', 0, 240, 640, 'center')
-
-        love.graphics.setColor(1, 1, 1)
-    end
     if conf.fullscreen and conf.useBorders then
         windowWidth, windowHeight = love.window.getMode()
         love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
+    end
+
+    if quitTimer > 0 then
+        love.graphics.setColor(1, 1, 1, quitTimer*1.33)
+        if quitTimer < 1/3 then
+            love.graphics.print("QUITTING.")
+        elseif quitTimer < 2/3 then
+            love.graphics.print("QUITTING..")
+        elseif quitTimer < 3/3 then
+            love.graphics.print("QUITTING...")
+        elseif quitTimer < 4/3 then
+            local farewells = {
+                "Goodbye!",
+                "See you later!",
+                "Auf wiedersehen!",
+                "Ciao!"
+            }
+            local farewell = farewells[love.math.random(1, #farewells)]
+            love.graphics.print(farewell)
+            love.event.quit()
+        end
     end
 end

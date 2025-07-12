@@ -29,7 +29,7 @@ function Bullet:update(dt)
     self.x = self.x + self.xvel * dt*30
     self.y = self.y + self.yvel * dt*30
 
-    if CheckCollision(self.x, self.y, 16*self.xscale, 16*self.yscale, player.heart.x+player.hitboxLenience, player.heart.y+player.hitboxLenience, 16 - player.hitboxLenience*2, 16 - player.hitboxLenience*2) then
+    if CheckCollision(self.x, self.y, 16*self.xscale, 16*self.yscale, player.heart.x+conf.hitboxLenience, player.heart.y+conf.hitboxLenience, 16 - conf.hitboxLenience*2, 16 - conf.hitboxLenience*2) then
         if (self.color == 'orange' and not player.isMoving) or (self.color == 'blue' and player.isMoving) or self.color == 'white' then
             if not player.hasKR then
                 local lasthp = player.stats.hp

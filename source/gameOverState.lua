@@ -1,13 +1,16 @@
 local gameover = {}
+local playerx, playery
 
-function gameover.load()
-
+function gameover.load(x, y)
+    love.audio.stop()
+    sfx.hurt:play()
+    playerx = x
+    playery = y
 end
 
 function gameover.update(dt)
     if input.check('confirm', 'pressed') then
-        currentScene = scenes.battleEngine
-        love.load()
+        sceneman.switchScene('source.battleEngineState', 'Test enemies')
     end
 end
 

@@ -111,6 +111,7 @@ end
 
 function battleEngine.load(encounterName)
     fadeOpacity = 1
+    love.audio.stop()
 
     -- Set up basic battle variables
     battle = {
@@ -205,12 +206,10 @@ function battleEngine.update(dt)
         if (player.stats.hp + player.stats.kr > player.stats.hp) then
             player.stats.hp = 1
         else
-            currentScene = scenes.gameover
-            love.load()
+            sceneman.switchScene('source.gameOverState', player.heart.x, player.heart.y)
         end
         elseif not player.hasKR then
-            currentScene = scenes.gameover
-            love.load()
+            sceneman.switchScene('source.gameOverState', player.heart.x, player.heart.y)
         end
     end
 end
