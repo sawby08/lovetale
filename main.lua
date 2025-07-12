@@ -20,6 +20,8 @@ Camera = require 'source.utils.camera'
 local inifile = require 'source.utils.inifile'
 require('source.utils.fps')
 sceneman = require 'source.utils.sceneman'
+sceneman.scenePrefix = "source."
+
 
 function love.keypressed(key)
     input.keypressed(key)
@@ -70,7 +72,7 @@ function love.load()
     else
         conf.fullscreen = false
     end
-    sceneman.switchScene('source.battleEngineState', 'Test enemies')
+    sceneman.switchScene('battleEngineState', 'Test enemies')
     camera = Camera.new(640, 480)
 end
 
@@ -133,3 +135,5 @@ function love.draw()
         love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
     end
 end
+
+sceneman.enableCallbackHook()

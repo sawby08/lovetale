@@ -202,10 +202,10 @@ function battleEngine.update(dt)
             if (player.stats.hp + player.stats.kr > player.stats.hp) then
                 player.stats.hp = 1
             else
-                sceneman.switchScene('source.gameOverState', player.heart.x, player.heart.y)
+                sceneman.switchScene('gameOverState', player.heart.x, player.heart.y)
             end
         elseif not player.hasKR then
-            sceneman.switchScene('source.gameOverState', player.heart.x, player.heart.y)
+            sceneman.switchScene('gameOverState', player.heart.x, player.heart.y)
         end
     end
 end

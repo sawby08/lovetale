@@ -10,7 +10,7 @@ end
 
 function gameover.update(dt)
     if input.check('confirm', 'pressed') then
-        sceneman.switchScene('source.battleEngineState', 'Test enemies')
+        sceneman.switchScene('battleEngineState', 'Test enemies')
     end
 end
 

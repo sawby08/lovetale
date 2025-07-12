@@ -141,13 +141,13 @@ function player.update(dt)
         if battle.state == "flee" then
             player.heart.x = player.heart.x - 2 * dt*30
             if player.heart.x < -16 then
-                sceneman.switchScene('source.battleEngineState', 'Test enemies')
+                sceneman.switchScene('battleEngineState', 'Test enemies')
             end
         end
         if battle.state == "end" then
             if writer.isDone and input.check('confirm', 'pressed') then
                 input.refresh()
-                sceneman.switchScene('source.battleEngineState', 'Test enemies')
+                sceneman.switchScene('battleEngineState', 'Test enemies')
             end
         end
         if battle.state == 'mercy' then
