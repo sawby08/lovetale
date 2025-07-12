@@ -71,6 +71,34 @@ function love.load()
     else
         conf.fullscreen = false
     end
+
+    -- Import assets
+    sfx = {
+        menumove = love.audio.newSource('assets/sound/menuMove.ogg', 'static'),
+        menuselect = love.audio.newSource('assets/sound/menuSelect.ogg', 'static'),
+        playerheal = love.audio.newSource('assets/sound/playerHeal.ogg', 'static'),
+        flee = love.audio.newSource("assets/sound/runaway.wav", "static"),
+        dust = love.audio.newSource("assets/sound/enemydust.wav", "static"),
+        slice = love.audio.newSource("assets/sound/slice.wav", "static"),
+        hit = love.audio.newSource("assets/sound/hitsound.wav", "static"),
+        hurt = love.audio.newSource("assets/sound/hurtsound.wav", "static")
+    }
+    fonts = {
+        ui = love.graphics.newFont('assets/fonts/Mars_Needs_Cunnilingus.ttf', 23),
+        main = love.graphics.newFont('assets/fonts/determination-mono.ttf', 32),
+        dialog = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
+        attack = love.graphics.newFont("assets/fonts/hachicro.ttf", 32),
+
+        dialogue = love.graphics.newFont("assets/fonts/dotumche.ttf", 12),
+        sans = love.graphics.newFont("assets/fonts/comic-sans-ut.ttf", 14),
+        papyrus = love.graphics.newFont("assets/fonts/papyrus-pixel-mono.ttf", 16)
+    }
+
+    -- Set all sounds to player configuration
+    for _, sound in pairs(sfx) do
+        sound:setVolume(conf.sfxVolume)
+    end
+
     sceneman.switchScene('battleEngineState', 'Test enemies')
     camera = Camera.new(640, 480)
 end
