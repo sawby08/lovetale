@@ -1,5 +1,4 @@
 local battleEngine = {}
-local fadeOpacity = 1
 
 local function deepcopy(orig)
     local orig_type = type(orig)
@@ -186,9 +185,6 @@ function battleEngine.load(encounterName)
 end
 
 function battleEngine.update(dt)
-    if fadeOpacity > 0 then
-        fadeOpacity = fadeOpacity - 0.125 * dt*30
-    end
     -- Stop fight when all enemies are either spared or killed
     battleEngine.checkEnemiesStates()
 
@@ -203,11 +199,11 @@ function battleEngine.update(dt)
     -- Game over
     if player.stats.hp < 1 then
         if player.hasKR then
-        if (player.stats.hp + player.stats.kr > player.stats.hp) then
-            player.stats.hp = 1
-        else
-            sceneman.switchScene('source.gameOverState', player.heart.x, player.heart.y)
-        end
+            if (player.stats.hp + player.stats.kr > player.stats.hp) then
+                player.stats.hp = 1
+            else
+                sceneman.switchScene('source.gameOverState', player.heart.x, player.heart.y)
+            end
         elseif not player.hasKR then
             sceneman.switchScene('source.gameOverState', player.heart.x, player.heart.y)
         end
@@ -234,11 +230,6 @@ function battleEngine.draw()
     love.graphics.pop()
     
     player.draw()
-
-    if fadeOpacity > 0 then
-        love.graphics.setColor(0, 0, 0, fadeOpacity)
-        love.graphics.rectangle('fill', 0, 0, 640, 480)
-    end
 end
 
 return battleEngine
