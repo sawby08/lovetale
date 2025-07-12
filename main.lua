@@ -104,14 +104,6 @@ function love.draw()
 
     sceneman.draw()
 
-    camera:reset()
-    camera:detachLetterBox()
-
-    if conf.fullscreen and conf.useBorders then
-        windowWidth, windowHeight = love.window.getMode()
-        love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
-    end
-
     if quitTimer > 0 then
         love.graphics.setColor(1, 1, 1, quitTimer*1.33)
         if quitTimer < 1/3 then
@@ -131,5 +123,13 @@ function love.draw()
             love.graphics.print(farewell)
             love.event.quit()
         end
+    end
+
+    camera:reset()
+    camera:detachLetterBox()
+
+    if conf.fullscreen and conf.useBorders then
+        windowWidth, windowHeight = love.window.getMode()
+        love.graphics.draw(border, 0, 0, 0, windowWidth/1920, windowHeight/1080)
     end
 end
