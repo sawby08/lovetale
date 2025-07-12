@@ -97,6 +97,9 @@ function battleEngine.changeBattleState(state, turn)
         end
         if state == 'attack' then
             writer:stop()
+            if battle.turn == "player" then
+                encounter.attacks[battle.turnCount].init()
+            end
             player.heart.x = encounter.attacks[battle.turnCount].boxDims.x + (encounter.attacks[battle.turnCount].boxDims.width / 2) - 8
             player.heart.y = encounter.attacks[battle.turnCount].boxDims.y + (encounter.attacks[battle.turnCount].boxDims.height / 2) - 8
         end
