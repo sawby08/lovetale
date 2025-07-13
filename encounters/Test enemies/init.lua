@@ -157,12 +157,11 @@ data.enemyData = {
     }
 }
 
-
+----==== CALL STUFF FROM OTHER FILES ====----
 wavesSetup(data)
 eventsSetup(data)
 
-----==== CALL STUFF FROM OTHER FILES ====----
-
+----==== PLAYER CONFIGURATION ====----
 data.playerLove = 1
 data.playerName = "Sawby"
 data.playerInventory = {11, 1, 1, 23, 17, 19, 19, 52}
