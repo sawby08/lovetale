@@ -63,6 +63,7 @@ function love.load()
     conf.sfxVolume          = config.audio.sfx
     conf.textVolume         = config.audio.txt
     conf.mainVolume         = config.audio.main
+    conf.modName            = config.game.modName
     for i = 1, #conf.spareColor do
         conf.spareColor[i] = tonumber(conf.spareColor[i])
     end
@@ -99,7 +100,7 @@ function love.load()
         sound:setVolume(conf.sfxVolume)
     end
 
-    sceneman.switchScene('battleEngineState', 'Test enemies')
+    sceneman.switchScene('battleEngineState', conf.modName)
     camera = Camera.new(640, 480)
 end
 
