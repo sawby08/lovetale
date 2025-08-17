@@ -149,8 +149,7 @@ data.enemyData = {
             xOrigin = 0,
             yOrigin = 0,
             animation = function(enemy, segment, dt)
-                local timer = love.timer.getTime()
-                segment.y = (math.sin(timer * 2) * 14) - 7 * dt
+                segment.y = (math.sin(enemy.timer * 2) * 14) - 7 * dt
             end
             }
         }

@@ -201,7 +201,6 @@ function ui.update(dt)
             end
 
             if (lastEnemyX) and (sliceFrame > 11) and (not encounter.enemies[player.chosenEnemy].canDodge) then
-                ui.removeTweens()
                 if shake > 0 then
                     shake = shake - 8 * dt*30
                     encounter.enemies[player.chosenEnemy].doAnimation = false
@@ -233,15 +232,11 @@ function ui.update(dt)
                 else
                     sliceFrame = 12
                     sfx.hit:play()
-                    encounter.enemies[player.chosenEnemy].hp = encounter.enemies[player.chosenEnemy].hp - damage
+                    table.insert(tweens, tween.new(1/3, encounter.enemies[player.chosenEnemy], {hp = (encounter.enemies[player.chosenEnemy].hp - damage) <= 0 and 0 or encounter.enemies[player.chosenEnemy].hp - damage}, 'linear')) 
                     damageShow = true
                     damageTextYvel = 12
                     damageTextY = encounter.enemies[player.chosenEnemy].y + 0 * dt*30
                     shake = math.abs(shake)
-
-                    if encounter.enemies[player.chosenEnemy].hp < 0 then
-                        encounter.enemies[player.chosenEnemy].hp = 0
-                    end
                 end
             end
             if sliceFrame == 1 or sliceFrame == 2 then
@@ -264,6 +259,7 @@ function ui.update(dt)
 
             -- Go to enemy dialogue
             if sliceFrame == 28 then
+                ui.removeTweens()
                 sliceFrame = 29
                 if encounter.enemies[player.chosenEnemy].hp == 0 then
                     encounter.onDeath(player.chosenEnemy)

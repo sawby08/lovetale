@@ -5,7 +5,7 @@ local bullets = {}
 local attackTimer = 0
 
 function wavesSetup(data)
-    exampleBullet = require(data.encounterPath .. 'bullets/example')
+    local exampleBullet = require(data.encounterPath .. 'bullets/example')
 
     data.attacks = {
         {

@@ -42,6 +42,7 @@ function Enemy:new(config)
 
         table.insert(self.segments, segment)
     end
+    self.timer = 0
 
     for _, act in ipairs(self.acts) do
         act.enemy = self
@@ -77,6 +78,7 @@ end
 function Enemy:update(dt)
     for _, segment in ipairs(self.segments) do
         if self.status == "alive" and self.doAnimation then
+            self.timer = self.timer + dt
             segment.animation(self, segment, dt)
         end
     end
