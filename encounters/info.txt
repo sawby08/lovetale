@@ -1,1 +1,2 @@
-Everything you need to add or change is in here! The only other thing you may need to modify is the love.load() function in main.lua so it directs to your encounter instead. (or you can just modify the "Text enemies" folder and not change its name.)
+Hi! This is the folder where the important stuff is.
+And thanks to emir4169, you can change the encounter the game starts up to.
